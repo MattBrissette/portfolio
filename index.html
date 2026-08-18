@@ -1,0 +1,2965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MATT BRISSETTE // Product & Digital Designer Portfolio</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Syne:wght@500;700;800&family=Bebas+Neue&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- GSAP for Smooth Camera Interpolations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <!-- Three.js (r128) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'IBM Plex Mono', monospace;
+      overflow: hidden;
+      background-color: #0b0c0e;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    #info-modal, #project-drawer, #index-overlay, #impact-overlay {
+      user-select: text;
+      -webkit-user-select: text;
+    }
+    ::selection {
+      background: #f97316;
+      color: #000000;
+    }
+    .font-syne {
+      font-family: 'Bebas Neue', 'Syne', sans-serif;
+      letter-spacing: 0.04em;
+    }
+    .font-mono-space {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    /* Custom Scrollbar for Drawer, Overlay & Panels */
+    .custom-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #111316;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #f97316;
+      border-radius: 0px;
+    }
+    /* Pulsating explore element */
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 0.9; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.96); }
+    }
+    .pulse-element {
+      animation: pulse-slow 3s infinite ease-in-out;
+    }
+
+    /* Animated Tactile Film Noise Overlay */
+    #noise-overlay {
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      right: -50%;
+      bottom: -50%;
+      width: 200%;
+      height: 200%;
+      background-repeat: repeat;
+      pointer-events: none;
+      z-index: 48;
+      opacity: 0.035;
+      mix-blend-mode: screen;
+    }
+    @keyframes noise-shift {
+      0% { background-position: 0px 0px; }
+      10% { background-position: -15px 25px; }
+      20% { background-position: 30px -10px; }
+      30% { background-position: -45px 15px; }
+      40% { background-position: 20px -30px; }
+      50% { background-position: -10px 45px; }
+      60% { background-position: 35px -25px; }
+      70% { background-position: -30px 10px; }
+      80% { background-position: 15px -40px; }
+      90% { background-position: -25px 20px; }
+      100% { background-position: 0px 0px; }
+    }
+    .noise-active {
+      animation: noise-shift 0.15s steps(3) infinite;
+      background-size: 128px 128px;
+    }
+
+    /* Range slider overrides */
+    input[type="range"]::-webkit-slider-thumb {
+      background-color: #f97316;
+      border-radius: 0;
+      height: 10px;
+      width: 10px;
+    }
+    input[type="range"]::-moz-range-thumb {
+      background-color: #f97316;
+      border-radius: 0;
+      height: 10px;
+      width: 10px;
+      border: none;
+    }
+  </style>
+</head>
+<body class="relative w-screen h-screen text-zinc-100 overflow-hidden bg-[#0b0c0e]">
+
+  <!-- Hardware-Accelerated Animated Static Noise Overlay -->
+  <div id="noise-overlay" class="noise-active"></div>
+
+  <div id="loading-screen" class="fixed inset-0 z-[9999] bg-[#0b0c0e] flex flex-col items-center justify-center pointer-events-none">
+    <div id="loading-inner" style="opacity:0; transform: translateY(8px); transition: opacity 0.6s ease, transform 0.6s ease;">
+      <div class="flex flex-col items-center gap-3">
+        <span class="font-syne font-extrabold text-2xl tracking-widest leading-none text-zinc-100">MATT BRISSETTE</span>
+        <span class="text-[9px] font-mono-space tracking-widest text-zinc-500 uppercase">Senior Product Designer</span>
+        <div class="mt-6 flex items-center gap-2">
+          <span class="inline-block w-1.5 h-1.5 bg-orange-500 animate-pulse"></span>
+          <span class="text-[10px] font-mono-space tracking-widest text-zinc-500 uppercase">Establishing Signal</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Cinematic Ring Cursor -->
+  <div id="custom-cursor" class="pointer-events-none fixed top-0 left-0 w-8 h-8 border rounded-none -translate-x-1/2 -translate-y-1/2 transition-transform duration-100 ease-out z-[120] hidden md:block" style="border-color: #f97316; border-width: 1px;"></div>
+  <div id="custom-cursor-dot" class="pointer-events-none fixed top-0 left-0 w-1.5 h-1.5 bg-orange-500 rounded-none -translate-x-1/2 -translate-y-1/2 z-[120] hidden md:block"></div>
+
+  <header class="absolute top-0 left-0 w-full p-4 md:p-8 flex justify-between items-center z-40 pointer-events-none">
+    <div class="flex items-center gap-3 md:gap-5 pointer-events-auto max-w-[70%] sm:max-w-none">
+      <!-- Circular Profile Avatar -->
+      <img src="https://x02.me/i/Q87H7A.webp" 
+           onerror="this.src='https://placehold.co/120x120/111316/f97316?text=MB'" 
+           class="w-9 h-9 md:w-12 md:h-12 rounded-full border border-zinc-800 object-cover shadow-lg shrink-0" 
+           alt="Matt Brissette Profile">
+      <div class="flex flex-col justify-center leading-none min-w-0">
+        <span class="font-syne font-extrabold text-lg sm:text-2xl md:text-3xl tracking-widest leading-none text-zinc-100 truncate">MATT BRISSETTE</span>
+        <span class="text-[7px] sm:text-[8px] md:text-[9px] font-mono-space tracking-widest text-zinc-500 uppercase leading-none mt-0.5 truncate">VISUAL DESIGN · ART DIRECTION · DIGITAL PRODUCT</span>
+      </div>
+    </div>
+    
+    <!-- Desktop Navigation Buttons -->
+    <div class="hidden md:flex items-center gap-3 md:gap-6 pointer-events-auto">
+      <button id="nav-index" class="flex items-center gap-2 group py-1 bg-transparent text-zinc-300 hover:text-orange-500 transition-all duration-300">
+        <i data-lucide="grid" class="w-3.5 h-3.5 text-orange-500 group-hover:text-orange-400 transition-colors"></i>
+        <span class="text-xs font-mono-space tracking-widest text-zinc-300 group-hover:text-orange-500">INDEX [09]</span>
+      </button>
+
+      <button id="nav-impact" class="flex items-center gap-2 group py-1 bg-transparent text-zinc-300 hover:text-orange-500 transition-all duration-300">
+        <span class="text-xs font-mono-space tracking-widest text-zinc-300 group-hover:text-orange-500">IMPACT</span>
+      </button>
+
+      <button id="nav-about" class="flex items-center gap-2 group py-1 bg-transparent text-zinc-300 hover:text-orange-500 transition-all duration-300">
+        <span class="text-xs font-mono-space tracking-widest text-zinc-300 group-hover:text-orange-500">ABOUT</span>
+      </button>
+
+      <button id="nav-lab" class="hidden items-center gap-2 group py-1 bg-transparent text-zinc-300 hover:text-orange-500 transition-all duration-300">
+        <span class="text-xs font-mono-space tracking-widest text-zinc-300 group-hover:text-orange-500">LAB</span>
+      </button>
+
+      <button id="nav-contact" class="flex items-center gap-2 group py-1 bg-transparent text-zinc-300 hover:text-orange-500 transition-all duration-300">
+        <span class="text-xs font-mono-space tracking-widest text-zinc-300 group-hover:text-orange-500">CONTACT</span>
+      </button>
+    </div>
+
+    <!-- Mobile Hamburger Toggle Button -->
+    <button id="mobile-menu-toggle" aria-label="Toggle Menu" class="md:hidden flex items-center justify-center p-2.5 border border-zinc-700 bg-[#0b0c0e]/90 backdrop-blur text-zinc-100 hover:border-orange-500 hover:text-orange-500 transition-colors pointer-events-auto">
+      <i data-lucide="menu" id="hamburger-open-icon" class="w-4 h-4"></i>
+      <i data-lucide="x" id="hamburger-close-icon" class="w-4 h-4 hidden"></i>
+    </button>
+  </header>
+
+  <!-- Mobile Fullscreen Tray Navigation Overlay -->
+  <div id="mobile-nav-tray" class="fixed inset-x-0 top-[65px] bg-[#0b0c0e]/98 backdrop-blur-xl z-[70] flex flex-col p-5 space-y-3 opacity-0 pointer-events-none transition-all duration-300 md:hidden border-b border-zinc-800 shadow-2xl">
+    <button id="mobile-nav-index" class="w-full flex items-center justify-between p-3.5 border border-zinc-800 bg-zinc-900/60 hover:border-orange-500 text-zinc-100 font-mono-space text-xs tracking-widest uppercase transition-colors">
+      <div class="flex items-center gap-3">
+        <i data-lucide="grid" class="w-4 h-4 text-orange-500"></i>
+        <span>INDEX CATALOG [09]</span>
+      </div>
+      <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-500"></i>
+    </button>
+
+    <button id="mobile-nav-impact" class="w-full flex items-center justify-between p-3.5 border border-zinc-800 bg-zinc-900/60 hover:border-orange-500 text-zinc-100 font-mono-space text-xs tracking-widest uppercase transition-colors">
+      <div class="flex items-center gap-3">
+        <i data-lucide="zap" class="w-4 h-4 text-orange-500"></i>
+        <span>SELECTED IMPACT</span>
+      </div>
+      <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-500"></i>
+    </button>
+
+    <button id="mobile-nav-about" class="w-full flex items-center justify-between p-3.5 border border-zinc-800 bg-zinc-900/60 hover:border-orange-500 text-zinc-100 font-mono-space text-xs tracking-widest uppercase transition-colors">
+      <div class="flex items-center gap-3">
+        <i data-lucide="info" class="w-4 h-4 text-orange-500"></i>
+        <span>ABOUT</span>
+      </div>
+      <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-500"></i>
+    </button>
+
+    <button id="mobile-nav-lab" class="hidden w-full items-center justify-between p-3.5 border border-zinc-800 bg-zinc-900/60 hover:border-orange-500 text-zinc-100 font-mono-space text-xs tracking-widest uppercase transition-colors">
+      <div class="flex items-center gap-3">
+        <i data-lucide="flask-conical" class="w-4 h-4 text-orange-500"></i>
+        <span>LAB</span>
+      </div>
+      <i data-lucide="chevron-right" class="w-4 h-4 text-zinc-500"></i>
+    </button>
+
+    <button id="mobile-nav-contact" class="w-full flex items-center justify-between p-3.5 border border-zinc-800 bg-zinc-900/60 hover:border-orange-500 text-zinc-100 font-mono-space text-xs tracking-widest uppercase transition-colors">
+      <div class="flex items-center gap-3">
+        <i data-lucide="mail" class="w-4 h-4 text-orange-500"></i>
+        <span>CONTACT</span>
+      </div>
+      <i data-lucide="arrow-up-right" class="w-4 h-4 text-zinc-500"></i>
+    </button>
+  </div>
+
+  <!-- Left Sidebar / Scroll Progress Status -->
+  <div class="absolute left-6 md:left-8 bottom-8 z-30 flex flex-col items-start gap-4 pointer-events-none">
+    <div class="flex items-end gap-3 pointer-events-auto">
+      <span class="text-3xl md:text-5xl font-syne font-extrabold leading-none text-orange-500" id="active-num">09</span>
+      <div class="flex flex-col pb-1">
+        <span class="text-[9px] font-mono-space tracking-wider text-zinc-600 uppercase" id="active-category-label">DESIGN STUDIO</span>
+        <span class="text-xs font-mono-space font-medium tracking-tight text-zinc-300" id="active-title-label">RocketAir</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vertical Scroll Indicator bar -->
+  <div class="absolute right-8 top-1/4 h-2/4 w-[1px] bg-zinc-800 z-30 hidden md:block">
+    <div id="scroll-progress-indicator" class="w-[2px] bg-orange-500 absolute top-0 -left-[0.5px] transition-all duration-100" style="height: 15%; top: 0%;"></div>
+  </div>
+
+  <!-- Three.js Canvas Container -->
+  <div id="webgl-container" class="w-full h-full absolute inset-0 z-10 cursor-default"></div>
+
+  <!-- Project Detail Drawer -->
+  <div id="project-drawer" class="fixed top-0 right-0 h-full w-full lg:w-[58%] xl:w-[63%] 2xl:w-[65%] bg-[#0f1114] shadow-2xl border-l border-zinc-800 z-50 translate-x-full transition-transform duration-700 ease-out flex flex-col text-zinc-100">
+
+    <!-- Scrollable body -->
+    <div class="flex-1 overflow-y-auto custom-scroll">
+
+      <!-- Header: close + tag -->
+      <div class="px-5 md:px-8 pt-7 pb-0 flex justify-between items-start">
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] font-mono-space px-2 py-1 bg-orange-500 rounded-none text-black font-bold" id="drawer-tag">TAG</span>
+          <span class="text-[10px] font-mono-space text-zinc-500" id="drawer-date">2026</span>
+        </div>
+        <button id="close-drawer" class="flex items-center gap-1.5 px-3 py-1.5 border border-zinc-700 rounded-none text-zinc-400 hover:text-zinc-100 hover:border-zinc-400 transition-all duration-200 text-xs font-mono-space">
+          CLOSE <i data-lucide="x" class="w-3.5 h-3.5 inline-block"></i>
+        </button>
+      </div>
+
+      <!-- Title + tagline -->
+      <div class="px-5 md:px-8 pt-5 pb-6">
+        <h2 class="text-2xl md:text-4xl font-syne font-extrabold tracking-widest leading-tight mb-1.5 text-zinc-100" id="drawer-title">Project Title</h2>
+        <p class="text-sm md:text-base text-zinc-500 font-mono-space" id="drawer-tagline">Tagline</p>
+      </div>
+
+      <!-- Cover image -->
+      <div class="relative group mx-5 md:mx-8 rounded-none overflow-hidden bg-zinc-900 flex justify-center items-center border border-zinc-800 cursor-pointer" id="drawer-cover">
+        <div id="drawer-cover-media" class="w-full flex justify-center items-center">
+        </div>
+
+        <div class="absolute bottom-3 right-3 px-3 py-1.5 bg-[#0f1114]/90 backdrop-blur border border-zinc-700 group-hover:border-orange-500 text-zinc-300 group-hover:text-orange-500 transition-all duration-300 flex items-center gap-2 pointer-events-none select-none shadow-xl">
+          <span class="text-[9px] font-mono-space tracking-widest font-bold uppercase">EXPAND VIEW</span>
+          <svg class="w-3.5 h-3.5 text-orange-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Gallery row -->
+      <div class="px-5 md:px-8 pt-6" id="drawer-images-section" style="display:none;">
+        <p class="text-[10px] font-mono-space text-zinc-500 block uppercase tracking-widest mb-3">Project Gallery</p>
+        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-2.5 w-full" id="drawer-images-grid">
+        </div>
+      </div>
+
+      <!-- Meta: client + services + summary -->
+      <div class="px-5 md:px-8 pt-7 pb-4 space-y-6">
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <span class="text-[10px] font-mono-space text-zinc-500 block uppercase tracking-widest mb-1">Client</span>
+            <span class="text-sm font-semibold text-zinc-100" id="drawer-client">—</span>
+          </div>
+          <div>
+            <span class="text-[10px] font-mono-space text-zinc-500 block uppercase tracking-widest mb-1">My Role</span>
+            <span class="text-sm font-semibold text-zinc-100" id="drawer-services">—</span>
+          </div>
+        </div>
+
+        <div>
+          <span class="text-[10px] font-mono-space text-zinc-500 block uppercase tracking-widest mb-2">Project Summary</span>
+          <p class="text-zinc-400 leading-relaxed text-sm font-mono-space whitespace-pre-line" id="drawer-description">—</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="px-5 md:px-8 py-5 border-t border-zinc-800 bg-[#0f1114] flex items-center justify-between shrink-0 select-none">
+      <button id="drawer-prev-project" class="inline-flex items-center gap-2 px-4 py-2.5 border border-zinc-700 text-zinc-300 hover:border-orange-500 hover:text-orange-500 hover:bg-orange-500/5 rounded-none font-mono-space text-xs font-bold tracking-wider transition-all duration-300 disabled:opacity-30 disabled:border-zinc-800 disabled:text-zinc-600 disabled:hover:text-zinc-600 disabled:hover:bg-transparent disabled:pointer-events-none">
+        ← PREVIOUS
+      </button>
+      <button id="drawer-next-project" class="inline-flex items-center gap-2 px-4 py-2.5 border border-zinc-700 text-zinc-300 hover:border-orange-500 hover:text-orange-500 hover:bg-orange-500/5 rounded-none font-mono-space text-xs font-bold tracking-wider transition-all duration-300 disabled:opacity-30 disabled:border-zinc-800 disabled:text-zinc-600 disabled:hover:text-zinc-600 disabled:hover:bg-transparent disabled:pointer-events-none">
+        NEXT →
+      </button>
+    </div>
+  </div>
+
+  <!-- IMPACT Architectural Spec Sheet Overlay -->
+  <div id="impact-overlay" class="fixed inset-0 z-[80] bg-[#0b0c0e]/95 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 flex flex-col justify-between p-6 md:p-12 text-zinc-100 overflow-hidden">
+    <!-- Overlay Top Bar -->
+    <div class="flex justify-between items-center border-b border-zinc-800/80 pb-6 shrink-0">
+      <div class="flex items-center gap-3">
+        <span class="inline-block w-2.5 h-2.5 bg-orange-500"></span>
+        <span class="text-xs font-mono-space tracking-widest text-zinc-400 uppercase">SELECTED IMPACT // CASE STUDY KEY RESULTS</span>
+      </div>
+      <button id="close-impact" class="flex items-center gap-2 px-4 py-2 border border-zinc-700 hover:border-orange-500 rounded-none text-zinc-300 hover:text-orange-500 font-mono-space text-xs transition-colors">
+        <span>CLOSE</span> <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- Spec Sheet Grid Content -->
+    <div class="flex-1 my-6 overflow-y-auto custom-scroll pr-2 relative">
+      <div class="max-w-6xl mx-auto space-y-8 py-4">
+        
+        <div class="border-b border-zinc-800/80 pb-6">
+          <h2 class="text-3xl md:text-5xl lg:text-6xl font-syne font-extrabold tracking-widest text-zinc-100">PROVEN PERFORMANCE & IMPACT</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          
+          <!-- Card 1: MCIM -->
+          <div class="p-6 bg-zinc-900/60 border border-zinc-800/90 hover:border-orange-500/80 transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <span class="text-[9px] font-mono-space tracking-widest text-orange-500 uppercase font-bold">GLOBAL SAAS TRANSFORM</span>
+                <span class="text-[10px] font-mono-space text-zinc-500">PROJECT 08</span>
+              </div>
+              <div class="text-3xl md:text-4xl font-syne font-extrabold text-orange-500 tracking-wider mb-2">90+ COUNTRIES</div>
+              <h3 class="text-sm font-bold font-mono-space text-zinc-100 mb-1">MCIM Brand & Digital Platform</h3>
+              <p class="text-xs text-zinc-400 font-mono-space leading-relaxed mb-6">
+                Unified corporate identity supporting expansion across 90+ countries with immediate improvements in lead generation and enterprise market adoption.
+              </p>
+            </div>
+            <button data-fly-idx="7" class="impact-fly-btn w-full py-2.5 border border-zinc-700 group-hover:border-orange-500 text-zinc-300 group-hover:text-black group-hover:bg-orange-500 font-mono-space text-xs font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-2">
+              <span>FLY TO MCIM</span>
+              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+          <!-- Card 2: CargoSprint -->
+          <div class="p-6 bg-zinc-900/60 border border-zinc-800/90 hover:border-orange-500/80 transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <span class="text-[9px] font-mono-space tracking-widest text-orange-500 uppercase font-bold">LOGISTICS SCALE</span>
+                <span class="text-[10px] font-mono-space text-zinc-500">PROJECT 05</span>
+              </div>
+              <div class="text-3xl md:text-4xl font-syne font-extrabold text-orange-500 tracking-wider mb-2">3× HEADCOUNT</div>
+              <h3 class="text-sm font-bold font-mono-space text-zinc-100 mb-1">CargoSprint Supply Chain</h3>
+              <p class="text-xs text-zinc-400 font-mono-space leading-relaxed mb-6">
+                Repositioned brand identity and redesigned digital platform resulting in nearly 3x headcount growth within less than a year post-launch.
+              </p>
+            </div>
+            <button data-fly-idx="4" class="impact-fly-btn w-full py-2.5 border border-zinc-700 group-hover:border-orange-500 text-zinc-300 group-hover:text-black group-hover:bg-orange-500 font-mono-space text-xs font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-2">
+              <span>FLY TO CARGOSPRINT</span>
+              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+          <!-- Card 3: GeoStories Impressions -->
+          <div class="p-6 bg-zinc-900/60 border border-zinc-800/90 hover:border-orange-500/80 transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <span class="text-[9px] font-mono-space tracking-widest text-orange-500 uppercase font-bold">REACH & ENGAGEMENT</span>
+                <span class="text-[10px] font-mono-space text-zinc-500">PROJECT 06</span>
+              </div>
+              <div class="text-3xl md:text-4xl font-syne font-extrabold text-orange-500 tracking-wider mb-2">6.3M IMPRESSIONS</div>
+              <h3 class="text-sm font-bold font-mono-space text-zinc-100 mb-1">GeoStories Social Campaign</h3>
+              <p class="text-xs text-zinc-400 font-mono-space leading-relaxed mb-6">
+                Location-aware campaign delivering contextual historical stories, generating 6.3M impressions with 95% positive sentiment across Canada.
+              </p>
+            </div>
+            <button data-fly-idx="5" class="impact-fly-btn w-full py-2.5 border border-zinc-700 group-hover:border-orange-500 text-zinc-300 group-hover:text-black group-hover:bg-orange-500 font-mono-space text-xs font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-2">
+              <span>FLY TO GEOSTORIES</span>
+              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+          <!-- Card 4: WARC Gold -->
+          <div class="p-6 bg-zinc-900/60 border border-zinc-800/90 hover:border-orange-500/80 transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <span class="text-[9px] font-mono-space tracking-widest text-orange-500 uppercase font-bold">GLOBAL STRATEGY AWARD</span>
+                <span class="text-[10px] font-mono-space text-zinc-500">PROJECT 06</span>
+              </div>
+              <div class="text-3xl md:text-4xl font-syne font-extrabold text-orange-500 tracking-wider mb-2">WARC GOLD</div>
+              <h3 class="text-sm font-bold font-mono-space text-zinc-100 mb-1">Effective Social Strategy</h3>
+              <p class="text-xs text-zinc-400 font-mono-space leading-relaxed mb-6">
+                Awarded Gold at the WARC Awards for Effective Social Strategy, recognized globally for high-impact creative execution with minimal budget.
+              </p>
+            </div>
+            <button data-fly-idx="5" class="impact-fly-btn w-full py-2.5 border border-zinc-700 group-hover:border-orange-500 text-zinc-300 group-hover:text-black group-hover:bg-orange-500 font-mono-space text-xs font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-2">
+              <span>VIEW CASE STUDY</span>
+              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+          <!-- Card 5: RocketAir -->
+          <div class="p-6 bg-zinc-900/60 border border-zinc-800/90 hover:border-orange-500/80 transition-all duration-300 flex flex-col justify-between group md:col-span-2 lg:col-span-2">
+            <div>
+              <div class="flex justify-between items-start mb-4">
+                <span class="text-[9px] font-mono-space tracking-widest text-orange-500 uppercase font-bold">DESIGN EXCELLENCE RECOGNITION</span>
+                <span class="text-[10px] font-mono-space text-zinc-500">PROJECT 09</span>
+              </div>
+              <div class="text-3xl md:text-4xl font-syne font-extrabold text-orange-500 tracking-wider mb-2">AWWWARDS & CSSDA SWEEPS</div>
+              <h3 class="text-sm font-bold font-mono-space text-zinc-100 mb-1">RocketAir Digital Experience</h3>
+              <p class="text-xs text-zinc-400 font-mono-space leading-relaxed mb-6">
+                Awarded Awwwards Site of the Day and Developer Award alongside CSSDA Website of the Day and category sweeps for Best UI Design, Best UX Design, and Best Innovation.
+              </p>
+            </div>
+            <button data-fly-idx="8" class="impact-fly-btn w-full py-2.5 border border-zinc-700 group-hover:border-orange-500 text-zinc-300 group-hover:text-black group-hover:bg-orange-500 font-mono-space text-xs font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-2">
+              <span>FLY TO ROCKETAIR</span>
+              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Overlay Bottom Footer Bar -->
+    <div class="border-t border-zinc-800/80 pt-4 flex flex-col md:flex-row justify-between text-[10px] font-mono-space text-zinc-500 shrink-0 gap-2">
+      <span class="flex items-center gap-2">
+        <span class="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></span>
+        SELECT ANY METRIC CARD TO INITIATE 3D VECTOR CAMERA FLY-IN
+      </span>
+      <span>PRESS [ESC] TO CLOSE OVERLAY</span>
+    </div>
+  </div>
+
+  <!-- INDEX [09] Minimalist Architectural Catalog Overlay -->
+  <div id="index-overlay" class="fixed inset-0 z-[80] bg-[#0b0c0e]/95 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 flex flex-col justify-between p-6 md:p-12 text-zinc-100 overflow-hidden">
+    <!-- Overlay Top Bar -->
+    <div class="flex justify-between items-center border-b border-zinc-800/80 pb-6 shrink-0">
+      <div class="flex items-center gap-3">
+        <span class="inline-block w-2.5 h-2.5 bg-orange-500"></span>
+        <span class="text-xs font-mono-space tracking-widest text-zinc-400 uppercase">PROJECTS INDEX // 09 — 01</span>
+      </div>
+      <button id="close-index" class="flex items-center gap-2 px-4 py-2 border border-zinc-700 hover:border-orange-500 rounded-none text-zinc-300 hover:text-orange-500 font-mono-space text-xs transition-colors">
+        <span>CLOSE</span> <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- Overlay Body Table -->
+    <div class="flex-1 my-6 overflow-y-auto custom-scroll pr-2 relative">
+      <table class="w-full text-left font-mono-space text-xs md:text-sm border-collapse">
+        <thead>
+          <tr class="text-[10px] text-zinc-500 uppercase tracking-widest border-b border-zinc-800">
+            <th class="py-3 px-2 w-16">NO.</th>
+            <th class="py-3 px-4">CLIENT / PROJECT</th>
+            <th class="py-3 px-4 hidden md:table-cell">CATEGORY</th>
+            <th class="py-3 px-4 hidden sm:table-cell">MY ROLE</th>
+            <th class="py-3 px-4 text-right">YEAR</th>
+            <th class="py-3 px-2 text-right">ACTION</th>
+          </tr>
+        </thead>
+        <tbody id="index-table-body" class="divide-y divide-zinc-800/60">
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Hover Preview -->
+    <div id="index-hover-preview" class="fixed pointer-events-none z-[100] hidden md:block opacity-0 w-64 h-40 bg-zinc-900 border border-orange-500/50 shadow-2xl overflow-hidden transition-opacity duration-200 -translate-x-1/2 -translate-y-1/2">
+      <img id="index-preview-img" src="" alt="Project Preview" class="w-full h-full object-cover">
+      <div class="absolute bottom-0 inset-x-0 p-2 bg-black/80 backdrop-blur text-[9px] font-mono-space text-orange-500 tracking-widest uppercase flex justify-between">
+        <span id="index-preview-title">PROJECT</span>
+        <span id="index-preview-num">01</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="border-t border-zinc-800/80 pt-4 flex flex-col md:flex-row justify-between text-[10px] font-mono-space text-zinc-500 shrink-0 gap-2">
+      <span class="flex items-center gap-2">
+        <span class="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></span>
+        SELECT ANY ROW TO INITIATE 3D VECTOR CAMERA FLY-IN & ACTIVATE SPECIFICATIONS
+      </span>
+      <span>PRESS [I] OR [ESC] TO TOGGLE CATALOG</span>
+    </div>
+  </div>
+
+  <!-- Info Modal for About & Contact -->
+  <div id="info-modal" class="fixed inset-0 bg-black/90 backdrop-blur z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4 select-text">
+    <div class="bg-[#0f1114] max-w-lg w-full rounded-none p-6 md:p-8 border border-zinc-800 shadow-2xl space-y-6">
+      <div class="flex justify-between items-start">
+        <h3 class="text-2xl font-syne font-bold text-zinc-100 tracking-widest" id="info-modal-title">ABOUT</h3>
+        <button id="close-info-modal" class="p-1 border border-zinc-700 rounded-none text-zinc-400 hover:text-white hover:border-zinc-400 hover:bg-zinc-800 transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <div id="info-modal-content" class="text-sm text-zinc-400 font-mono-space leading-relaxed space-y-4">
+      </div>
+    </div>
+  </div>
+
+  <!-- LAB Experimental Gallery Overlay -->
+  <div id="lab-overlay" class="fixed inset-0 z-[80] bg-[#0b0c0e]/95 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 flex flex-col p-6 md:p-12 text-zinc-100 overflow-hidden">
+    <!-- Overlay Top Bar -->
+    <div class="flex justify-between items-center border-b border-zinc-800/80 pb-6 shrink-0">
+      <div class="flex items-center gap-3">
+        <span class="inline-block w-2.5 h-2.5 bg-orange-500"></span>
+        <span class="text-xs font-mono-space tracking-widest text-zinc-400 uppercase">LAB // EXPERIMENTS</span>
+      </div>
+      <button id="close-lab" class="flex items-center gap-2 px-4 py-2 border border-zinc-700 hover:border-orange-500 rounded-none text-zinc-300 hover:text-orange-500 font-mono-space text-xs transition-colors">
+        <span>CLOSE</span> <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- Overlay Body: Sparse Gallery Grid -->
+    <div class="flex-1 overflow-y-auto custom-scroll pt-8 md:pt-10 pr-1">
+      <p class="text-xs md:text-sm font-mono-space text-zinc-500 max-w-xl mb-10 md:mb-14 leading-relaxed">
+        A running sandbox of personal WebGL, Three.js, and interaction experiments — built outside client work to test ideas, techniques, and visual styles.
+      </p>
+      <div id="lab-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 md:gap-x-10 gap-y-14 md:gap-y-20 max-w-6xl pb-10">
+      </div>
+    </div>
+
+    <div class="border-t border-zinc-800/80 pt-4 flex flex-col md:flex-row justify-between text-[10px] font-mono-space text-zinc-500 shrink-0 gap-2">
+      <span class="flex items-center gap-2">
+        <span class="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></span>
+        SELECT ANY EXPERIMENT TO VIEW DETAILS
+      </span>
+      <span>PRESS [ESC] TO CLOSE</span>
+    </div>
+  </div>
+
+  <!-- LAB Item Fullscreen Detail View -->
+  <div id="lab-detail" class="fixed inset-0 z-[110] bg-[#050608] opacity-0 pointer-events-none transition-all duration-300 flex flex-col md:flex-row">
+    <button id="close-lab-detail" class="absolute top-4 right-4 md:top-6 md:right-8 flex items-center gap-1.5 px-3 py-1.5 md:px-4 md:py-2 bg-zinc-900 text-zinc-100 border border-zinc-700 hover:bg-orange-500 hover:text-black hover:border-orange-500 rounded-none transition-all duration-200 text-xs font-mono-space z-[130] shadow-2xl">
+      CLOSE <i data-lucide="x" class="w-3.5 h-3.5 inline-block"></i>
+    </button>
+    <button id="lab-detail-prev" class="absolute left-2 md:left-6 top-[38%] md:top-1/2 -translate-y-1/2 w-9 h-9 md:w-12 md:h-12 flex items-center justify-center bg-zinc-900 border border-zinc-700 text-zinc-300 hover:text-black hover:border-orange-500 hover:bg-orange-500 transition-all duration-200 z-[130] rounded-none shadow-2xl">
+      <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+    </button>
+    <button id="lab-detail-next" class="absolute right-2 md:right-6 top-[38%] md:top-1/2 -translate-y-1/2 w-9 h-9 md:w-12 md:h-12 flex items-center justify-center bg-zinc-900 border border-zinc-700 text-zinc-300 hover:text-black hover:border-orange-500 hover:bg-orange-500 transition-all duration-200 z-[130] rounded-none shadow-2xl">
+      <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+    </button>
+
+    <div class="flex-1 md:w-[64%] h-[45%] md:h-full flex items-center justify-center bg-black p-4 md:p-12 overflow-hidden">
+      <img id="lab-detail-img" src="" alt="" class="max-w-full max-h-full object-contain select-none" draggable="false">
+    </div>
+    <div class="md:w-[36%] h-[55%] md:h-full overflow-y-auto custom-scroll border-t md:border-t-0 md:border-l border-zinc-800 bg-[#0f1114] p-6 md:p-10 flex flex-col justify-center">
+      <span class="text-[10px] font-mono-space text-orange-500 tracking-widest uppercase mb-3" id="lab-detail-num">01 / 06</span>
+      <h3 class="text-2xl md:text-3xl font-syne font-bold text-zinc-100 tracking-wide mb-4 leading-tight" id="lab-detail-title">Title</h3>
+      <p class="text-sm text-zinc-400 font-mono-space leading-relaxed" id="lab-detail-desc">Description</p>
+    </div>
+  </div>
+
+  <!-- Interactive HUD Element projecting above 3D space screens -->
+  <div id="hud-prompt" class="absolute pointer-events-none z-30 opacity-0 transition-opacity duration-500 flex flex-col items-center">
+    <div class="px-3 py-1.5 bg-orange-500 text-black border-0 rounded-none shadow-lg text-[10px] font-mono-space tracking-widest flex items-center gap-2 font-bold">
+      <span class="inline-block w-1.5 h-1.5 bg-black rounded-full animate-pulse"></span>
+      <span id="hud-prompt-text">CLIENT NAME</span>
+    </div>
+    <div class="w-[1px] h-8 bg-orange-500 mt-0"></div>
+  </div>
+
+  <!-- Fullscreen Lightbox Modal -->
+  <div id="lightbox-modal" class="fixed inset-0 backdrop-blur-md z-[100] flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300" style="background-color: rgba(5, 6, 8, 0.98);">
+    <button id="close-lightbox" class="absolute top-4 right-4 md:top-6 md:right-8 flex items-center gap-1.5 px-3 py-1.5 md:px-4 md:py-2 bg-zinc-900 text-zinc-100 border border-zinc-700 hover:bg-orange-500 hover:text-black hover:border-orange-500 rounded-none transition-all duration-200 text-xs font-mono-space z-[110] shadow-2xl">
+      CLOSE <i data-lucide="x" class="w-3.5 h-3.5 inline-block"></i>
+    </button>
+    <div id="lightbox-indicator" class="absolute top-4 left-4 md:top-7 md:left-8 text-[9px] md:text-[10px] font-mono-space tracking-widest text-zinc-500 uppercase pointer-events-none select-none max-w-[60%] md:max-w-none truncate">
+      IMAGE 1 OF 8 // Click Image to Zoom / Drag to Pan
+    </div>
+    <button id="lightbox-prev" class="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 w-9 h-9 md:w-12 md:h-12 flex items-center justify-center bg-zinc-900 border border-zinc-700 text-zinc-300 hover:text-black hover:border-orange-500 hover:bg-orange-500 transition-all duration-200 z-[110] rounded-none shadow-2xl">
+      <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+    </button>
+    <button id="lightbox-next" class="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 w-9 h-9 md:w-12 md:h-12 flex items-center justify-center bg-zinc-900 border border-zinc-700 text-zinc-300 hover:text-black hover:border-orange-500 hover:bg-orange-500 transition-all duration-200 z-[110] rounded-none shadow-2xl">
+      <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+    </button>
+    <div id="lightbox-wrapper" class="w-full h-full flex items-center justify-center overflow-hidden px-14 py-20 md:px-20 md:py-24">
+      <img id="lightbox-img" src="" alt="Portfolio high-resolution viewport specification sheet" class="max-w-full max-h-full object-contain cursor-zoom-in transition-transform duration-300 ease-out select-none" draggable="false">
+    </div>
+    <div id="lightbox-thumbnails" class="absolute bottom-3 md:bottom-6 flex gap-2 md:gap-3 z-[110] px-3 py-1.5 md:px-4 md:py-2 bg-zinc-900/90 border border-zinc-800 rounded-none backdrop-blur-sm max-w-[92vw] overflow-x-auto custom-scroll">
+    </div>
+  </div>
+
+  <script>
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingInner = document.getElementById('loading-inner');
+    if (loadingInner) {
+      requestAnimationFrame(() => {
+        loadingInner.style.opacity = '1';
+        loadingInner.style.transform = 'translateY(0)';
+      });
+    }
+
+    function dismissLoadingScreen() {
+      if (!loadingScreen) return;
+      loadingScreen.style.transition = 'opacity 0.7s ease';
+      loadingScreen.style.opacity = '0';
+      setTimeout(() => { loadingScreen.style.display = 'none'; }, 750);
+    }
+
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    /* Global DOM Element Declarations */
+    const cursor = document.getElementById('custom-cursor');
+    const cursorDot = document.getElementById('custom-cursor-dot');
+    const activeNum = document.getElementById('active-num');
+    const activeTitleLabel = document.getElementById('active-title-label');
+    const activeCategoryLabel = document.getElementById('active-category-label');
+    const scrollProgressIndicator = document.getElementById('scroll-progress-indicator');
+    const infoModal = document.getElementById('info-modal');
+    const infoModalTitle = document.getElementById('info-modal-title');
+    const infoModalContent = document.getElementById('info-modal-content');
+    const closeInfoModalBtn = document.getElementById('close-info-modal');
+    const projectDrawer = document.getElementById('project-drawer');
+    const closeDrawerBtn = document.getElementById('close-drawer');
+    const hudPrompt = document.getElementById('hud-prompt');
+    const lightboxModal = document.getElementById('lightbox-modal');
+    const labOverlay = document.getElementById('lab-overlay');
+    const labGrid = document.getElementById('lab-grid');
+    const closeLabBtn = document.getElementById('close-lab');
+    const labDetail = document.getElementById('lab-detail');
+    const labDetailImg = document.getElementById('lab-detail-img');
+    const labDetailTitle = document.getElementById('lab-detail-title');
+    const labDetailDesc = document.getElementById('lab-detail-desc');
+    const labDetailNum = document.getElementById('lab-detail-num');
+    const closeLabDetailBtn = document.getElementById('close-lab-detail');
+    const labDetailPrevBtn = document.getElementById('lab-detail-prev');
+    const labDetailNextBtn = document.getElementById('lab-detail-next');
+
+    // Impact Overlay Elements
+    const impactOverlay = document.getElementById('impact-overlay');
+    const navImpactBtn = document.getElementById('nav-impact');
+    const closeImpactBtn = document.getElementById('close-impact');
+
+    const labItems = [
+      {
+        title: "Ruelle des Lumières",
+        image: "https://placehold.co/1200x800/14141a/f97316?text=Ruelle+des+Lumi%C3%A8res",
+        desc: "A cel-shaded Three.js scene set in a Plateau Mont-Royal back alley — row houses, spiral staircases, and a corner dépanneur rendered with ink outlines and lantern-lit ambience."
+      },
+      {
+        title: "Kyoto Neon Café",
+        image: "https://placehold.co/1200x800/14141a/f97316?text=Kyoto+Neon+Caf%C3%A9",
+        desc: "A moody late-night café interior with bloom post-processing, bokeh depth-of-field, and smooth scroll-driven camera movement through the space."
+      },
+      {
+        title: "Forest Pulse",
+        image: "https://placehold.co/1200x800/14141a/f97316?text=Forest+Pulse",
+        desc: "A scroll-driven editorial piece visualizing Canadian forest conditions, combining a live data layer, toggleable overlays, and drifting fire particle effects."
+      },
+      {
+        title: "Manga Highway",
+        image: "https://placehold.co/1200x800/14141a/f97316?text=Manga+Highway",
+        desc: "A toon-shaded driving simulator with ink-outline rendering, a photography core loop, cassette-deck audio, dynamic rain, and hand-built roadside world detail."
+      },
+      {
+        title: "Larus Systems Booth",
+        image: "https://placehold.co/1200x800/14141a/f97316?text=Larus+Systems",
+        desc: "An interactive 3D B2B exhibition booth with a glass-dome jet specimen easter egg, chromatic aberration, bloom, and a config-driven layer for client re-skinning."
+      },
+      {
+        title: "Dreamy Pastel Portal",
+        image: "https://placehold.co/1200x800/14141a/f97316?text=Pastel+Portal",
+        desc: "A cinematic Three.js portal scene with theme-switching ripple transitions, soft pastel lighting, and a slow-building intro sequence."
+      }
+    ];
+
+    let isImpactOpen = false;
+    let isLabOpen = false;
+    let isLabDetailOpen = false;
+    let currentLabIndex = 0;
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeLightboxBtn = document.getElementById('close-lightbox');
+    const lightboxIndicator = document.getElementById('lightbox-indicator');
+    const prevProjectBtn = document.getElementById('drawer-prev-project');
+    const nextProjectBtn = document.getElementById('drawer-next-project');
+
+    // Index Overlay Elements
+    const indexOverlay = document.getElementById('index-overlay');
+    const navIndexBtn = document.getElementById('nav-index');
+    const closeIndexBtn = document.getElementById('close-index');
+    const indexTableBody = document.getElementById('index-table-body');
+    const indexHoverPreview = document.getElementById('index-hover-preview');
+    const indexPreviewImg = document.getElementById('index-preview-img');
+    const indexPreviewTitle = document.getElementById('index-preview-title');
+    const indexPreviewNum = document.getElementById('index-preview-num');
+
+    // Mobile Menu Tray Elements
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileNavTray = document.getElementById('mobile-nav-tray');
+    const hamburgerOpenIcon = document.getElementById('hamburger-open-icon');
+    const hamburgerCloseIcon = document.getElementById('hamburger-close-icon');
+    const mobileNavIndex = document.getElementById('mobile-nav-index');
+    const mobileNavImpact = document.getElementById('mobile-nav-impact');
+    const mobileNavAbout = document.getElementById('mobile-nav-about');
+    const mobileNavLab = document.getElementById('mobile-nav-lab');
+    const mobileNavContact = document.getElementById('mobile-nav-contact');
+
+    let isMobileTrayOpen = false;
+
+    function toggleMobileMenu(forceState) {
+      if (typeof forceState === 'boolean') {
+        isMobileTrayOpen = forceState;
+      } else {
+        isMobileTrayOpen = !isMobileTrayOpen;
+      }
+
+      if (isMobileTrayOpen) {
+        if (mobileNavTray) {
+          mobileNavTray.classList.remove('pointer-events-none', 'opacity-0');
+          mobileNavTray.classList.add('opacity-100');
+        }
+        if (hamburgerOpenIcon) hamburgerOpenIcon.classList.add('hidden');
+        if (hamburgerCloseIcon) hamburgerCloseIcon.classList.remove('hidden');
+      } else {
+        if (mobileNavTray) {
+          mobileNavTray.classList.add('pointer-events-none', 'opacity-0');
+          mobileNavTray.classList.remove('opacity-100');
+        }
+        if (hamburgerOpenIcon) hamburgerOpenIcon.classList.remove('hidden');
+        if (hamburgerCloseIcon) hamburgerCloseIcon.classList.add('hidden');
+      }
+    }
+
+    if (mobileMenuToggle) {
+      mobileMenuToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleMobileMenu();
+      });
+    }
+
+    if (mobileNavIndex) {
+      mobileNavIndex.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleMobileMenu(false);
+        openIndexOverlay();
+      });
+    }
+
+    if (mobileNavImpact) {
+      mobileNavImpact.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleMobileMenu(false);
+        openImpactOverlay();
+      });
+    }
+
+    if (mobileNavAbout) {
+      mobileNavAbout.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleMobileMenu(false);
+        openInfoModal('about');
+      });
+    }
+
+    if (mobileNavLab) {
+      mobileNavLab.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleMobileMenu(false);
+        openLabOverlay();
+      });
+    }
+
+    if (mobileNavContact) {
+      mobileNavContact.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleMobileMenu(false);
+        openInfoModal('contact');
+      });
+    }
+
+    /* Updated Project Sequence:
+       01 YAT
+       02 BadCarbon
+       03 Oatfi
+       04 FLO
+       05 CargoSprint
+       06 GeoStories
+       07 Larus
+       08 MCIM
+       09 RocketAir
+    /* =========================================================================
+       PROJECT DATA CONFIGURATION (9 Projects Total)
+       ========================================================================= */
+    const projects = [
+      {
+        num: "01",
+        title: "Oatfi",
+        tagline: "B2B payment & embedded capital infrastructure",
+        client: "Oatfi",
+        services: "Strategy, UX, Design Lead, Illustration",
+        desc: "Challenge:\nOatFi is redefining B2B payments with embedded financing that helps businesses solve cash flow challenges. As they emerged from stealth, we partnered with them to create a bold new brand and website that highlights their innovative API platform and attracts new payment partners.\n\nSolution:\nWe transformed OatFi's complex fintech offering into a clear, compelling digital experience that builds credibility, communicates value in seconds, and drives conversations with new platform partners.\n\nWe equipped OatFi with a scalable marketing toolkit, making it easy to create consistent branded materials.",
+        colors: ["#0c0d0e", "#292014", "#dfb76c", "#ffd700", "#1c1d1e"],
+        tag: "FINTECH",
+        tech: ["Next.js", "Financial Ledger Architecture", "Tailwind CSS", "REST APIs"],
+        date: "2022",
+        images: [
+          "https://mbrissette.x02.me/i/RUS6B.webp",
+          "https://mbrissette.x02.me/i/WE4K5N.webp",
+          "https://mbrissette.x02.me/i/VFT5FD.webp",
+          "https://mbrissette.x02.me/i/JHFUQ.gif",
+          "https://x02.me/i/VVC6BY.webp",
+          "https://x02.me/i/3239.webp",
+          "https://x02.me/i/BD2A.webp",
+          "https://mbrissette.x02.me/i/5Y5U5U.webp"
+        ],
+        link: ""
+      },
+      {
+        num: "02",
+        title: "BadCarbon",
+        tagline: "B2B carbon management & sustainability interface",
+        client: "BadCarbon",
+        services: "UX, Art Direction, Design Lead",
+        desc: "Challenge:\nBadCarbon had an innovative platform for measuring and reducing digital carbon emissions, but its brand lacked the clarity and credibility needed to resonate with enterprise customers and sustainability-conscious organizations.\n\nSolution:\nWe evolved the visual identity with a modern, technology-forward brand system and designed a new website that simplified the product story, communicated its value with confidence, and positioned BadCarbon as a trusted leader in sustainable digital infrastructure.",
+        colors: ["#0a0a09", "#1c241e", "#2e5a44", "#3e8e60", "#ffffff"],
+        tag: "B2B",
+        tech: ["Product Design", "B2B SaaS", "Design Systems", "Analytics"],
+        date: "2024",
+        images: [
+          "https://mbrissette.x02.me/i/GCC5HW.webp",
+          "https://mbrissette.x02.me/i/AS67.webp",
+          "https://mbrissette.x02.me/i/P85SK.webp",
+          "https://mbrissette.x02.me/i/R8QD.webp",
+          "https://mbrissette.x02.me/i/C6NJ.webp",
+          "https://mbrissette.x02.me/i/SCV98.webp",
+          "https://mbrissette.x02.me/i/XWS9.webp",
+          "https://mbrissette.x02.me/i/VZAX.webp"
+        ],
+        link: ""
+      },
+      {
+        num: "03",
+        title: "Kings Domain",
+        tagline: "Barbershop grooming brand US launch & campaign identity",
+        client: "Kings Domain Melbourne",
+        services: "Art Direction, Design Lead",
+        desc: "Challenge:\nKings Domain sought to expand beyond Australia and launch their premier Melbourne barbershop and grooming brand in the US. Choosing Manhattan, New York as their launchpad, they staged an activation on a street corner featuring a live barber show, requiring high-impact visual identity, event collateral, and campaign assets to make a lasting impression on the US market.\n\nSolution:\nCrafted a bold campaign identity, promotional collateral, and digital touchpoints that captured Kings Domain's distinct craftsmanship and culture, powering their high-visibility Manhattan pop-up and establishing their presence in North America.",
+        colors: ["#0c0d0e", "#1c1811", "#dfb76c", "#ffd700", "#ffffff"],
+        tag: "BRAND CAMPAIGN",
+        tech: ["Art Direction", "Brand Identity", "Event Collateral", "Digital Campaign"],
+        date: "2021",
+        images: [
+          "https://mbrissette.x02.me/i/Z6A7Y.webp",
+          "https://mbrissette.x02.me/i/K2XGSC.webp",
+          "https://mbrissette.x02.me/i/NT2EES.webp",
+          "https://mbrissette.x02.me/i/4F2S.webp",
+          "https://mbrissette.x02.me/i/SW9Z.webp",
+          "https://mbrissette.x02.me/i/TE37VN.webp",
+          "https://mbrissette.x02.me/i/V98WS.webp",
+          "https://mbrissette.x02.me/i/5URTA.webp"
+        ],
+        link: ""
+      },
+      {
+        num: "04",
+        title: "FLO",
+        tagline: "EV charging ecosystem & brand campaign experience",
+        client: "FLO",
+        services: "Art Direction, Design Lead, Campaign",
+        desc: "Challenge:\nAs EV adoption rapidly expands across North America, FLO needed a refreshed, cohesive digital campaign experience and brand strategy to communicate reliability, innovation, and seamless EV charging infrastructure to both consumers and commercial partners.\n\nSolution:\nDesigned a high-impact campaign visual identity and interactive marketing presentation system highlighting FLO's robust EV charging network, user-centric hardware, and software ecosystem across digital touchpoints.",
+        colors: ["#02343f", "#1c1811", "#dfb76c", "#ffd700", "#ffffff"],
+        tag: "CAMPAIGN",
+        tech: ["Art Direction", "Brand Campaign", "Digital Experience", "UI Design"],
+        date: "2024",
+        images: [
+          "https://mbrissette.x02.me/i/RTRSA.webp",
+          "https://mbrissette.x02.me/i/4YG6.webp",
+          "https://mbrissette.x02.me/i/ZKYB.webp",
+          "https://mbrissette.x02.me/i/URTGGE.webp",
+          "https://mbrissette.x02.me/i/U8EEY.webp",
+          "https://mbrissette.x02.me/i/TFG8.webp",
+          "https://mbrissette.x02.me/i/AMCD.webp",
+          "https://mbrissette.x02.me/i/EQPF6B.webp"
+        ],
+        link: ""
+      },
+      {
+        num: "05",
+        title: "CargoSprint",
+        tagline: "Supply Chain Orchestration Platform",
+        client: "CargoSprint",
+        services: "UX, Art Direction, Design Lead",
+        desc: "Challenge:\nCargoSprint had outgrown its brand. We repositioned the company to reflect its broader logistics platform and reinforce its leadership in the industry.\n\nSolution:\nWe clarified CargoSprint's positioning, evolved its brand, and redesigned its website to better reflect its industry leadership and support its next stage of growth.\n\nIn less than a year since launch: nearly 3x headcount growth, another major acquisition, and a platform primed to keep expanding.",
+        colors: ["#1c1c1a", "#292116", "#dfb76c", "#ffd700", "#fffdf9"],
+        tag: "SUPPLY CHAIN SAAS",
+        tech: ["Solid.js", "WebGL Shaders", "TailwindCSS", "Node.js Platform"],
+        date: "2025",
+        images: [
+          "https://x02.me/i/9U3J.webp",
+          "https://mbrissette.x02.me/i/Q4E6P.webp",
+          "https://mbrissette.x02.me/i/W74R.webp",
+          "https://mbrissette.x02.me/i/5Q9J8.webp",
+          "https://mbrissette.x02.me/i/RFD76.webp",
+          "https://mbrissette.x02.me/i/2KXDZA.webp",
+          "https://mbrissette.x02.me/i/29ZAF.webp",
+          "https://mbrissette.x02.me/i/YHYS.webp"
+        ],
+        link: ""
+      },
+      {
+        num: "06",
+        title: "GeoStories",
+        tagline: "A location-aware social media campaign that rewarded exploration with contextual stories.",
+        client: "GeoStories",
+        services: "Strategy, Art Direction, Design Lead, Animation",
+        desc: "Young Canadians are passionate about experiential travel and sharing memorable moments on Instagram. We identified Canada's most frequently geotagged locations, researched hundreds of location-specific stories, and built a system that automatically delivered relevant historical facts whenever users tagged one of those destinations.\n\nGold, WARC Awards, Effective Social Strategy, 2019 — WARC Awards 2019\n\n\"Quirky Instagram history project could hold a lesson for digital marketers\" — The Globe and Mail\n\n\"Boring product + no budget = effective social campaign\" — WARC\n\n6.3M impressions / 95% positive sentiment on Instagram",
+        colors: ["#0f1a24", "#1c2b1f", "#dfb76c", "#7fae8e", "#ffffff"],
+        tag: "SOCIAL MEDIA CAMPAIGN",
+        tech: ["Adobe XD", "Branding", "Social Templates", "Typography"],
+        date: "2019",
+        images: [
+          "https://mbrissette.x02.me/i/E8XGWM.gif",
+          "https://mbrissette.x02.me/i/JKH55.webp",
+          "https://mbrissette.x02.me/i/SQWEPH.webp",
+          "https://mbrissette.x02.me/i/XN23K8.webp",
+          "https://mbrissette.x02.me/i/WXSGW.webp",
+          "https://mbrissette.x02.me/i/2DDJRP.webp",
+          "https://mbrissette.x02.me/i/47GZM.webp",
+          "https://mbrissette.x02.me/i/ZFAW.webp"
+        ],
+        link: ""
+      },
+      {
+        num: "07",
+        title: "Larus",
+        tagline: "Designed to help visitors explore Larus' products through intuitive navigation, interactive storytelling, and real-time 3D graphics.",
+        client: "Larus",
+        services: "UX, Art Direction, Design Lead, 3d",
+        desc: "Trade show conversations are short, and complex enterprise software is difficult to communicate in a few minutes. To bridge that gap, I created an interactive 3D exhibition experience (with Gemini 3.5 & Claude) that combines storytelling, product demonstrations, downloadable resources, and lead generation into a single immersive experience accessible from any browser.\n\nhttps://mattbrissette.github.io/3d_booth/",
+        colors: ["#141412", "#2e281e", "#dfb76c", "#ffd700", "#ffffff"],
+        tag: "WebGL, Threejs",
+        tech: ["Three.js", "GSAP", "GLSL Shaders", "Fluid Dynamics", "Creative Direction"],
+        date: "2026",
+        images: [
+          "https://mbrissette.x02.me/i/BSSMFU.webp",
+          "https://mbrissette.x02.me/i/2D2Z.webp",
+          "https://mbrissette.x02.me/i/8TPDF.webp",
+          "https://mbrissette.x02.me/i/ATH4.webp",
+          "https://mbrissette.x02.me/i/EARH.webp",
+          "https://mbrissette.x02.me/i/N2R4.webp",
+          "https://mbrissette.x02.me/i/3VBZJK.webp",
+          "https://mbrissette.x02.me/i/CXDUNZ.gif"
+        ],
+        link: ""
+      },
+      {
+        num: "08",
+        title: "MCIM",
+        tagline: "Modernizing a Mission-Critical Brand",
+        client: "MCIM",
+        services: "UX, Art Direction, Design Lead",
+        desc: "Challenge:\nPE-backed tech company Fulcrum Collaborations was growing fast. As awareness expanded for both the corporate brand and its flagship SaaS product, MCIM (Mission Critical Information Management), it became clear that future growth would be amplified by the power of one cohesive brand. Fulcrum sought a unified, scalable brand – and a bold new website to define it.\n\nSolution:\nWe evolved MCIM’s existing brand to create a more modern, confident, and technology-focused identity while keeping the recognition they had already built. We also redesigned the website to clearly communicate what they do, who they serve, and why they’re a trusted leader in their industry.\n\nThe result was a single global identity supporting expansion across 90+ countries – and, in the CMO’s words, “immediate improvement in leads and market reaction.”",
+        colors: ["#120124", "#241910", "#dfb76c", "#ffd700", "#ffffff"],
+        tag: "SAAS",
+        tech: ["Web Audio API", "Svelte", "GLSL Shaders", "Tailwind UI"],
+        date: "2025",
+        images: [
+          "https://x02.me/i/RGCKZW.webp",
+          "https://mbrissette.x02.me/i/YBNSUQ.webp",
+          "https://mbrissette.x02.me/i/2Y7RD.webp",
+          "https://mbrissette.x02.me/i/DNBR.webp",
+          "https://mbrissette.x02.me/i/B8UQHT.webp",
+          "https://mbrissette.x02.me/i/HHDQZ.webp",
+          "https://mbrissette.x02.me/i/X43YV6.webp",
+          "https://mbrissette.x02.me/i/ZDVPY.webp"
+        ],
+        link: ""
+      },
+      {
+        num: "09",
+        title: "RocketAir",
+        tagline: "Design & motion studio digital experience",
+        client: "RocketAir",
+        services: "UX, Art Direction, Design Lead",
+        desc: "A digital experience created in collaboration with RocketAir, blending creative strategy, thoughtful design, and high-impact visuals into a modern, engaging web experience.\n\nhttps://www.rocketair.com/\n\nAwwwards: Awarded Site of the Day and the Developer Award for balancing innovative design with quality code.\n\nCSS Design Awards: Selected as Website of the Day alongside public-voted category sweeps for Best UI Design, Best UX Design, and Best Innovation.",
+        colors: ["#0a0f1d", "#1e1a12", "#dfb76c", "#ffd700", "#0e1834"],
+        tag: "DESIGN STUDIO",
+        tech: ["Design Systems", "Product Strategy", "Motion Graphics", "3D & WebGL"],
+        date: "2022",
+        images: [
+          "https://mbrissette.x02.me/i/YQKSH.webp",
+          "https://mbrissette.x02.me/i/EUDDG.gif",
+          "https://mbrissette.x02.me/i/T4G7YG.webp",
+          "https://mbrissette.x02.me/i/J476CC.webp",
+          "https://mbrissette.x02.me/i/48KMST.webp",
+          "https://mbrissette.x02.me/i/BE9BD.webp",
+          "https://mbrissette.x02.me/i/R9ENXQ.webp",
+          "https://mbrissette.x02.me/i/XT3A.webp"
+        ],
+        link: "https://www.rocketair.com/"
+      }
+    
+    ];
+
+    let mouseX = 0, mouseY = 0;
+    let targetMouseX = 0, targetMouseY = 0;
+    let mouseLerpX = 0, mouseLerpY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      targetMouseX = e.clientX;
+      targetMouseY = e.clientY;
+    });
+
+    function animateCursor() {
+      mouseX += (targetMouseX - mouseX) * 0.15;
+      mouseY += (targetMouseY - mouseY) * 0.15;
+      if (cursor) {
+        cursor.style.left = `${mouseX}px`;
+        cursor.style.top = `${mouseY}px`;
+      }
+      if (cursorDot) {
+        cursorDot.style.left = `${targetMouseX}px`;
+        cursorDot.style.top = `${targetMouseY}px`;
+      }
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    function registerHoverEvents() {
+      const hoverables = document.querySelectorAll('button, a, .clickable-3d, #drawer-cover, input, select, textarea, tr.index-row, .impact-fly-btn');
+      hoverables.forEach(item => {
+        item.addEventListener('mouseenter', () => {
+          if (cursor) cursor.style.transform = 'translate(-50%, -50%) scale(1.6)';
+        });
+        item.addEventListener('mouseleave', () => {
+          if (cursor) cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        });
+      });
+    }
+    registerHoverEvents();
+
+    function openImpactOverlay() {
+      if (isImpactOpen) return;
+      isImpactOpen = true;
+      if (impactOverlay) {
+        impactOverlay.classList.remove('pointer-events-none', 'opacity-0');
+        impactOverlay.classList.add('opacity-100');
+      }
+    }
+
+    function closeImpactOverlay() {
+      if (!isImpactOpen) return;
+      isImpactOpen = false;
+      if (impactOverlay) {
+        impactOverlay.classList.add('pointer-events-none', 'opacity-0');
+        impactOverlay.classList.remove('opacity-100');
+      }
+    }
+
+    function setupImpactTriggers() {
+      const flyBtns = document.querySelectorAll('.impact-fly-btn');
+      flyBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const targetIdx = parseInt(btn.getAttribute('data-fly-idx'), 10);
+          if (!isNaN(targetIdx)) {
+            closeImpactOverlay();
+            setTimeout(() => {
+              focusOnProject(targetIdx);
+            }, 200);
+          }
+        });
+      });
+    }
+
+    if (navImpactBtn) navImpactBtn.addEventListener('click', (e) => { e.preventDefault(); openImpactOverlay(); });
+    if (closeImpactBtn) closeImpactBtn.addEventListener('click', (e) => { e.preventDefault(); closeImpactOverlay(); });
+
+    function generateConcreteCanvas(isBump = false) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1024;
+      canvas.height = 1024;
+      const ctx = canvas.getContext('2d');
+
+      const numBoards = 8;
+      const boardHeight = 1024 / numBoards;
+
+      if (!isBump) {
+        ctx.fillStyle = '#4a4a4a';
+        ctx.fillRect(0, 0, 1024, 1024);
+
+        for (let i = 0; i < numBoards; i++) {
+          const yStart = i * boardHeight;
+          const toneOffset = Math.sin(i * 1.7) * 3.5; 
+          const r = Math.floor(72 + toneOffset);
+          const g = Math.floor(70 + toneOffset);
+          const b = Math.floor(68 + toneOffset * 0.8);
+          
+          ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+          ctx.fillRect(0, yStart, 1024, boardHeight);
+
+          const grad = ctx.createLinearGradient(0, yStart, 0, yStart + boardHeight);
+          grad.addColorStop(0, 'rgba(0,0,0,0.06)');
+          grad.addColorStop(0.12, 'rgba(0,0,0,0.01)');
+          grad.addColorStop(0.88, 'rgba(0,0,0,0.0)');
+          grad.addColorStop(1, 'rgba(0,0,0,0.05)');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, yStart, 1024, boardHeight);
+
+          const holeY = yStart + boardHeight / 2;
+          const holeXPositions = [256, 768];
+          
+          holeXPositions.forEach(hx => {
+            ctx.fillStyle = 'rgba(60, 58, 55, 0.45)';
+            ctx.beginPath(); ctx.arc(hx, holeY, 14, 0, Math.PI * 2); ctx.fill();
+
+            ctx.fillStyle = 'rgba(38, 36, 33, 0.72)';
+            ctx.beginPath(); ctx.arc(hx, holeY, 10, 0, Math.PI * 2); ctx.fill();
+
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.28)';
+            ctx.lineWidth = 1.8;
+            ctx.beginPath(); ctx.arc(hx, holeY, 13, 0.1 * Math.PI, 0.9 * Math.PI); ctx.stroke();
+          });
+        }
+
+        for (let i = 0; i < 8; i++) {
+          const x = Math.random() * 1024;
+          const y = Math.random() * 1024;
+          const r = 160 + Math.random() * 260;
+          const grad = ctx.createRadialGradient(x, y, 0, x, y, r);
+          const darkTone = Math.floor(115 + Math.random() * 45);
+          grad.addColorStop(0, `rgba(${darkTone}, ${darkTone - 4}, ${darkTone - 12}, 0.14)`);
+          grad.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, 1024, 1024);
+        }
+
+        for (let i = 0; i <= numBoards; i++) {
+          const y = i * boardHeight;
+          ctx.strokeStyle = 'rgba(50, 48, 45, 0.38)';
+          ctx.lineWidth = 3.0;
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(1024, y); ctx.stroke();
+
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+          ctx.lineWidth = 1.0;
+          ctx.beginPath(); ctx.moveTo(0, y + 2.0); ctx.lineTo(1024, y + 2.0); ctx.stroke();
+        }
+
+        const imgData = ctx.getImageData(0, 0, 1024, 1024);
+        const data = imgData.data;
+        for (let i = 0; i < data.length; i += 4) {
+          const noise = (Math.random() - 0.5) * 11.5;
+          data[i] = Math.max(0, Math.min(255, data[i] + noise));
+          data[i+1] = Math.max(0, Math.min(255, data[i+1] + noise));
+          data[i+2] = Math.max(0, Math.min(255, data[i+2] + noise));
+        }
+        ctx.putImageData(imgData, 0, 0);
+
+        ctx.fillStyle = 'rgba(40, 38, 35, 0.32)';
+        for (let i = 0; i < 400; i++) {
+          const x = Math.random() * 1024;
+          const y = Math.random() * 1024;
+          const size = 0.8 + Math.random() * 2.4;
+          ctx.beginPath(); ctx.arc(x, y, size, 0, Math.PI * 2); ctx.fill();
+
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.16)';
+          ctx.beginPath(); ctx.arc(x, y + 0.5, size * 0.7, 0, Math.PI); ctx.fill();
+        }
+
+      } else {
+        ctx.fillStyle = '#808080';
+        ctx.fillRect(0, 0, 1024, 1024);
+
+        for (let i = 0; i < numBoards; i++) {
+          const yStart = i * boardHeight;
+          const stepOffset = Math.sin(i * 1.7) * 3.8; 
+          const grayVal = Math.floor(128 + stepOffset);
+          
+          ctx.fillStyle = `rgb(${grayVal}, ${grayVal}, ${grayVal})`;
+          ctx.fillRect(0, yStart, 1024, boardHeight);
+
+          const grad = ctx.createLinearGradient(0, yStart, 0, yStart + boardHeight);
+          grad.addColorStop(0, 'rgba(0,0,0,0.08)');
+          grad.addColorStop(0.1, 'rgba(0,0,0,0)');
+          grad.addColorStop(0.9, 'rgba(0,0,0,0)');
+          grad.addColorStop(1, 'rgba(255,255,255,0.06)');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, yStart, 1024, boardHeight);
+
+          const holeY = yStart + boardHeight / 2;
+          const holeXPositions = [256, 768];
+          holeXPositions.forEach(hx => {
+            ctx.fillStyle = 'rgb(102, 102, 102)';
+            ctx.beginPath(); ctx.arc(hx, holeY, 14, 0, Math.PI * 2); ctx.fill();
+
+            ctx.fillStyle = 'rgb(28, 28, 28)';
+            ctx.beginPath(); ctx.arc(hx, holeY, 10, 0, Math.PI * 2); ctx.fill();
+          });
+        }
+
+        for (let i = 0; i <= numBoards; i++) {
+          const y = i * boardHeight;
+          ctx.strokeStyle = 'rgb(38, 38, 38)'; 
+          ctx.lineWidth = 4.0;
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(1024, y); ctx.stroke();
+
+          ctx.strokeStyle = 'rgb(165, 165, 165)'; 
+          ctx.lineWidth = 1.5;
+          ctx.beginPath(); ctx.moveTo(0, y + 2.0); ctx.lineTo(1024, y + 2.0); ctx.stroke();
+        }
+
+        const imgData = ctx.getImageData(0, 0, 1024, 1024);
+        const data = imgData.data;
+        for (let i = 0; i < data.length; i += 4) {
+          const noise = (Math.random() - 0.5) * 8.2;
+          data[i] = Math.max(0, Math.min(255, data[i] + noise));
+          data[i+1] = Math.max(0, Math.min(255, data[i+1] + noise));
+          data[i+2] = Math.max(0, Math.min(255, data[i+2] + noise));
+        }
+        ctx.putImageData(imgData, 0, 0);
+
+        ctx.fillStyle = 'rgb(42, 42, 42)';
+        for (let i = 0; i < 400; i++) {
+          const x = Math.random() * 1024;
+          const y = Math.random() * 1024;
+          const size = 0.8 + Math.random() * 2.4;
+          ctx.beginPath(); ctx.arc(x, y, size, 0, Math.PI * 2); ctx.fill();
+        }
+      }
+
+      return canvas;
+    }
+
+    function generateStudioEnvironment() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1024;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, 512);
+      skyGrad.addColorStop(0, '#03050a');       
+      skyGrad.addColorStop(0.35, '#080c14');    
+      skyGrad.addColorStop(0.5, '#050608');     
+      skyGrad.addColorStop(0.7, '#0d0a06');     
+      skyGrad.addColorStop(1, '#110c04');       
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, 1024, 512);
+
+      ctx.save();
+      ctx.shadowColor = 'rgba(249, 115, 22, 0.95)';
+      ctx.shadowBlur = 60;
+      ctx.fillStyle = '#ffb347';
+      ctx.fillRect(500, 60, 40, 120);
+      ctx.restore();
+
+      ctx.save();
+      ctx.shadowColor = 'rgba(147, 197, 253, 0.8)';
+      ctx.shadowBlur = 80;
+      ctx.fillStyle = '#e0f0ff';
+      ctx.fillRect(280, 50, 55, 160);
+      ctx.restore();
+
+      ctx.save();
+      const cityGlow = ctx.createRadialGradient(512, 400, 10, 512, 400, 260);
+      cityGlow.addColorStop(0, 'rgba(249, 115, 22, 0.18)');
+      cityGlow.addColorStop(0.5, 'rgba(249, 115, 22, 0.06)');
+      cityGlow.addColorStop(1, 'transparent');
+      ctx.fillStyle = cityGlow;
+      ctx.beginPath(); ctx.arc(512, 400, 260, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.mapping = THREE.EquirectangularReflectionMapping;
+      return texture;
+    }
+
+    function generateScreenCanvas(projIndex) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1024;
+      canvas.height = 768;
+      const ctx = canvas.getContext('2d');
+      const p = projects[projIndex];
+
+      let grad = ctx.createLinearGradient(0, 0, 1024, 768);
+      grad.addColorStop(0, '#080a0f');
+      grad.addColorStop(1, '#0d0f14');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 1024, 768);
+
+      ctx.strokeStyle = 'rgba(249, 115, 22, 0.06)';
+      ctx.lineWidth = 1;
+      const gridSize = 48;
+      for (let x = 0; x < canvas.width; x += gridSize) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+      }
+      for (let y = 0; y < canvas.height; y += gridSize) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+      }
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.ellipse(800, 384, 240, 240, 0, 0, Math.PI * 2);
+      let orbGrad = ctx.createRadialGradient(800, 384, 10, 800, 384, 240);
+      orbGrad.addColorStop(0, 'rgba(249, 115, 22, 0.25)');
+      orbGrad.addColorStop(0.4, 'rgba(249, 115, 22, 0.08)');
+      orbGrad.addColorStop(1, 'transparent');
+      ctx.fillStyle = orbGrad;
+      ctx.fill();
+      ctx.restore();
+
+      ctx.fillStyle = 'rgba(249, 115, 22, 0.08)';
+      ctx.fillRect(0, 0, 1024, 50);
+
+      ctx.fillStyle = '#f97316';
+      ctx.fillRect(0, 0, 4, 50);
+
+      ctx.fillStyle = '#f97316';
+      ctx.fillRect(14, 18, 14, 14);
+      ctx.fillRect(34, 18, 14, 14);
+      ctx.fillRect(54, 18, 14, 14);
+
+      ctx.fillStyle = 'rgba(249, 115, 22, 0.12)';
+      ctx.fillRect(110, 12, 500, 26);
+
+      ctx.fillStyle = '#f97316';
+      ctx.font = '11px monospace';
+      ctx.fillText(`HTTPS://WWW.${p.title.toUpperCase().replace(/\s+/g, '')}.STUDIO`, 130, 29);
+
+      ctx.fillStyle = '#f97316';
+      ctx.font = '12px "Space Grotesk", sans-serif';
+      ctx.fillText(p.tag, 100, 180);
+
+      ctx.fillStyle = '#f1f5f9';
+      ctx.font = 'bold 64px "Syne", sans-serif';
+      ctx.fillText(p.title, 100, 260);
+
+      ctx.fillStyle = '#f97316';
+      ctx.fillRect(100, 278, 160, 3);
+
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '22px monospace';
+      ctx.fillText(p.tagline, 100, 330);
+
+      ctx.fillStyle = 'rgba(148, 163, 184, 0.7)';
+      ctx.font = '15px monospace';
+      const words = p.desc.split(' ');
+      let line = '';
+      let yLine = 390;
+      for (let n = 0; n < words.length; n++) {
+        let testLine = line + words[n] + ' ';
+        if (testLine.length > 55) {
+          ctx.fillText(line, 100, yLine);
+          line = words[n] + ' ';
+          yLine += 24;
+        } else {
+          line = testLine;
+        }
+      }
+      ctx.fillText(line, 100, yLine);
+
+      ctx.fillStyle = '#f97316';
+      ctx.fillRect(100, 548, 180, 48);
+
+      ctx.fillStyle = '#000000';
+      ctx.font = 'bold 12px "Space Grotesk", sans-serif';
+      ctx.fillText('VIEW PROJECT →', 130, 577);
+
+      ctx.strokeStyle = 'rgba(249, 115, 22, 0.18)';
+      ctx.lineWidth = 1;
+      ctx.fillStyle = 'rgba(0,0,0,0.4)';
+      ctx.fillRect(650, 150, 300, 460);
+      ctx.strokeRect(650, 150, 300, 460);
+
+      ctx.fillStyle = 'rgba(249, 115, 22, 0.18)';
+      ctx.font = 'bold 80px "Space Grotesk", sans-serif';
+      ctx.fillText(p.num, 830, 110);
+
+      return canvas;
+    }
+
+    const container = document.getElementById('webgl-container');
+    const scene = new THREE.Scene();
+    
+    scene.background = new THREE.Color(0x0b0c0e);
+    scene.fog = new THREE.FogExp2(0x0b0c0e, 0.038);
+
+    const studioEnvMap = generateStudioEnvironment();
+    scene.environment = studioEnvMap;
+
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 50);
+    camera.position.set(0, 1.8, 10);
+    let cameraTarget = new THREE.Vector3(0, 0.2, 0);
+    camera.lookAt(cameraTarget);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 0.90; 
+    container.appendChild(renderer.domElement);
+
+    const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
+
+    const spiralGroup = new THREE.Group();
+    scene.add(spiralGroup);
+
+    const concreteMapTex = new THREE.CanvasTexture(generateConcreteCanvas(false));
+    concreteMapTex.wrapS = concreteMapTex.wrapT = THREE.RepeatWrapping;
+    concreteMapTex.repeat.set(2, 4);
+    concreteMapTex.anisotropy = maxAnisotropy;
+
+    const concreteBumpTex = new THREE.CanvasTexture(generateConcreteCanvas(true));
+    concreteBumpTex.wrapS = concreteBumpTex.wrapT = THREE.RepeatWrapping;
+    concreteBumpTex.repeat.set(2, 4);
+    concreteBumpTex.anisotropy = maxAnisotropy;
+
+    const concreteMaterial = new THREE.MeshStandardMaterial({
+      map: concreteMapTex,
+      bumpMap: concreteBumpTex,
+      bumpScale: 0.024, 
+      roughness: 0.85,
+      metalness: 0.15,
+      side: THREE.DoubleSide
+    });
+
+    // Central Column Mesh
+    const colHeight = 22.0;
+    const colGeom = new THREE.CylinderGeometry(1.6, 1.6, colHeight, 64);
+    const colMesh = new THREE.Mesh(colGeom, concreteMaterial);
+    colMesh.castShadow = true;
+    colMesh.receiveShadow = true;
+    spiralGroup.add(colMesh);
+
+    const numSteps = 160;
+    const spiralRadius = 1.6;
+    const rampWidth = 1.6;
+    const heightSpan = 15.0; 
+    const revolutions = 2.4; 
+
+    const stepsGroup = new THREE.Group();
+    spiralGroup.add(stepsGroup);
+
+    const slideGeom = new THREE.BufferGeometry();
+    const vertices = [];
+    const indices = [];
+    const uvs = [];
+
+    const segments = 400; 
+    const R1 = 1.6; 
+    const R2 = 3.2; 
+    const thickness = 0.25; 
+
+    for (let i = 0; i <= segments; i++) {
+      const ratio = i / segments;
+      const angle = ratio * Math.PI * 2 * revolutions;
+      const y = ratio * heightSpan - heightSpan / 2;
+
+      const cos = Math.cos(angle);
+      const sin = Math.sin(angle);
+
+      vertices.push(R1 * cos, y, R1 * sin);
+      vertices.push(R2 * cos, y, R2 * sin);
+      vertices.push(R1 * cos, y - thickness, R1 * sin);
+      vertices.push(R2 * cos, y - thickness, R2 * sin);
+
+      const u = ratio * 15; 
+      uvs.push(0, u);
+      uvs.push(1, u);
+      uvs.push(0, u);
+      uvs.push(1, u);
+    }
+
+    for (let i = 0; i < segments; i++) {
+      const curr = i * 4;
+      const next = (i + 1) * 4;
+
+      indices.push(curr + 0, next + 0, next + 1);
+      indices.push(curr + 0, next + 1, curr + 1);
+
+      indices.push(curr + 2, next + 3, next + 2);
+      indices.push(curr + 2, curr + 3, next + 3);
+
+      indices.push(curr + 1, next + 1, next + 3);
+      indices.push(curr + 1, next + 3, curr + 3);
+
+      indices.push(curr + 0, next + 2, next + 0);
+      indices.push(curr + 0, curr + 2, next + 2);
+    }
+
+    slideGeom.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    slideGeom.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+    slideGeom.setIndex(indices);
+    slideGeom.computeVertexNormals();
+
+    const slideMesh = new THREE.Mesh(slideGeom, concreteMaterial);
+    slideMesh.castShadow = true;
+    slideMesh.receiveShadow = true;
+    stepsGroup.add(slideMesh);
+
+    const borderGeom = new THREE.BufferGeometry();
+    const borderVertices = [];
+    const borderIndices = [];
+    const borderUvs = [];
+
+    const Rb1 = 3.12; 
+    const Rb2 = 3.24; 
+    const guardHeight = 1.30; 
+
+    for (let i = 0; i <= segments; i++) {
+      const ratio = i / segments;
+      const angle = ratio * Math.PI * 2 * revolutions;
+      const y = ratio * heightSpan - heightSpan / 2;
+
+      const cos = Math.cos(angle);
+      const sin = Math.sin(angle);
+
+      borderVertices.push(Rb1 * cos, y + guardHeight / 2, Rb1 * sin);
+      borderVertices.push(Rb2 * cos, y + guardHeight / 2, Rb2 * sin);
+      borderVertices.push(Rb1 * cos, y - guardHeight / 2, Rb1 * sin);
+      borderVertices.push(Rb2 * cos, y - guardHeight / 2, Rb2 * sin);
+
+      const u = ratio * 15;
+      borderUvs.push(0, u);
+      borderUvs.push(1, u);
+      borderUvs.push(0, u);
+      borderUvs.push(1, u);
+    }
+
+    for (let i = 0; i < segments; i++) {
+      const curr = i * 4;
+      const next = (i + 1) * 4;
+
+      borderIndices.push(curr + 0, next + 0, next + 1);
+      borderIndices.push(curr + 0, next + 1, curr + 1);
+
+      borderIndices.push(curr + 2, next + 3, next + 2);
+      borderIndices.push(curr + 2, curr + 3, next + 3);
+
+      borderIndices.push(curr + 1, next + 1, next + 3);
+      borderIndices.push(curr + 1, next + 3, curr + 3);
+
+      borderIndices.push(curr + 0, next + 2, next + 0);
+      borderIndices.push(curr + 0, curr + 2, next + 2);
+    }
+
+    borderGeom.setAttribute('position', new THREE.Float32BufferAttribute(borderVertices, 3));
+    borderGeom.setAttribute('uv', new THREE.Float32BufferAttribute(borderUvs, 2));
+    borderGeom.setIndex(borderIndices);
+    borderGeom.computeVertexNormals();
+
+    const borderMesh = new THREE.Mesh(borderGeom, concreteMaterial);
+    borderMesh.castShadow = true;
+    borderMesh.receiveShadow = true;
+    stepsGroup.add(borderMesh);
+
+    // Obsidian sphere setup
+    const obsidianSphereMat = new THREE.MeshPhysicalMaterial({
+      color: 0x070707,
+      roughness: 0.02,
+      metalness: 0.1,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.02,
+      reflectivity: 1.0,
+      envMapIntensity: 2.2 
+    });
+
+    const sphereRadius = 0.35;
+    const sphereGeom = new THREE.SphereGeometry(sphereRadius, 32, 32);
+
+    const obsidianSphere = new THREE.Mesh(sphereGeom, obsidianSphereMat);
+    obsidianSphere.castShadow = true;
+    obsidianSphere.receiveShadow = true;
+    spiralGroup.add(obsidianSphere);
+
+    const screensGroup = new THREE.Group();
+    spiralGroup.add(screensGroup);
+
+    const activeProjectMeshes = [];
+
+    const goldBoltsMat = new THREE.MeshStandardMaterial({
+      color: 0xf97316,
+      roughness: 0.25, 
+      metalness: 0.92,  
+      envMapIntensity: 1.6
+    });
+
+    projects.forEach((proj, idx) => {
+      const stepIdx = Math.floor(22 + idx * 14.5);
+      const ratio = stepIdx / numSteps;
+      const angle = ratio * Math.PI * 2 * revolutions;
+      const yPos = (ratio * heightSpan) - (heightSpan / 2) + 0.68; 
+
+      const screenRadius = spiralRadius + rampWidth + 0.40; 
+      const x = Math.cos(angle) * screenRadius;
+      const z = Math.sin(angle) * screenRadius;
+
+      const itemGroup = new THREE.Group();
+      itemGroup.position.set(x, yPos, z);
+      
+      itemGroup.rotation.x = -0.06;
+      itemGroup.rotation.y = Math.PI/2 - angle;
+
+      const canvasTex = new THREE.CanvasTexture(generateScreenCanvas(idx));
+      canvasTex.generateMipmaps = true;
+      canvasTex.minFilter = THREE.LinearMipmapLinearFilter;
+      canvasTex.magFilter = THREE.LinearFilter;
+      canvasTex.anisotropy = maxAnisotropy;
+
+      const scaleFactor = 1.30;
+      const frameWidth = 2.346 * scaleFactor;
+      const frameHeight = 1.4375 * scaleFactor;
+      const frameDepth = 0.06 * scaleFactor;
+
+      const bodyGeom = new THREE.BoxGeometry(frameWidth, frameHeight, frameDepth);
+      const bodyMesh = new THREE.Mesh(bodyGeom, concreteMaterial);
+      bodyMesh.castShadow = true;
+      bodyMesh.receiveShadow = true;
+      itemGroup.add(bodyMesh);
+
+      const faceGeom = new THREE.PlaneGeometry(frameWidth - (0.06 * scaleFactor), frameHeight - (0.06 * scaleFactor));
+      const faceMat = new THREE.MeshBasicMaterial({
+        map: canvasTex,
+        side: THREE.DoubleSide
+      });
+
+      if (proj.images && proj.images[0]) {
+        const textureLoader = new THREE.TextureLoader();
+        textureLoader.setCrossOrigin('anonymous');
+        textureLoader.load(proj.images[0], (loadedTex) => {
+          loadedTex.generateMipmaps = true;
+          loadedTex.minFilter = THREE.LinearMipmapLinearFilter;
+          loadedTex.magFilter = THREE.LinearFilter;
+          loadedTex.anisotropy = maxAnisotropy;
+          faceMat.map = loadedTex;
+          faceMat.needsUpdate = true;
+        });
+      }
+
+      const faceMesh = new THREE.Mesh(faceGeom, faceMat);
+      faceMesh.position.z = frameDepth / 2 + 0.002; 
+      itemGroup.add(faceMesh);
+
+      const bracketGroup = new THREE.Group();
+      itemGroup.add(bracketGroup);
+
+      const hingeGeom = new THREE.CylinderGeometry(0.06, 0.06, 0.50, 16);
+      const hingeMesh = new THREE.Mesh(hingeGeom, concreteMaterial);
+      hingeMesh.position.set(0, 0, -frameDepth/2 - 0.03);
+      hingeMesh.castShadow = true;
+      hingeMesh.receiveShadow = true;
+      bracketGroup.add(hingeMesh);
+
+      const armLength = 0.32;
+      const armGeom = new THREE.BoxGeometry(0.12, 0.12, armLength);
+      const armMesh = new THREE.Mesh(armGeom, concreteMaterial);
+      armMesh.position.set(0, -0.22, -0.03 - armLength / 2);
+      armMesh.rotation.x = 0.18; 
+      armMesh.castShadow = true;
+      armMesh.receiveShadow = true;
+      bracketGroup.add(armMesh);
+
+      const clampPlateGeom = new THREE.BoxGeometry(0.25, 0.35, 0.02);
+      const clampPlate = new THREE.Mesh(clampPlateGeom, concreteMaterial);
+      clampPlate.position.set(0, -0.28, -0.03 - armLength);
+      clampPlate.castShadow = true;
+      clampPlate.receiveShadow = true;
+      bracketGroup.add(clampPlate);
+
+      const boltGeom = new THREE.CylinderGeometry(0.015, 0.015, 0.01, 8);
+      const boltsOffset = [[0.08, 0.12], [-0.08, 0.12], [0.08, -0.12], [-0.08, -0.12]];
+      boltsOffset.forEach(b => {
+        const bMesh = new THREE.Mesh(boltGeom, goldBoltsMat);
+        bMesh.position.set(b[0], -0.28 + b[1], -0.03 - armLength + 0.012);
+        bMesh.rotation.x = Math.PI / 2; 
+        bMesh.castShadow = true;
+        bracketGroup.add(bMesh);
+      });
+
+      itemGroup.userData = {
+        projectIndex: idx,
+        num: proj.num,
+        title: proj.title,
+        angle: angle,
+        yPos: yPos,
+        bracketGroup: bracketGroup,
+        origPosition: itemGroup.position.clone(),
+        origRotation: itemGroup.rotation.clone(),
+        origScale: itemGroup.scale.clone()
+      };
+
+      screensGroup.add(itemGroup);
+      activeProjectMeshes.push(itemGroup);
+    });
+
+    const ambientLight = new THREE.AmbientLight(0x0d1020, 0.55);
+    scene.add(ambientLight);
+
+    const mainLight = new THREE.DirectionalLight(0xc8d8ff, 3.20);
+    mainLight.position.set(14.0, 22.0, 6.0);
+    mainLight.castShadow = true;
+    mainLight.shadow.mapSize.width = 4096;
+    mainLight.shadow.mapSize.height = 4096;
+    mainLight.shadow.bias = -0.00050;
+    mainLight.shadow.camera.near = 0.5;
+    mainLight.shadow.camera.far = 60;
+    mainLight.shadow.camera.left = -14;
+    mainLight.shadow.camera.right = 14;
+    mainLight.shadow.camera.top = 14;
+    mainLight.shadow.camera.bottom = -14;
+    scene.add(mainLight);
+
+    const skyFill = new THREE.DirectionalLight(0xf97316, 1.10);
+    skyFill.position.set(-8, 2, -6);
+    scene.add(skyFill);
+
+    const groundBounce = new THREE.DirectionalLight(0x1e3a5f, 0.45);
+    groundBounce.position.set(0, -10, 4);
+    scene.add(groundBounce);
+
+    const orangeBounceLight = new THREE.PointLight(0xf97316, 0.3, 12, 2.4);
+    orangeBounceLight.position.set(2.4, -4.5, 2.0);
+    scene.add(orangeBounceLight);
+
+    let isFocused = false;
+    let focusedIndex = null;
+    let isTransitioning = false; 
+    let scrollProgress = 0.07800; 
+    let targetScrollProgress = 0.07800;
+    let activeProjectIndex = 8; // Starts centered on MCIM (09)
+
+    let scrollVelocity = 0.0;
+    const FRICTION = 0.82;
+    const WHEEL_SENSITIVITY = 0.00015;
+    const TOUCH_SENSITIVITY = 0.0008;
+
+    let lastInteractionTime = Date.now();
+    let autoScrollDirection = 1;
+    const AUTO_SCROLL_SPEED = 0.00018; 
+    const IDLE_TIME_THRESHOLD = 5000;  
+
+    function resetIdleTimer() {
+      lastInteractionTime = Date.now();
+    }
+
+    window.addEventListener('wheel', (e) => {
+      if (isFocused || isIndexOpen || isImpactOpen || isLabOpen || isLabDetailOpen) return;
+      e.preventDefault();
+      resetIdleTimer();
+      const clamped = Math.max(-40, Math.min(40, e.deltaY));
+      scrollVelocity += clamped * WHEEL_SENSITIVITY;
+    }, { passive: false });
+
+    let touchStart = 0;
+    window.addEventListener('touchstart', (e) => {
+      resetIdleTimer();
+      touchStart = e.touches[0].clientY;
+      scrollVelocity = 0;
+    });
+    window.addEventListener('touchmove', (e) => {
+      if (isFocused || isIndexOpen || isImpactOpen || isLabOpen || isLabDetailOpen) return;
+      resetIdleTimer();
+      const delta = touchStart - e.touches[0].clientY;
+      scrollVelocity += delta * TOUCH_SENSITIVITY;
+      touchStart = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener('keydown', (e) => {
+      if (isFocused || isIndexOpen || isImpactOpen || isLabOpen || isLabDetailOpen) return;
+      const down = e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown';
+      const up   = e.key === 'ArrowUp'   || e.key === 'ArrowLeft'  || e.key === 'PageUp';
+      if (!down && !up) return;
+      e.preventDefault();
+      resetIdleTimer();
+      scrollVelocity += (down ? 1 : -1) * 0.012;
+    });
+
+    function tickScroll() {
+      scrollProgress += scrollVelocity;
+      scrollVelocity *= FRICTION;
+      
+      if (Date.now() - lastInteractionTime > IDLE_TIME_THRESHOLD && Math.abs(scrollVelocity) < 0.0001) {
+        if (scrollProgress >= 0.95) {
+          autoScrollDirection = -1;
+        } else if (scrollProgress <= 0.05) {
+          autoScrollDirection = 1;
+        }
+        scrollProgress += autoScrollDirection * AUTO_SCROLL_SPEED;
+      }
+
+      scrollProgress = Math.max(0, Math.min(1, scrollProgress));
+      if (Math.abs(scrollVelocity) < 0.00001) scrollVelocity = 0;
+      targetScrollProgress = scrollProgress;
+    }
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let hoveredMesh = null;
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    let clickStartX = 0;
+    let clickStartY = 0;
+    const webglContainer = document.getElementById('webgl-container');
+
+    webglContainer.addEventListener('mousedown', (e) => {
+      clickStartX = e.clientX;
+      clickStartY = e.clientY;
+    });
+
+    webglContainer.addEventListener('click', (e) => {
+      if (isIndexOpen || isImpactOpen || isLabOpen || isLabDetailOpen) return;
+      if (suppressNextCanvasClick) { suppressNextCanvasClick = false; return; }
+      if (isFocused) return;
+      const dx = e.clientX - clickStartX;
+      const dy = e.clientY - clickStartY;
+      if (Math.sqrt(dx*dx + dy*dy) > 10) return;
+
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(screensGroup.children, true);
+
+      if (intersects.length > 0) {
+        let rootObj = intersects[0].object;
+        while (rootObj.parent && rootObj.parent !== screensGroup) {
+          rootObj = rootObj.parent;
+        }
+        
+        const projIdx = rootObj.userData.projectIndex;
+        if (projIdx !== undefined) {
+          focusOnProject(projIdx);
+        }
+      }
+    });
+
+    function focusOnProject(index) {
+      if (isFocused && focusedIndex === index) return;
+      
+      const isTransition = isFocused; 
+      const prevIndex = focusedIndex;
+      
+      isFocused = true;
+      isTransitioning = true;
+      focusedIndex = index;
+      activeProjectIndex = index;
+
+      if (isTransition && prevIndex !== null) {
+        const prevMesh = activeProjectMeshes[prevIndex];
+        if (prevMesh) {
+          gsap.killTweensOf(prevMesh.position);
+          gsap.killTweensOf(prevMesh.rotation);
+          gsap.killTweensOf(prevMesh.scale);
+          gsap.killTweensOf(prevMesh.userData.bracketGroup.rotation);
+          
+          gsap.to(prevMesh.position, {
+            x: prevMesh.userData.origPosition.x,
+            y: prevMesh.userData.origPosition.y,
+            z: prevMesh.userData.origPosition.z,
+            duration: 0.8,
+            ease: "power2.out"
+          });
+          gsap.to(prevMesh.rotation, {
+            x: prevMesh.userData.origRotation.x,
+            y: prevMesh.userData.origRotation.y,
+            z: prevMesh.userData.origRotation.z,
+            duration: 0.8,
+            ease: "power2.out"
+          });
+          gsap.to(prevMesh.scale, {
+            x: prevMesh.userData.origScale.x,
+            y: prevMesh.userData.origScale.y,
+            z: prevMesh.userData.origScale.z,
+            duration: 0.8,
+            ease: "power2.out"
+          });
+          gsap.to(prevMesh.userData.bracketGroup.rotation, {
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out"
+          });
+        }
+      }
+
+      const targetMesh = activeProjectMeshes[index];
+
+      const angle = targetMesh.userData.angle;
+      const outwardX = Math.cos(angle);
+      const outwardZ = Math.sin(angle);
+
+      const localTargetPos = targetMesh.userData.origPosition.clone().add(new THREE.Vector3(outwardX * 1.40, 1.10, outwardZ * 1.40));
+      const localTargetRot = targetMesh.userData.origRotation.clone();
+      localTargetRot.y -= 0.12; 
+      localTargetRot.x += 0.04;
+
+      const targetScroll = 0.95 - (index * 0.109);
+
+      const tempScrollObj = { value: scrollProgress };
+      gsap.killTweensOf(tempScrollObj);
+      gsap.to(tempScrollObj, {
+        value: targetScroll,
+        duration: isTransition ? 0.9 : 1.2,
+        ease: "power2.inOut",
+        onUpdate: () => {
+          scrollProgress = tempScrollObj.value;
+          targetScrollProgress = tempScrollObj.value;
+          
+          const maxRotation = Math.PI * 2 * (revolutions - 0.5); 
+          spiralGroup.rotation.y = -scrollProgress * maxRotation;
+          const yTravel = heightSpan - 4.5;
+          spiralGroup.position.y = (scrollProgress * yTravel) - (yTravel / 2) - 0.6;
+        }
+      });
+
+      const maxRotation = Math.PI * 2 * (revolutions - 0.5);
+      const finalSpiralY = (targetScroll * (heightSpan - 4.5)) - ((heightSpan - 4.5) / 2) - 0.6;
+      const finalSpiralRotY = -targetScroll * maxRotation;
+
+      const worldPos = localTargetPos.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), finalSpiralRotY);
+      worldPos.y += finalSpiralY;
+
+      const isDesktop = window.innerWidth >= 1280;
+      const isLaptop = window.innerWidth >= 1024 && window.innerWidth < 1280;
+      
+      let camXOffset = isDesktop ? 1.45 : (isLaptop ? 1.15 : 0.0);
+
+      const targetCamPos = new THREE.Vector3(
+        worldPos.x + camXOffset,
+        worldPos.y + 0.10,
+        worldPos.z + 3.8
+      );
+
+      const targetLookAt = new THREE.Vector3(
+        worldPos.x + camXOffset,
+        worldPos.y,
+        worldPos.z
+      );
+
+      gsap.killTweensOf(camera.position);
+      gsap.killTweensOf(cameraTarget);
+
+      gsap.to(camera.position, {
+        x: targetCamPos.x,
+        y: targetCamPos.y,
+        z: targetCamPos.z,
+        duration: isTransition ? 0.9 : 1.2,
+        ease: "power2.inOut",
+        onComplete: () => {
+          isTransitioning = false;
+        }
+      });
+
+      gsap.to(cameraTarget, {
+        x: targetLookAt.x,
+        y: targetLookAt.y,
+        z: targetLookAt.z,
+        duration: isTransition ? 0.9 : 1.2,
+        ease: "power2.inOut",
+        onUpdate: () => {
+          camera.lookAt(cameraTarget);
+        }
+      });
+
+      gsap.killTweensOf(targetMesh.position);
+      gsap.killTweensOf(targetMesh.rotation);
+      gsap.killTweensOf(targetMesh.scale);
+      gsap.killTweensOf(targetMesh.userData.bracketGroup.rotation);
+
+      gsap.to(targetMesh.position, {
+        x: localTargetPos.x,
+        y: localTargetPos.y,
+        z: localTargetPos.z,
+        duration: isTransition ? 0.9 : 1.2,
+        ease: "power2.inOut"
+      });
+
+      gsap.to(targetMesh.rotation, {
+        x: localTargetRot.x,
+        y: localTargetRot.y,
+        z: localTargetRot.z,
+        duration: isTransition ? 0.9 : 1.2,
+        ease: "power2.inOut"
+      });
+
+      gsap.to(targetMesh.scale, {
+        x: targetMesh.userData.origScale.x,
+        y: targetMesh.userData.origScale.y,
+        z: targetMesh.userData.origScale.z,
+        duration: isTransition ? 0.9 : 1.2,
+        ease: "power2.inOut"
+      });
+
+      gsap.to(targetMesh.userData.bracketGroup.rotation, {
+        y: 0.38,
+        duration: isTransition ? 0.9 : 1.2,
+        ease: "power2.inOut"
+      });
+
+      if (hudPrompt) {
+        hudPrompt.style.opacity = '0';
+      }
+
+      populateDrawer(index);
+      
+      if (!isTransition) {
+        setTimeout(() => {
+          if (projectDrawer) {
+            projectDrawer.classList.remove('translate-x-full');
+          }
+        }, 300);
+      }
+    }
+
+    function closeProjectDrawer() {
+      if (!isFocused) return;
+      
+      const targetMesh = activeProjectMeshes[focusedIndex];
+      isFocused = false;
+      isTransitioning = true;
+      focusedIndex = null;
+      resetIdleTimer();
+
+      if (projectDrawer) {
+        projectDrawer.classList.add('translate-x-full');
+      }
+
+      if (targetMesh) {
+        gsap.killTweensOf(targetMesh.position);
+        gsap.killTweensOf(targetMesh.rotation);
+        gsap.killTweensOf(targetMesh.scale);
+        gsap.killTweensOf(targetMesh.userData.bracketGroup.rotation);
+        
+        gsap.to(targetMesh.position, {
+          x: targetMesh.userData.origPosition.x,
+          y: targetMesh.userData.origPosition.y,
+          z: targetMesh.userData.origPosition.z,
+          duration: 0.9,
+          ease: "power2.out"
+        });
+        gsap.to(targetMesh.rotation, {
+          x: targetMesh.userData.origRotation.x,
+          y: targetMesh.userData.origRotation.y,
+          z: targetMesh.userData.origRotation.z,
+          duration: 0.9,
+          ease: "power2.out"
+        });
+        gsap.to(targetMesh.scale, {
+          x: targetMesh.userData.origScale.x,
+          y: targetMesh.userData.origScale.y,
+          z: targetMesh.userData.origScale.z,
+          duration: 0.9,
+          ease: "power2.out"
+        });
+        gsap.to(targetMesh.userData.bracketGroup.rotation, {
+          y: 0,
+          duration: 0.9,
+          ease: "power2.out"
+        });
+      }
+
+      const defaultTargetY = 0.2;
+      const defaultCamPos = new THREE.Vector3(
+        mouseLerpX * 0.8,
+        1.8 + (mouseLerpY * 0.5),
+        9.8 - (Math.abs(mouseLerpX) * 0.4)
+      );
+
+      gsap.killTweensOf(camera.position);
+      gsap.killTweensOf(cameraTarget);
+
+      gsap.to(camera.position, {
+        x: defaultCamPos.x,
+        y: defaultCamPos.y,
+        z: defaultCamPos.z,
+        duration: 0.9,
+        ease: "power2.out",
+        onComplete: () => {
+          isTransitioning = false;
+        }
+      });
+
+      gsap.to(cameraTarget, {
+        x: 0,
+        y: defaultTargetY,
+        z: 0,
+        duration: 0.9,
+        ease: "power2.out",
+        onUpdate: () => {
+          camera.lookAt(cameraTarget);
+        }
+      });
+    }
+
+    if (closeDrawerBtn) {
+      closeDrawerBtn.addEventListener('click', closeProjectDrawer);
+    }
+
+    let suppressNextCanvasClick = false;
+    document.addEventListener('pointerdown', (e) => {
+      if (!isFocused) return;
+      if (projectDrawer && projectDrawer.contains(e.target)) return;
+      if (lightboxModal && lightboxModal.contains(e.target)) return;
+      if (infoModal && infoModal.contains(e.target)) return;
+      if (impactOverlay && impactOverlay.contains(e.target)) return;
+      if (labOverlay && labOverlay.contains(e.target)) return;
+      if (labDetail && labDetail.contains(e.target)) return;
+      closeProjectDrawer();
+      suppressNextCanvasClick = true;
+    }, true);
+
+    let isIndexOpen = false;
+
+    function renderIndexTable() {
+      if (!indexTableBody) return;
+      indexTableBody.innerHTML = '';
+
+      const reversedProjects = projects.slice().reverse();
+
+      reversedProjects.forEach((proj) => {
+        const originalIdx = projects.findIndex(p => p.num === proj.num);
+        const tr = document.createElement('tr');
+        tr.className = 'index-row group hover:bg-orange-500/10 hover:text-orange-400 cursor-pointer transition-colors duration-150 border-b border-zinc-800/40';
+
+        tr.innerHTML = `
+          <td class="py-4 px-2 text-orange-500 font-bold group-hover:translate-x-1 transition-transform">${proj.num}</td>
+          <td class="py-4 px-4 font-syne font-extrabold text-lg tracking-wider text-zinc-100 group-hover:text-orange-400 transition-colors">
+            ${proj.title}
+            <span class="block font-mono-space text-xs font-normal text-zinc-500 group-hover:text-zinc-300">${proj.tagline}</span>
+          </td>
+          <td class="py-4 px-4 hidden md:table-cell text-zinc-400 font-mono-space text-xs uppercase">${proj.tag}</td>
+          <td class="py-4 px-4 hidden sm:table-cell text-zinc-500 font-mono-space text-xs">${proj.services}</td>
+          <td class="py-4 px-4 text-right font-mono-space text-zinc-400">${proj.date}</td>
+          <td class="py-4 px-2 text-right">
+            <span class="inline-flex items-center gap-1 text-[10px] font-bold tracking-widest text-zinc-400 group-hover:text-orange-400 group-hover:translate-x-1 transition-all">
+              VIEW <i data-lucide="arrow-right" class="w-3 h-3"></i>
+            </span>
+          </td>
+        `;
+
+        tr.addEventListener('mouseenter', () => {
+          if (indexPreviewImg && proj.images && proj.images[0]) {
+            indexPreviewImg.src = proj.images[0];
+            if (indexPreviewTitle) indexPreviewTitle.innerText = proj.title;
+            if (indexPreviewNum) indexPreviewNum.innerText = proj.num;
+            if (indexHoverPreview) {
+              indexHoverPreview.classList.remove('opacity-0');
+              indexHoverPreview.classList.add('opacity-100');
+            }
+          }
+        });
+
+        tr.addEventListener('mouseleave', () => {
+          if (indexHoverPreview) {
+            indexHoverPreview.classList.remove('opacity-100');
+            indexHoverPreview.classList.add('opacity-0');
+          }
+        });
+
+        tr.addEventListener('click', () => {
+          closeIndexOverlay();
+          setTimeout(() => {
+            focusOnProject(originalIdx);
+          }, 150);
+        });
+
+        indexTableBody.appendChild(tr);
+      });
+
+      lucide.createIcons();
+      registerHoverEvents();
+    }
+
+    function openIndexOverlay() {
+      if (isIndexOpen) return;
+      isIndexOpen = true;
+      if (indexOverlay) {
+        indexOverlay.classList.remove('pointer-events-none', 'opacity-0');
+        indexOverlay.classList.add('opacity-100');
+      }
+      renderIndexTable();
+    }
+
+    function closeIndexOverlay() {
+      if (!isIndexOpen) return;
+      isIndexOpen = false;
+      if (indexOverlay) {
+        indexOverlay.classList.add('pointer-events-none', 'opacity-0');
+        indexOverlay.classList.remove('opacity-100');
+      }
+      if (indexHoverPreview) {
+        indexHoverPreview.classList.remove('opacity-100');
+        indexHoverPreview.classList.add('opacity-0');
+      }
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      if (isIndexOpen && indexHoverPreview) {
+        indexHoverPreview.style.left = `${e.clientX + 220}px`;
+        indexHoverPreview.style.top = `${e.clientY - 40}px`;
+      }
+    });
+
+    if (navIndexBtn) navIndexBtn.addEventListener('click', (e) => { e.preventDefault(); openIndexOverlay(); });
+    if (closeIndexBtn) closeIndexBtn.addEventListener('click', (e) => { e.preventDefault(); closeIndexOverlay(); });
+
+    /* LAB — sparse gallery of personal experiments */
+    function renderLabGrid() {
+      if (!labGrid) return;
+      labGrid.innerHTML = '';
+      const offsets = ['', 'md:translate-y-10', 'md:-translate-y-6'];
+      labItems.forEach((item, i) => {
+        const div = document.createElement('div');
+        div.className = `lab-item cursor-pointer group ${offsets[i % offsets.length]} transition-transform duration-300`;
+        div.innerHTML = `
+          <div class="relative aspect-video overflow-hidden border border-zinc-800 bg-zinc-900 group-hover:border-orange-500 transition-colors duration-300">
+            <img src="${item.image}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="${item.title}" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+        `;
+        div.addEventListener('click', () => openLabDetail(i));
+        labGrid.appendChild(div);
+      });
+    }
+
+    function openLabOverlay() {
+      if (isLabOpen) return;
+      isLabOpen = true;
+      if (labOverlay) {
+        labOverlay.classList.remove('pointer-events-none', 'opacity-0');
+        labOverlay.classList.add('opacity-100');
+      }
+      renderLabGrid();
+      lucide.createIcons();
+    }
+
+    function closeLabOverlay() {
+      if (!isLabOpen) return;
+      isLabOpen = false;
+      if (labOverlay) {
+        labOverlay.classList.add('pointer-events-none', 'opacity-0');
+        labOverlay.classList.remove('opacity-100');
+      }
+    }
+
+    function openLabDetail(index) {
+      if (!labDetail || !labItems[index]) return;
+      currentLabIndex = index;
+      const item = labItems[index];
+      if (labDetailImg) labDetailImg.src = item.image;
+      if (labDetailTitle) labDetailTitle.innerText = item.title;
+      if (labDetailDesc) labDetailDesc.innerText = item.desc;
+      if (labDetailNum) labDetailNum.innerText = `${String(index + 1).padStart(2, '0')} / ${String(labItems.length).padStart(2, '0')}`;
+      isLabDetailOpen = true;
+      labDetail.classList.remove('pointer-events-none', 'opacity-0');
+      labDetail.classList.add('opacity-100');
+    }
+
+    function closeLabDetail() {
+      if (!labDetail) return;
+      isLabDetailOpen = false;
+      labDetail.classList.add('pointer-events-none', 'opacity-0');
+      labDetail.classList.remove('opacity-100');
+    }
+
+    function navigateLabDetail(delta) {
+      let next = (currentLabIndex + delta + labItems.length) % labItems.length;
+      openLabDetail(next);
+    }
+
+    const navLabBtn = document.getElementById('nav-lab');
+    if (navLabBtn) navLabBtn.addEventListener('click', (e) => { e.preventDefault(); openLabOverlay(); });
+    if (closeLabBtn) closeLabBtn.addEventListener('click', (e) => { e.preventDefault(); closeLabOverlay(); });
+    if (closeLabDetailBtn) closeLabDetailBtn.addEventListener('click', (e) => { e.stopPropagation(); closeLabDetail(); });
+    if (labDetailPrevBtn) labDetailPrevBtn.addEventListener('click', (e) => { e.stopPropagation(); navigateLabDetail(-1); });
+    if (labDetailNextBtn) labDetailNextBtn.addEventListener('click', (e) => { e.stopPropagation(); navigateLabDetail(1); });
+
+    let activeSlides = [];
+    let currentSlideIndex = 0;
+    let activeSlideIndexInDrawer = 0;
+
+    function getSlidePlaceholder(p, slideIndex) {
+      if (slideIndex === 0) {
+        if (p.images && p.images[0]) return p.images[0];
+        const c = document.createElement('canvas');
+        c.width = 1024; c.height = 768;
+        const ctx = c.getContext('2d');
+        const grad = ctx.createLinearGradient(0,0,1024,768);
+        grad.addColorStop(0, p.colors[0]);
+        grad.addColorStop(1, p.colors[1] || p.colors[0]);
+        ctx.fillStyle = grad;
+        ctx.fillRect(0,0,1024,768);
+        return c.toDataURL();
+      } else {
+        const imgIndex = slideIndex - 1;
+        const extras = p.images ? p.images.slice(1) : [];
+        if (extras[imgIndex]) return extras[imgIndex];
+        
+        const c = document.createElement('canvas');
+        c.width = 1024; c.height = 768;
+        const ctx = c.getContext('2d');
+        const grad = ctx.createLinearGradient(0,0,1024,768);
+        const c0 = p.colors[slideIndex % p.colors.length] || '#1a1a1a';
+        const c1 = p.colors[(slideIndex + 1) % p.colors.length] || '#333';
+        grad.addColorStop(0, c0);
+        grad.addColorStop(1, c1);
+        ctx.fillStyle = grad;
+        ctx.fillRect(0,0,1024,768);
+        return c.toDataURL();
+      }
+    }
+
+    function swapCover(src, p) {
+      const cover = document.getElementById('drawer-cover-media') || document.getElementById('drawer-cover');
+      if (!cover) return;
+      cover.innerHTML = '';
+      const img = document.createElement('img');
+      img.src = src;
+      img.className = 'w-full h-auto block select-none pointer-events-none';
+      img.style.transition = 'opacity 0.3s';
+      img.style.opacity = '0';
+      cover.appendChild(img);
+      requestAnimationFrame(() => { img.style.opacity = '1'; });
+    }
+
+    function swapCoverCanvas(canvas, p) {
+      const cover = document.getElementById('drawer-cover-media') || document.getElementById('drawer-cover');
+      if (!cover) return;
+      cover.innerHTML = '';
+      const clone = canvas.cloneNode(true);
+      clone.style.cssText = 'width:100%; height:auto; display:block; border-radius:0; object-fit:cover; opacity:0; transition:opacity 0.3s;';
+      cover.appendChild(clone);
+      requestAnimationFrame(() => { clone.style.opacity = '1'; });
+    }
+
+    function populateDrawer(index) {
+      const p = projects[index];
+      const el = id => document.getElementById(id);
+
+      if (el('drawer-tag'))         el('drawer-tag').innerText = p.tag;
+      if (el('drawer-date'))        el('drawer-date').innerText = p.date;
+      if (el('drawer-title'))       el('drawer-title').innerText = p.title;
+      if (el('drawer-tagline'))     el('drawer-tagline').innerText = p.tagline;
+      if (el('drawer-client'))      el('drawer-client').innerText = p.client;
+      if (el('drawer-services'))    el('drawer-services').innerText = p.services;
+      if (el('drawer-description')) {
+        const formattedDesc = p.desc.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-orange-500 underline hover:text-orange-400 transition-colors">$1</a>');
+        el('drawer-description').innerHTML = formattedDesc;
+      }
+
+      activeSlides = [];
+      
+      for (let i = 0; i <= 7; i++) {
+        activeSlides.push(getSlidePlaceholder(p, i));
+      }
+      activeSlideIndexInDrawer = 0;
+
+      const cover = el('drawer-cover-media') || el('drawer-cover');
+      if (cover) {
+        cover.innerHTML = '';
+        if (p.images && p.images[0]) {
+          const img = document.createElement('img');
+          img.src = p.images[0];
+          img.className = 'w-full h-auto block select-none pointer-events-none';
+          cover.appendChild(img);
+        } else {
+          cover.style.background = `linear-gradient(135deg, ${p.colors[0]}, ${p.colors[1] || p.colors[0]})`;
+        }
+      }
+
+      const imagesSection = el('drawer-images-section');
+      const imagesGrid = el('drawer-images-grid');
+      if (imagesGrid) {
+        imagesGrid.innerHTML = '';
+        const extras = p.images ? p.images.slice(1, 8) : [];
+
+        const count = 7;
+        for (let i = 0; i < count; i++) {
+          if (extras[i]) {
+            const img = document.createElement('img');
+            img.src = extras[i];
+            img.loading = 'lazy';
+            img.decoding = 'async';
+            img.className = 'w-full aspect-[16/11] rounded-lg object-cover bg-stone-100 cursor-pointer ring-2 ring-transparent hover:ring-black transition-all duration-200';
+            img.addEventListener('click', () => {
+              swapCover(img.src, p);
+              activeSlideIndexInDrawer = i + 1;
+            });
+            imagesGrid.appendChild(img);
+          } else {
+            const canvas = document.createElement('canvas');
+            canvas.width = 160;
+            canvas.height = 110;
+            canvas.className = 'w-full aspect-[16/11] rounded-lg cursor-pointer';
+            canvas.style.cssText = 'border-radius:8px; outline:2px solid transparent; transition: outline-color 0.2s;';
+            canvas.addEventListener('mouseenter', () => canvas.style.outlineColor = '#000000');
+            canvas.addEventListener('mouseleave', () => canvas.style.outlineColor = 'transparent');
+            
+            const ctx = canvas.getContext('2d');
+            const c0 = p.colors[i % p.colors.length] || '#1a1a1a';
+            const c1 = p.colors[(i + 1) % p.colors.length] || '#333';
+            const grad = ctx.createLinearGradient(0, 0, 160, 110);
+            grad.addColorStop(0, c0);
+            grad.addColorStop(1, c1);
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 160, 110);
+            canvas.addEventListener('click', () => {
+              swapCoverCanvas(canvas, p);
+              activeSlideIndexInDrawer = i + 1;
+            });
+            imagesGrid.appendChild(canvas);
+          }
+        }
+        if (imagesSection) imagesSection.style.display = '';
+      }
+
+      if (prevProjectBtn) {
+        prevProjectBtn.disabled = (index === projects.length - 1); 
+      }
+      if (nextProjectBtn) {
+        nextProjectBtn.disabled = (index === 0); 
+      }
+
+      if (activeNum) activeNum.innerText = p.num;
+      if (activeTitleLabel) activeTitleLabel.innerText = p.title;
+      if (activeCategoryLabel) activeCategoryLabel.innerText = p.tag;
+    }
+
+    function navigateToProject(index) {
+      if (index < 0 || index >= projects.length) return;
+      focusOnProject(index);
+    }
+
+    if (prevProjectBtn) {
+      prevProjectBtn.addEventListener('click', () => {
+        navigateToProject(activeProjectIndex + 1);
+      });
+    }
+
+    if (nextProjectBtn) {
+      nextProjectBtn.addEventListener('click', () => {
+        navigateToProject(activeProjectIndex - 1);
+      });
+    }
+
+    function openInfoModal(type) {
+      if (infoModal) {
+        infoModal.classList.remove('pointer-events-none');
+        infoModal.classList.add('opacity-100');
+      }
+      
+      if (type === 'about' && infoModalTitle && infoModalContent) {
+        infoModalTitle.innerText = "ABOUT";
+        infoModalContent.innerHTML = `
+          <div class="flex items-center gap-4 mb-2">
+            <img src="https://x02.me/i/Q87H7A.webp" onerror="this.src='https://placehold.co/120x120/111316/f97316?text=MB'" class="w-16 h-16 rounded-full border border-orange-500/50 object-cover shadow-lg shrink-0" alt="Matt Brissette">
+            <div>
+              <h4 class="text-zinc-100 font-syne font-bold text-lg tracking-wider">MATT BRISSETTE</h4>
+              <p class="text-[10px] text-orange-500 font-mono-space uppercase tracking-widest">Visual Design · Art Direction · Digital Product</p>
+            </div>
+          </div>
+          <p class="text-zinc-300 leading-relaxed text-xs sm:text-sm">I specialize in visual design, art direction, and digital products, based in the Gatineau–Ottawa region, with 12 years of experience creating products, brands, and digital experiences across SaaS, eCommerce, and marketing. I integrate GenAI into my design workflow to accelerate research, content exploration, prototyping, and iteration while keeping user needs and business goals at the center of every decision. I'm also exploring 3D, WebGL, and creative technologies to craft more immersive digital experiences.</p>
+        `;
+      } else if (type === 'contact' && infoModalTitle && infoModalContent) {
+        infoModalTitle.innerText = "GET IN TOUCH";
+        infoModalContent.innerHTML = `
+          <p class="text-zinc-300 leading-relaxed">I'm always interested in meeting great people and working on meaningful products. Whether you're hiring, looking for a design partner, or just want to connect, feel free to reach out. Je parle français aussi :)</p>
+          <div class="space-y-3 pt-4 border-t border-zinc-800 mt-4">
+            <div class="flex justify-between items-center text-xs pb-1">
+              <span class="text-zinc-500 font-mono-space">EMAIL:</span>
+              <a href="mailto:matthieubrissette@gmail.com" class="font-bold text-zinc-200 hover:text-orange-500 transition-colors">matthieubrissette@gmail.com</a>
+            </div>
+            <div class="flex justify-between items-center text-xs pb-1">
+              <span class="text-zinc-500 font-mono-space">LINKEDIN:</span>
+              <a href="https://linkedin.com/in/mattbrissette" target="_blank" rel="noopener noreferrer" class="font-bold text-zinc-200 hover:text-orange-500 transition-colors">linkedin.com/in/mattbrissette</a>
+            </div>
+            <div class="flex justify-between items-center text-xs pb-1">
+              <span class="text-zinc-500 font-mono-space">GITHUB:</span>
+              <a href="https://github.com/MattBrissette" target="_blank" rel="noopener noreferrer" class="font-bold text-zinc-200 hover:text-orange-500 transition-colors">github.com/MattBrissette</a>
+            </div>
+            <div class="flex justify-between items-center text-xs pb-1">
+              <span class="text-zinc-500 font-mono-space">BEHANCE:</span>
+              <a href="https://www.behance.net/matthieubrissette" target="_blank" rel="noopener noreferrer" class="font-bold text-zinc-200 hover:text-orange-500 transition-colors">behance.net/matthieubrissette</a>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    const navAbout = document.getElementById('nav-about');
+    const navContact = document.getElementById('nav-contact');
+
+    if (navAbout) navAbout.addEventListener('click', (e) => { e.preventDefault(); openInfoModal('about'); });
+    if (navContact) navContact.addEventListener('click', (e) => { e.preventDefault(); openInfoModal('contact'); });
+    if (closeInfoModalBtn) {
+      closeInfoModalBtn.addEventListener('click', () => {
+        if (infoModal) {
+          infoModal.classList.add('pointer-events-none');
+          infoModal.classList.remove('opacity-100');
+        }
+      });
+    }
+
+    let isZoomed = false;
+    let isDraggingImg = false;
+    let startX = 0, startY = 0;
+    let translateX = 0, translateY = 0;
+    let currentX = 0, currentY = 0;
+    const ZOOM_FACTOR = 2.2;
+
+    function openLightbox(slideIndex) {
+      if (!lightboxModal || !lightboxImg) return;
+      
+      currentSlideIndex = slideIndex;
+      lightboxModal.classList.remove('pointer-events-none');
+      lightboxModal.classList.add('opacity-100');
+
+      const thumbsContainer = document.getElementById('lightbox-thumbnails');
+      if (thumbsContainer) {
+        thumbsContainer.innerHTML = '';
+        activeSlides.forEach((slideSrc, i) => {
+          const thumb = document.createElement('img');
+          thumb.src = slideSrc;
+          thumb.className = `w-14 h-10 object-cover rounded border cursor-pointer transition-all duration-200 ${i === currentSlideIndex ? 'border-white opacity-100 scale-105' : 'border-transparent opacity-40 hover:opacity-80'}`;
+          thumb.addEventListener('click', (e) => {
+            e.stopPropagation();
+            updateLightboxSlide(i);
+          });
+          thumbsContainer.appendChild(thumb);
+        });
+      }
+
+      updateLightboxSlide(slideIndex);
+    }
+
+    function updateLightboxSlide(index) {
+      const totalSlides = activeSlides.length || 8;
+      if (index < 0) index = totalSlides - 1; 
+      if (index >= totalSlides) index = 0;
+
+      currentSlideIndex = index;
+      
+      isZoomed = false;
+      isDraggingImg = false;
+      translateX = 0;
+      translateY = 0;
+      currentX = 0;
+      currentY = 0;
+      
+      lightboxImg.classList.add('transition-transform', 'duration-300', 'ease-out');
+      lightboxImg.src = activeSlides[currentSlideIndex];
+      lightboxImg.className = "max-w-full max-h-full object-contain cursor-zoom-in transition-transform duration-300 ease-out select-none";
+      lightboxImg.style.transform = 'scale(1) translate(0px, 0px)';
+
+      if (lightboxIndicator) {
+        lightboxIndicator.innerText = `IMAGE ${currentSlideIndex + 1} OF ${totalSlides} // Click Image to Zoom / Drag to Pan`;
+      }
+
+      const thumbsContainer = document.getElementById('lightbox-thumbnails');
+      if (thumbsContainer) {
+        const children = thumbsContainer.children;
+        for (let i = 0; i < children.length; i++) {
+          if (i === currentSlideIndex) {
+            children[i].className = 'w-14 h-10 object-cover rounded border border-white opacity-100 scale-105 transition-all duration-200';
+          } else {
+            children[i].className = 'w-14 h-10 object-cover rounded border border-transparent opacity-40 hover:opacity-80 transition-all duration-200';
+          }
+        }
+      }
+    }
+
+    function closeLightbox() {
+      if (!lightboxModal) return;
+      lightboxModal.classList.add('pointer-events-none');
+      lightboxModal.classList.remove('opacity-100');
+    }
+
+    if (closeLightboxBtn) {
+      closeLightboxBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeLightbox();
+      });
+    }
+
+    const btnPrev = document.getElementById('lightbox-prev');
+    const btnNext = document.getElementById('lightbox-next');
+    if (btnPrev) {
+      btnPrev.addEventListener('click', (e) => {
+        e.stopPropagation();
+        updateLightboxSlide(currentSlideIndex - 1);
+      });
+    }
+    if (btnNext) {
+      btnNext.addEventListener('click', (e) => {
+        e.stopPropagation();
+        updateLightboxSlide(currentSlideIndex + 1);
+      });
+    }
+
+    function handleKeyEvents(e) {
+      const isInputFocused = document.activeElement && ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName);
+      
+      if (lightboxModal && !lightboxModal.classList.contains('pointer-events-none')) {
+        if (e.key === 'ArrowLeft') {
+          updateLightboxSlide(currentSlideIndex - 1);
+        } else if (e.key === 'ArrowRight') {
+          updateLightboxSlide(currentSlideIndex + 1);
+        } else if (e.key === 'Escape') {
+          closeLightbox();
+        }
+      } else if (isLabDetailOpen) {
+        if (e.key === 'ArrowLeft') {
+          navigateLabDetail(-1);
+        } else if (e.key === 'ArrowRight') {
+          navigateLabDetail(1);
+        } else if (e.key === 'Escape') {
+          closeLabDetail();
+        }
+      } else if (isLabOpen) {
+        if (e.key === 'Escape') {
+          closeLabOverlay();
+        }
+      } else if (isImpactOpen) {
+        if (e.key === 'Escape') {
+          closeImpactOverlay();
+        }
+      } else if (isIndexOpen) {
+        if (e.key === 'Escape' || e.key === 'i' || e.key === 'I') {
+          closeIndexOverlay();
+        }
+      } else if (!isInputFocused) {
+        if (e.key === 'i' || e.key === 'I') {
+          openIndexOverlay();
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyEvents, true);
+
+    const drawerCover = document.getElementById('drawer-cover');
+    if (drawerCover) {
+      drawerCover.addEventListener('click', () => {
+        openLightbox(activeSlideIndexInDrawer);
+      });
+    }
+
+    if (lightboxImg) {
+      lightboxImg.addEventListener('click', (e) => {
+        if (isDraggingImg) return;
+
+        const totalSlides = activeSlides.length || 8;
+        if (!isZoomed) {
+          isZoomed = true;
+          lightboxImg.classList.remove('cursor-zoom-in');
+          lightboxImg.classList.add('cursor-grab');
+          if (lightboxIndicator) lightboxIndicator.innerText = `IMAGE ${currentSlideIndex + 1} OF ${totalSlides} // Drag to Pan / Click to Zoom Out`;
+          
+          lightboxImg.classList.remove('transition-transform', 'duration-300', 'ease-out');
+          
+          translateX = 0;
+          translateY = 0;
+          currentX = 0;
+          currentY = 0;
+          lightboxImg.style.transform = `scale(${ZOOM_FACTOR}) translate(0px, 0px)`;
+        } else {
+          isZoomed = false;
+          lightboxImg.classList.add('cursor-zoom-in');
+          lightboxImg.classList.remove('cursor-grab', 'cursor-grabbing');
+          if (lightboxIndicator) lightboxIndicator.innerText = `IMAGE ${currentSlideIndex + 1} OF ${totalSlides} // Click Image to Zoom / Drag to Pan`;
+          
+          lightboxImg.classList.add('transition-transform', 'duration-300', 'ease-out');
+          lightboxImg.style.transform = 'scale(1) translate(0px, 0px)';
+          translateX = 0;
+          translateY = 0;
+          currentX = 0;
+          currentY = 0;
+        }
+      });
+
+      lightboxImg.addEventListener('mousedown', (e) => {
+        if (!isZoomed) return;
+        isDraggingImg = false;
+        startX = e.clientX;
+        startY = e.clientY;
+        currentX = translateX;
+        currentY = translateY;
+        
+        lightboxImg.classList.remove('cursor-grab');
+        lightboxImg.classList.add('cursor-grabbing');
+        
+        const onMouseMove = (moveEvent) => {
+          const dx = moveEvent.clientX - startX;
+          const dy = moveEvent.clientY - startY;
+          if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+            isDraggingImg = true;
+          }
+          translateX = currentX + dx / ZOOM_FACTOR;
+          translateY = currentY + dy / ZOOM_FACTOR;
+          
+          lightboxImg.style.transform = `scale(${ZOOM_FACTOR}) translate(${translateX}px, ${translateY}px)`;
+        };
+
+        const onMouseUp = () => {
+          lightboxImg.classList.remove('cursor-grabbing');
+          if (isZoomed) lightboxImg.classList.add('cursor-grab');
+          window.removeEventListener('mousemove', onMouseMove);
+          window.removeEventListener('mouseup', onMouseUp);
+          
+          setTimeout(() => { isDraggingImg = false; }, 50);
+        };
+
+        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('mouseup', onMouseUp);
+      });
+    }
+
+    function getSlidePosition(progressRatio) {
+      const clampedRatio = Math.max(0, Math.min(1, progressRatio));
+      const angle = clampedRatio * Math.PI * 2 * revolutions;
+      const yPos = (clampedRatio * heightSpan) - (heightSpan / 2);
+
+      const r = spiralRadius + (rampWidth * 0.5); 
+      const x = Math.cos(angle) * r;
+      const z = Math.sin(angle) * r;
+
+      return new THREE.Vector3(x, yPos + sphereRadius, z);
+    }
+
+    const clock = new THREE.Clock();
+    let ballProgress = 0.96; 
+    const ballSpeed = 0.05; 
+    let ballDelay = 0; 
+
+    let isTabVisible = true;
+    let renderFrameCount = 0;
+
+    let fpsFrames = 0;
+    let lastFpsCheckTime = performance.now();
+    let lowFpsStartTime = null;
+    let isAdaptiveRatioDowngraded = false;
+
+    document.addEventListener('visibilitychange', () => {
+      isTabVisible = !document.hidden;
+      if (isTabVisible) {
+        clock.getDelta(); 
+        lastFpsCheckTime = performance.now();
+        lowFpsStartTime = null;
+      }
+    });
+
+    function monitorAdaptivePerformance(now) {
+      if (isAdaptiveRatioDowngraded) return;
+
+      fpsFrames++;
+      const timeDelta = now - lastFpsCheckTime;
+
+      if (timeDelta >= 500) {
+        const currentFps = (fpsFrames * 1000) / timeDelta;
+        fpsFrames = 0;
+        lastFpsCheckTime = now;
+
+        const isLightboxOpen = lightboxModal && !lightboxModal.classList.contains('pointer-events-none');
+        const isDrawerFullyOpen = isFocused && !isTransitioning;
+
+        if (!isLightboxOpen && !isDrawerFullyOpen && isTabVisible && !isIndexOpen && !isImpactOpen && !isLabOpen && !isLabDetailOpen) {
+          if (currentFps < 45) {
+            if (!lowFpsStartTime) {
+              lowFpsStartTime = now;
+            } else if (now - lowFpsStartTime >= 2000) {
+              renderer.setPixelRatio(1.0);
+              renderer.setSize(container.clientWidth, container.clientHeight);
+              isAdaptiveRatioDowngraded = true;
+            }
+          } else {
+            lowFpsStartTime = null;
+          }
+        } else {
+          lowFpsStartTime = null;
+        }
+      }
+    }
+
+    function renderLoop(timestamp) {
+      requestAnimationFrame(renderLoop);
+
+      if (!isTabVisible) return;
+
+      renderFrameCount++;
+
+      const isLightboxOpen = lightboxModal && !lightboxModal.classList.contains('pointer-events-none');
+      const isDrawerFullyOpen = isFocused && !isTransitioning;
+
+      if ((isLightboxOpen || isDrawerFullyOpen || isIndexOpen || isImpactOpen || isLabOpen || isLabDetailOpen) && (renderFrameCount % 6 !== 0)) {
+        return;
+      }
+
+      if (timestamp) {
+        monitorAdaptivePerformance(timestamp);
+      }
+
+      mouseLerpX += (mouse.x - mouseLerpX) * 0.05;
+      mouseLerpY += (mouse.y - mouseLerpY) * 0.05;
+
+      const delta = clock.getDelta();
+
+      if (ballDelay > 0) { ballDelay -= delta; } else { ballProgress -= ballSpeed * delta; }
+      if (ballProgress < 0.0) {
+        ballProgress = 1.0; 
+      }
+
+      if (!isFocused && !isIndexOpen && !isImpactOpen && !isLabOpen && !isLabDetailOpen) {
+        tickScroll();
+
+        const maxRotation = Math.PI * 2 * (revolutions - 0.5); 
+        spiralGroup.rotation.y = -scrollProgress * maxRotation;
+
+        const yTravel = heightSpan - 4.5;
+        spiralGroup.position.y = (scrollProgress * yTravel) - (yTravel / 2) - 0.6;
+
+        camera.position.x = mouseLerpX * 0.8;
+        camera.position.y = 1.8 + (mouseLerpY * 0.5);
+        camera.position.z = 9.8 - (Math.abs(mouseLerpX) * 0.4);
+
+        cameraTarget.set(0, 0.2, 0);
+        camera.lookAt(cameraTarget);
+
+        let currentScale = 1.0;
+        if (ballDelay <= 0) {
+          if (ballProgress > 0.94) {
+            currentScale = (1.0 - ballProgress) / 0.06;
+          } else if (ballProgress < 0.06) {
+            currentScale = ballProgress / 0.06;
+          }
+        }
+        obsidianSphere.scale.setScalar(currentScale);
+
+        const pos1 = getSlidePosition(ballProgress);
+        obsidianSphere.position.copy(pos1);
+
+        obsidianSphere.rotation.x -= 0.04 * delta * 60;
+        obsidianSphere.rotation.y -= 0.015 * delta * 60;
+
+        let closestIndex = 0;
+        let minDiff = Infinity;
+        
+        activeProjectMeshes.forEach((mesh, index) => {
+          const worldPos = new THREE.Vector3();
+          mesh.getWorldPosition(worldPos);
+          
+          const distToCenter = Math.pow(worldPos.x, 2) + Math.pow(worldPos.y - 1.2, 2);
+          if (distToCenter < minDiff && worldPos.z > 0) {
+            minDiff = distToCenter;
+            closestIndex = index;
+          }
+        });
+
+        if (closestIndex !== activeProjectIndex) {
+          activeProjectIndex = closestIndex;
+          if (activeNum) activeNum.innerText = projects[closestIndex].num;
+          if (activeTitleLabel) activeTitleLabel.innerText = projects[closestIndex].title;
+          if (activeCategoryLabel) activeCategoryLabel.innerText = projects[closestIndex].tag;
+          
+          gsap.fromTo('#active-num', { opacity: 0.2, y: 5 }, { opacity: 1, y: 0, duration: 0.3 });
+        }
+
+        const activeMesh = activeProjectMeshes[activeProjectIndex];
+        const screenPos = new THREE.Vector3();
+        activeMesh.getWorldPosition(screenPos);
+
+        const tempV = screenPos.clone();
+        tempV.y += 1.32; 
+        tempV.project(camera);
+
+        if (hudPrompt) {
+          if (tempV.z > 0 && tempV.x > -1 && tempV.x < 1 && tempV.y > -1 && tempV.y < 1) {
+            const xScreen = (tempV.x * .5 + .5) * window.innerWidth;
+            const yScreen = (tempV.y * -.5 + .5) * window.innerHeight;
+
+            hudPrompt.style.left = `${xScreen}px`;
+            hudPrompt.style.top = `${yScreen}px`;
+            hudPrompt.style.opacity = '1';
+
+            const hudTextEl = document.getElementById('hud-prompt-text');
+            if (hudTextEl && projects[activeProjectIndex]) {
+              hudTextEl.innerText = projects[activeProjectIndex].client.toUpperCase();
+            }
+          } else {
+            hudPrompt.style.opacity = '0';
+          }
+        }
+
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(screensGroup.children, true);
+
+        if (intersects.length > 0) {
+          let rootObj = intersects[0].object;
+          while (rootObj.parent && rootObj.parent !== screensGroup) {
+            rootObj = rootObj.parent;
+          }
+
+          if (hoveredMesh !== rootObj) {
+            if (hoveredMesh) {
+              gsap.to(hoveredMesh.scale, { x: 1, y: 1, z: 1, duration: 0.3 });
+            }
+            hoveredMesh = rootObj;
+            gsap.to(hoveredMesh.scale, { x: 1.08, y: 1.08, z: 1.08, duration: 0.3 });
+            if (cursor) cursor.style.borderColor = "#f97316";
+          }
+        } else {
+          if (hoveredMesh) {
+            gsap.to(hoveredMesh.scale, { x: 1, y: 1, z: 1, duration: 0.3 });
+            hoveredMesh = null;
+            if (cursor) cursor.style.borderColor = "#7c3a12";
+          }
+        }
+
+        if (scrollProgressIndicator) {
+          scrollProgressIndicator.style.top = `${scrollProgress * 95}%`;
+        }
+      }
+
+      renderer.render(scene, camera);
+    }
+
+    function preloadPrimaryImages() {
+      const preloadTask = () => {
+        projects.forEach((proj) => {
+          if (proj.images && proj.images[0]) {
+            const img = new Image();
+            img.src = proj.images[0];
+          }
+        });
+      };
+
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(preloadTask);
+      } else {
+        setTimeout(preloadTask, 1000);
+      }
+    }
+
+    window.onload = function() {
+      renderLoop();
+      dismissLoadingScreen();
+      preloadPrimaryImages();
+      setupImpactTriggers();
+      gsap.from("header", { opacity: 0, y: -20, duration: 1.2, delay: 0.3, ease: "power2.out" });
+    }
+
+    window.addEventListener('resize', () => {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+  </script>
+</body>
+</html>
