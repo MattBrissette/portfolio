@@ -1512,15 +1512,15 @@
     borderMesh.receiveShadow = true;
     stepsGroup.add(borderMesh);
 
-    // Obsidian sphere setup
+    // Obsidian sphere setup - Mid-tone metallic chrome / dark gunmetal finish
     const obsidianSphereMat = new THREE.MeshPhysicalMaterial({
-      color: 0xffffff,
-      roughness: 0.02,
-      metalness: 1.0,
+      color: 0x585c64,
+      roughness: 0.03,
+      metalness: 0.98,
       clearcoat: 1.0,
-      clearcoatRoughness: 0.01,
+      clearcoatRoughness: 0.015,
       reflectivity: 1.0,
-      envMapIntensity: 3.2
+      envMapIntensity: 2.4
     });
 
     const sphereRadius = 0.35;
