@@ -467,7 +467,7 @@
     </div>
 
     <!-- Hover Preview -->
-    <div id="index-hover-preview" class="fixed pointer-events-none z-[100] hidden md:block opacity-0 w-64 h-40 bg-zinc-900 border border-orange-500/50 shadow-2xl overflow-hidden transition-opacity duration-200 -translate-x-1/2 -translate-y-1/2">
+    <div id="index-hover-preview" class="fixed pointer-events-none z-[100] hidden md:block opacity-0 w-64 h-40 bg-zinc-900 border border-orange-500/50 shadow-2xl overflow-hidden transition-opacity duration-200">
       <img id="index-preview-img" src="" alt="Project Preview" class="w-full h-full object-cover">
       <div class="absolute bottom-0 inset-x-0 p-2 bg-black/80 backdrop-blur text-[9px] font-mono-space text-orange-500 tracking-widest uppercase flex justify-between">
         <span id="index-preview-title">PROJECT</span>
@@ -878,7 +878,7 @@
 
     let mouseX = 0, mouseY = 0;
     let targetMouseX = 0, targetMouseY = 0;
-    let mouseLerpX = 0, mouseLerpY = 0;
+    let previewX = 0, previewY = 0;
 
     window.addEventListener('mousemove', (e) => {
       targetMouseX = e.clientX;
@@ -897,6 +897,37 @@
         cursorDot.style.left = `${targetMouseX}px`;
         cursorDot.style.top = `${targetMouseY}px`;
       }
+
+      // Smoothly update hover preview positioning with 40px offset on the right side
+      if (indexHoverPreview) {
+        previewX += (targetMouseX - previewX) * 0.15;
+        previewY += (targetMouseY - previewY) * 0.15;
+
+        const cardWidth = 256;
+        const cardHeight = 160;
+        const offsetX = 40; // 40px offset on the right
+
+        // Position 40px to the right of cursor, vertically centered relative to cursor
+        let posX = previewX + offsetX;
+        let posY = previewY - (cardHeight / 2);
+
+        // Flip to the left of the cursor if approaching right screen edge
+        if (posX + cardWidth > window.innerWidth - 20) {
+          posX = previewX - cardWidth - offsetX;
+        }
+
+        // Clamp to screen bounds top and bottom
+        if (posY + cardHeight > window.innerHeight - 20) {
+          posY = window.innerHeight - cardHeight - 20;
+        }
+        if (posY < 20) {
+          posY = 20;
+        }
+
+        indexHoverPreview.style.left = `${posX}px`;
+        indexHoverPreview.style.top = `${posY}px`;
+      }
+
       requestAnimationFrame(animateCursor);
     }
     animateCursor();
@@ -1629,23 +1660,6 @@
       const delta = touchStart - e.touches[0].clientY;
       scrollVelocity += delta * TOUCH_SENSITIVITY;
       touchStart = e.touches[0].clientY;
-    }, { passive: true });
-
-    window.addEventListener('keydown', (e) => {
-      if (isFocused || isIndexOpen || isImpactOpen) return;
-      const down = e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown';
-      const up   = e.key === 'ArrowUp'   || e.key === 'ArrowLeft'  || e.key === 'PageUp';
-      if (!down && !up) return;
-      e.preventDefault();
-      resetIdleTimer();
-      scrollVelocity += (down ? 1 : -1) * 0.012;
-    });
-    window.addEventListener('touchmove', (e) => {
-      if (isFocused || isIndexOpen || isImpactOpen) return;
-      resetIdleTimer();
-      const delta = touchStart - e.touches[0].clientY;
-      scrollVelocity += delta * TOUCH_SENSITIVITY;
-      touchStart = e.touches[0].clientY;
       needsRaycastUpdate = true;
     }, { passive: true });
 
@@ -1681,6 +1695,7 @@
 
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
+    let mouseLerpX = 0, mouseLerpY = 0;
     let hoveredMesh = null;
 
     window.addEventListener('mousemove', (e) => {
@@ -2096,6 +2111,10 @@
     function closeIndexOverlay() {
       if (!isIndexOpen) return;
       isIndexOpen = false;
+      if (indexHoverPreview) {
+        indexHoverPreview.classList.remove('opacity-100');
+        indexHoverPreview.classList.add('opacity-0');
+      }
       if (indexOverlay) {
         indexOverlay.classList.add('pointer-events-none', 'opacity-0');
         indexOverlay.classList.remove('opacity-100');
