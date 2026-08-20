@@ -19,8 +19,9 @@
   <!-- GSAP for Smooth Camera Interpolations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
-  <!-- Three.js (r128) -->
+  <!-- Three.js (r128) & BufferGeometryUtils -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/BufferGeometryUtils.js"></script>
 
   <style>
     body {
@@ -242,7 +243,6 @@
   <!-- Three.js Canvas Container -->
   <div id="webgl-container" class="w-full h-full absolute inset-0 z-10 cursor-default"></div>
 
-  <!-- Project Detail Drawer -->
   <div id="project-drawer" class="fixed top-0 right-0 h-full w-full lg:w-[58%] xl:w-[63%] 2xl:w-[65%] bg-[#0f1114] shadow-2xl border-l border-zinc-800 z-50 translate-x-full transition-transform duration-700 ease-out flex flex-col text-zinc-100">
 
     <!-- Scrollable body -->
@@ -316,7 +316,6 @@
     </div>
   </div>
 
-  <!-- IMPACT Architectural Spec Sheet Overlay -->
   <div id="impact-overlay" class="fixed inset-0 z-[80] bg-[#0b0c0e]/95 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 flex flex-col justify-between p-6 md:p-12 text-zinc-100 overflow-hidden">
     <!-- Overlay Top Bar -->
     <div class="flex justify-between items-center border-b border-zinc-800/80 pb-6 shrink-0">
@@ -449,7 +448,6 @@
     </div>
   </div>
 
-  <!-- INDEX [09] Minimalist Architectural Catalog Overlay -->
   <div id="index-overlay" class="fixed inset-0 z-[80] bg-[#0b0c0e]/95 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 flex flex-col justify-between p-6 md:p-12 text-zinc-100 overflow-hidden">
     <!-- Overlay Top Bar -->
     <div class="flex justify-between items-center border-b border-zinc-800/80 pb-6 shrink-0">
@@ -515,7 +513,6 @@
 
   <!-- LAB Experimental Gallery Overlay -->
   <div id="lab-overlay" class="fixed inset-0 z-[80] bg-[#0b0c0e]/95 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 flex flex-col p-6 md:p-12 text-zinc-100 overflow-hidden">
-    <!-- Overlay Top Bar -->
     <div class="flex justify-between items-center border-b border-zinc-800/80 pb-6 shrink-0">
       <div class="flex items-center gap-3">
         <span class="inline-block w-2.5 h-2.5 bg-orange-500"></span>
@@ -526,7 +523,6 @@
       </button>
     </div>
 
-    <!-- Overlay Body: Sparse Gallery Grid -->
     <div class="flex-1 overflow-y-auto custom-scroll pt-8 md:pt-10 pr-1">
       <p class="text-xs md:text-sm font-mono-space text-zinc-500 max-w-xl mb-10 md:mb-14 leading-relaxed">
         A running sandbox of personal WebGL, Three.js, and interaction experiments — built outside client work to test ideas, techniques, and visual styles.
@@ -616,6 +612,14 @@
     // Initialize Lucide Icons
     lucide.createIcons();
 
+    /* Global Application Overlay State Flags - Initialized At Top */
+    let isImpactOpen = false;
+    let isIndexOpen = false;
+    let isLabOpen = false;
+    let isLabDetailOpen = false;
+    let currentLabIndex = 0;
+    let needsRaycastUpdate = false;
+
     /* Global DOM Element Declarations */
     const cursor = document.getElementById('custom-cursor');
     const cursorDot = document.getElementById('custom-cursor-dot');
@@ -681,10 +685,6 @@
       }
     ];
 
-    let isImpactOpen = false;
-    let isLabOpen = false;
-    let isLabDetailOpen = false;
-    let currentLabIndex = 0;
     const lightboxImg = document.getElementById('lightbox-img');
     const closeLightboxBtn = document.getElementById('close-lightbox');
     const lightboxIndicator = document.getElementById('lightbox-indicator');
@@ -785,19 +785,6 @@
       });
     }
 
-    /* Updated Project Sequence:
-       01 Oatfi
-       02 BadCarbon
-       03 Kings Domain
-       04 Larus
-       05 CargoSprint
-       06 GeoStories
-       07 FLO
-       08 MCIM
-       09 RocketAir
-    /* =========================================================================
-       PROJECT DATA CONFIGURATION (9 Projects Total)
-       ========================================================================= */
     const projects = [
       {
         num: "01",
@@ -1015,6 +1002,7 @@
     window.addEventListener('mousemove', (e) => {
       targetMouseX = e.clientX;
       targetMouseY = e.clientY;
+      needsRaycastUpdate = true;
     });
 
     function animateCursor() {
@@ -1547,6 +1535,7 @@
     spiralGroup.add(screensGroup);
 
     const activeProjectMeshes = [];
+    const raycastTargets = []; // Optimized Array for direct fast raycasting
 
     const goldBoltsMat = new THREE.MeshStandardMaterial({
       color: 0xf97316,
@@ -1554,6 +1543,54 @@
       metalness: 0.92,  
       envMapIntensity: 1.6
     });
+
+    // Pre-merge bracket concrete geometry components (Hinge + Arm + Clamp Plate)
+    function buildMergedBracketConcreteGeom(frameDepth) {
+      const scaleFactor = 1.30;
+      const armLength = 0.32;
+      
+      const hinge = new THREE.CylinderGeometry(0.06, 0.06, 0.50, 16);
+      hinge.translate(0, 0, -frameDepth/2 - 0.03);
+
+      const arm = new THREE.BoxGeometry(0.12, 0.12, armLength);
+      arm.rotateX(0.18);
+      arm.translate(0, -0.22, -0.03 - armLength / 2);
+
+      const clamp = new THREE.BoxGeometry(0.25, 0.35, 0.02);
+      clamp.translate(0, -0.28, -0.03 - armLength);
+
+      if (typeof THREE.BufferGeometryUtils !== 'undefined' && THREE.BufferGeometryUtils.mergeBufferGeometries) {
+        return THREE.BufferGeometryUtils.mergeBufferGeometries([hinge, arm, clamp]);
+      }
+      return hinge;
+    }
+
+    // Pre-merge 4 gold bolts into 1 single BufferGeometry
+    function buildMergedBoltsGeom(frameDepth) {
+      const armLength = 0.32;
+      const boltGeoms = [];
+      const boltsOffset = [[0.08, 0.12], [-0.08, 0.12], [0.08, -0.12], [-0.08, -0.12]];
+
+      boltsOffset.forEach(b => {
+        const bg = new THREE.CylinderGeometry(0.015, 0.015, 0.01, 8);
+        bg.rotateX(Math.PI / 2);
+        bg.translate(b[0], -0.28 + b[1], -0.03 - armLength + 0.012);
+        boltGeoms.push(bg);
+      });
+
+      if (typeof THREE.BufferGeometryUtils !== 'undefined' && THREE.BufferGeometryUtils.mergeBufferGeometries) {
+        return THREE.BufferGeometryUtils.mergeBufferGeometries(boltGeoms);
+      }
+      return boltGeoms[0];
+    }
+
+    const scaleFactor = 1.30;
+    const frameWidth = 2.346 * scaleFactor;
+    const frameHeight = 1.4375 * scaleFactor;
+    const frameDepth = 0.06 * scaleFactor;
+
+    const sharedBracketConcreteGeom = buildMergedBracketConcreteGeom(frameDepth);
+    const sharedBoltsGeom = buildMergedBoltsGeom(frameDepth);
 
     projects.forEach((proj, idx) => {
       const stepIdx = Math.floor(22 + idx * 14.5);
@@ -1577,16 +1614,14 @@
       canvasTex.magFilter = THREE.LinearFilter;
       canvasTex.anisotropy = maxAnisotropy;
 
-      const scaleFactor = 1.30;
-      const frameWidth = 2.346 * scaleFactor;
-      const frameHeight = 1.4375 * scaleFactor;
-      const frameDepth = 0.06 * scaleFactor;
-
       const bodyGeom = new THREE.BoxGeometry(frameWidth, frameHeight, frameDepth);
       const bodyMesh = new THREE.Mesh(bodyGeom, concreteMaterial);
       bodyMesh.castShadow = true;
       bodyMesh.receiveShadow = true;
       itemGroup.add(bodyMesh);
+
+      // Save reference for direct raycast bounds optimization
+      raycastTargets.push(bodyMesh);
 
       const faceGeom = new THREE.PlaneGeometry(frameWidth - (0.06 * scaleFactor), frameHeight - (0.06 * scaleFactor));
       const faceMat = new THREE.MeshBasicMaterial({
@@ -1614,38 +1649,16 @@
       const bracketGroup = new THREE.Group();
       itemGroup.add(bracketGroup);
 
-      const hingeGeom = new THREE.CylinderGeometry(0.06, 0.06, 0.50, 16);
-      const hingeMesh = new THREE.Mesh(hingeGeom, concreteMaterial);
-      hingeMesh.position.set(0, 0, -frameDepth/2 - 0.03);
-      hingeMesh.castShadow = true;
-      hingeMesh.receiveShadow = true;
-      bracketGroup.add(hingeMesh);
+      // Pre-merged concrete bracket assembly
+      const bracketConcreteMesh = new THREE.Mesh(sharedBracketConcreteGeom, concreteMaterial);
+      bracketConcreteMesh.castShadow = true;
+      bracketConcreteMesh.receiveShadow = true;
+      bracketGroup.add(bracketConcreteMesh);
 
-      const armLength = 0.32;
-      const armGeom = new THREE.BoxGeometry(0.12, 0.12, armLength);
-      const armMesh = new THREE.Mesh(armGeom, concreteMaterial);
-      armMesh.position.set(0, -0.22, -0.03 - armLength / 2);
-      armMesh.rotation.x = 0.18; 
-      armMesh.castShadow = true;
-      armMesh.receiveShadow = true;
-      bracketGroup.add(armMesh);
-
-      const clampPlateGeom = new THREE.BoxGeometry(0.25, 0.35, 0.02);
-      const clampPlate = new THREE.Mesh(clampPlateGeom, concreteMaterial);
-      clampPlate.position.set(0, -0.28, -0.03 - armLength);
-      clampPlate.castShadow = true;
-      clampPlate.receiveShadow = true;
-      bracketGroup.add(clampPlate);
-
-      const boltGeom = new THREE.CylinderGeometry(0.015, 0.015, 0.01, 8);
-      const boltsOffset = [[0.08, 0.12], [-0.08, 0.12], [0.08, -0.12], [-0.08, -0.12]];
-      boltsOffset.forEach(b => {
-        const bMesh = new THREE.Mesh(boltGeom, goldBoltsMat);
-        bMesh.position.set(b[0], -0.28 + b[1], -0.03 - armLength + 0.012);
-        bMesh.rotation.x = Math.PI / 2; 
-        bMesh.castShadow = true;
-        bracketGroup.add(bMesh);
-      });
+      // Pre-merged gold bolts assembly
+      const boltsMesh = new THREE.Mesh(sharedBoltsGeom, goldBoltsMat);
+      boltsMesh.castShadow = true;
+      bracketGroup.add(boltsMesh);
 
       itemGroup.userData = {
         projectIndex: idx,
@@ -1658,6 +1671,8 @@
         origRotation: itemGroup.rotation.clone(),
         origScale: itemGroup.scale.clone()
       };
+
+      bodyMesh.userData = itemGroup.userData;
 
       screensGroup.add(itemGroup);
       activeProjectMeshes.push(itemGroup);
@@ -1719,6 +1734,7 @@
       resetIdleTimer();
       const clamped = Math.max(-40, Math.min(40, e.deltaY));
       scrollVelocity += clamped * WHEEL_SENSITIVITY;
+      needsRaycastUpdate = true;
     }, { passive: false });
 
     let touchStart = 0;
@@ -1733,6 +1749,7 @@
       const delta = touchStart - e.touches[0].clientY;
       scrollVelocity += delta * TOUCH_SENSITIVITY;
       touchStart = e.touches[0].clientY;
+      needsRaycastUpdate = true;
     }, { passive: true });
 
     window.addEventListener('keydown', (e) => {
@@ -1743,6 +1760,7 @@
       e.preventDefault();
       resetIdleTimer();
       scrollVelocity += (down ? 1 : -1) * 0.012;
+      needsRaycastUpdate = true;
     });
 
     function tickScroll() {
@@ -1756,6 +1774,7 @@
           autoScrollDirection = 1;
         }
         scrollProgress += autoScrollDirection * AUTO_SCROLL_SPEED;
+        needsRaycastUpdate = true;
       }
 
       scrollProgress = Math.max(0, Math.min(1, scrollProgress));
@@ -1770,6 +1789,7 @@
     window.addEventListener('mousemove', (e) => {
       mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      needsRaycastUpdate = true;
     });
 
     let clickStartX = 0;
@@ -1790,15 +1810,12 @@
       if (Math.sqrt(dx*dx + dy*dy) > 10) return;
 
       raycaster.setFromCamera(mouse, camera);
-      const intersects = raycaster.intersectObjects(screensGroup.children, true);
+      // Optimized direct spatial bounds raycasting
+      const intersects = raycaster.intersectObjects(raycastTargets, false);
 
       if (intersects.length > 0) {
-        let rootObj = intersects[0].object;
-        while (rootObj.parent && rootObj.parent !== screensGroup) {
-          rootObj = rootObj.parent;
-        }
-        
-        const projIdx = rootObj.userData.projectIndex;
+        const targetBody = intersects[0].object;
+        const projIdx = targetBody.userData.projectIndex;
         if (projIdx !== undefined) {
           focusOnProject(projIdx);
         }
@@ -2112,8 +2129,6 @@
       });
     });
 
-    let isIndexOpen = false;
-
     function renderIndexTable() {
       if (!indexTableBody) return;
       indexTableBody.innerHTML = '';
@@ -2151,24 +2166,6 @@
               indexHoverPreview.classList.add('opacity-100');
             }
           }
-        });
-
-        tr.addEventListener('mousemove', (e) => {
-          if (!indexHoverPreview) return;
-          const previewWidth = 256;
-          const previewHeight = 160;
-          
-          let x = e.clientX + 150;
-          if (x + previewWidth / 2 > window.innerWidth - 20) {
-            x = e.clientX - 150;
-          }
-          
-          let y = e.clientY;
-          if (y - previewHeight / 2 < 20) y = previewHeight / 2 + 20;
-          if (y + previewHeight / 2 > window.innerHeight - 20) y = window.innerHeight - previewHeight / 2 - 20;
-
-          indexHoverPreview.style.left = `${x}px`;
-          indexHoverPreview.style.top = `${y}px`;
         });
 
         tr.addEventListener('mouseleave', () => {
@@ -2901,28 +2898,30 @@
           }
         }
 
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObjects(screensGroup.children, true);
+        // Throttled raycast update triggered on mousemove / scroll events
+        if (needsRaycastUpdate) {
+          needsRaycastUpdate = false;
+          raycaster.setFromCamera(mouse, camera);
+          const intersects = raycaster.intersectObjects(raycastTargets, false);
 
-        if (intersects.length > 0) {
-          let rootObj = intersects[0].object;
-          while (rootObj.parent && rootObj.parent !== screensGroup) {
-            rootObj = rootObj.parent;
-          }
+          if (intersects.length > 0) {
+            const targetBody = intersects[0].object;
+            const rootObj = targetBody.parent;
 
-          if (hoveredMesh !== rootObj) {
+            if (hoveredMesh !== rootObj) {
+              if (hoveredMesh) {
+                gsap.to(hoveredMesh.scale, { x: 1, y: 1, z: 1, duration: 0.3 });
+              }
+              hoveredMesh = rootObj;
+              gsap.to(hoveredMesh.scale, { x: 1.08, y: 1.08, z: 1.08, duration: 0.3 });
+              if (cursor) cursor.style.borderColor = "#f97316";
+            }
+          } else {
             if (hoveredMesh) {
               gsap.to(hoveredMesh.scale, { x: 1, y: 1, z: 1, duration: 0.3 });
+              hoveredMesh = null;
+              if (cursor) cursor.style.borderColor = "#7c3a12";
             }
-            hoveredMesh = rootObj;
-            gsap.to(hoveredMesh.scale, { x: 1.08, y: 1.08, z: 1.08, duration: 0.3 });
-            if (cursor) cursor.style.borderColor = "#f97316";
-          }
-        } else {
-          if (hoveredMesh) {
-            gsap.to(hoveredMesh.scale, { x: 1, y: 1, z: 1, duration: 0.3 });
-            hoveredMesh = null;
-            if (cursor) cursor.style.borderColor = "#7c3a12";
           }
         }
 
