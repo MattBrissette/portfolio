@@ -2153,6 +2153,24 @@
           }
         });
 
+        tr.addEventListener('mousemove', (e) => {
+          if (!indexHoverPreview) return;
+          const previewWidth = 256;
+          const previewHeight = 160;
+          
+          let x = e.clientX + 150;
+          if (x + previewWidth / 2 > window.innerWidth - 20) {
+            x = e.clientX - 150;
+          }
+          
+          let y = e.clientY;
+          if (y - previewHeight / 2 < 20) y = previewHeight / 2 + 20;
+          if (y + previewHeight / 2 > window.innerHeight - 20) y = window.innerHeight - previewHeight / 2 - 20;
+
+          indexHoverPreview.style.left = `${x}px`;
+          indexHoverPreview.style.top = `${y}px`;
+        });
+
         tr.addEventListener('mouseleave', () => {
           if (indexHoverPreview) {
             indexHoverPreview.classList.remove('opacity-100');
