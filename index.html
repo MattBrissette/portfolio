@@ -1404,7 +1404,7 @@
     const indices = [];
     const uvs = [];
 
-    const segments = 400; 
+    const segments = 220; 
     const R1 = 1.6; 
     const R2 = 3.2; 
     const thickness = 0.25; 
@@ -1684,15 +1684,15 @@
     const mainLight = new THREE.DirectionalLight(0xc8d8ff, 3.20);
     mainLight.position.set(14.0, 22.0, 6.0);
     mainLight.castShadow = true;
-    mainLight.shadow.mapSize.width = 4096;
-    mainLight.shadow.mapSize.height = 4096;
-    mainLight.shadow.bias = -0.00050;
-    mainLight.shadow.camera.near = 0.5;
-    mainLight.shadow.camera.far = 60;
-    mainLight.shadow.camera.left = -14;
-    mainLight.shadow.camera.right = 14;
-    mainLight.shadow.camera.top = 14;
-    mainLight.shadow.camera.bottom = -14;
+    mainLight.shadow.mapSize.width = 2048;
+    mainLight.shadow.mapSize.height = 2048;
+    mainLight.shadow.bias = -0.00030;
+    mainLight.shadow.camera.near = 2.0;
+    mainLight.shadow.camera.far = 48;
+    mainLight.shadow.camera.left = -10;
+    mainLight.shadow.camera.right = 10;
+    mainLight.shadow.camera.top = 10;
+    mainLight.shadow.camera.bottom = -10;
     scene.add(mainLight);
 
     const skyFill = new THREE.DirectionalLight(0xf97316, 1.10);
