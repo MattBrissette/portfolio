@@ -141,6 +141,23 @@
             transform: translateY(-6px);
         }
 
+        /* Monospace Decryption & Scramble Styling */
+        .scramble-mono {
+            display: inline-block;
+            font-variant-numeric: tabular-nums;
+            cursor: default;
+            user-select: none;
+            transition: color 0.15s ease;
+        }
+
+        .scramble-mono:hover {
+            color: #18181b;
+        }
+
+        .dark .scramble-mono:hover {
+            color: #ffffff;
+        }
+
         /* Static Noise Background Overlay */
         .noise-bg {
             position: fixed;
@@ -262,6 +279,7 @@
             .avatar-badge-img, .avatar-wave-badge { animation: none !important; transition: none !important; }
             .reveal-on-scroll { opacity: 1 !important; transform: none !important; transition: none !important; }
             .masked-line-inner { transform: none !important; opacity: 1 !important; transition: none !important; }
+            .scramble-mono { transition: none !important; }
         }
 
         ::-webkit-scrollbar { width: 8px; }
@@ -367,87 +385,19 @@
 
         <div id="projects" class="space-y-16 sm:space-y-24">
 
-            <!-- PROJECT 1: RocketAir -->
-            <article class="project-item space-y-6 pt-2 transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead" data-context="01 / 07 RocketAir">
-                <header class="flex items-baseline justify-between border-b border-brand-300/80 dark:border-brand-800 pb-3">
-                    <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
-                        <span>RocketAir</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal">01 / 07</span>
-                    </h2>
-                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400">Digital design & strategy agency</span>
-                </header>
-
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-                    <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/W57QZ.webp', 'RocketAir 1')">
-                        <img src="https://mbrissette.x02.me/i/W57QZ.webp" loading="eager" fetchpriority="high" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=RocketAir+1'" alt="RocketAir 1" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
-                    </div>
-
-                    <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/2T8N.webp', 'RocketAir 2')">
-                        <img src="https://mbrissette.x02.me/i/2T8N.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=RocketAir+2'" alt="RocketAir 2" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
-                    </div>
-
-                    <div class="md:col-span-12 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/PYEU4.webp', 'RocketAir 3')">
-                        <img src="https://mbrissette.x02.me/i/PYEU4.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/1200x600/18181b/ffffff?text=RocketAir+3'" alt="RocketAir 3" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
-                    </div>
-
-                    <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/RHZMK.webp', 'RocketAir 4')">
-                        <img src="https://mbrissette.x02.me/i/RHZMK.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=RocketAir+4'" alt="RocketAir 4" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
-                    </div>
-
-                    <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/DN4T.webp', 'RocketAir 5')">
-                        <img src="https://mbrissette.x02.me/i/DN4T.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=RocketAir+5'" alt="RocketAir 5" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
-                    </div>
-                </div>
-
-                <div class="space-y-4 pt-2">
-                    <div class="flex flex-wrap gap-2 text-xs font-mono text-brand-600 dark:text-brand-400">
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">UX</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Art Direction</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Design Lead</span>
-                    </div>
-                    
-                    <div class="space-y-3 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
-                        <p data-reveal="masked-lines">
-                            A digital experience created in collaboration with RocketAir, blending creative strategy, thoughtful design, and high-impact visuals into a modern, engaging web experience.
-                        </p>
-                        <p data-reveal="masked-lines">
-                            Visuals were inspired by Neobrutalism and Swiss design — featuring big, bold typography, a lo-fi space theme contrasted with bright neon yellow, and designed with motion in mind. 
-                            <a href="https://www.rocketair.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-brand-300 dark:decoration-brand-700 underline-offset-4 hover:decoration-brand-900 dark:hover:decoration-brand-100 transition-colors font-medium inline-flex items-center gap-1 ml-1">
-                                rocketair.com <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-60"></i>
-                            </a>
-                        </p>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-7 lg:w-4/5">
-                        <div class="p-5 sm:p-6 rounded-xl border border-brand-200/80 dark:border-brand-800 bg-white/60 dark:bg-brand-900/60 backdrop-blur-sm space-y-2">
-                            <h4 class="font-mono font-bold text-sm tracking-tight text-brand-900 dark:text-brand-100">Awwwards</h4>
-                            <p class="text-xs sm:text-sm text-brand-600 dark:text-brand-400 leading-relaxed" data-reveal="masked-lines">
-                                Awarded Site of the Day and the Developer Award for balancing innovative design with quality code.
-                            </p>
-                        </div>
-                        <div class="p-5 sm:p-6 rounded-xl border border-brand-200/80 dark:border-brand-800 bg-white/60 dark:bg-brand-900/60 backdrop-blur-sm space-y-2">
-                            <h4 class="font-mono font-bold text-sm tracking-tight text-brand-900 dark:text-brand-100">CSS Design Awards</h4>
-                            <p class="text-xs sm:text-sm text-brand-600 dark:text-brand-400 leading-relaxed" data-reveal="masked-lines">
-                                Selected as Website of the Day alongside public-voted category sweeps for Best UI Design, Best UX Design, and Best Innovation.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            <!-- PROJECT 2: Stryx -->
-            <article class="project-item space-y-6 pt-10 border-t border-brand-300/80 dark:border-brand-800/80 transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Brand" data-context="02 / 07 Stryx">
+            <!-- PROJECT 1: Stryx -->
+            <article class="project-item space-y-6 pt-2 transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Brand" data-context="01 / 07 Stryx">
                 <header class="flex items-baseline justify-between border-b border-brand-300/80 dark:border-brand-800 pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
                         <span>Stryx</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal">02 / 07</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">01 / 07</span>
                     </h2>
-                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400">DTC, Shopify</span>
+                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">DTC, Shopify</span>
                 </header>
 
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
                     <div class="md:col-span-12 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/UPW57T.webp', 'Stryx 1')">
-                        <img src="https://mbrissette.x02.me/i/UPW57T.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/1200x600/18181b/ffffff?text=Stryx+1'" alt="Stryx 1" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                        <img src="https://mbrissette.x02.me/i/UPW57T.webp" loading="eager" fetchpriority="high" onerror="this.onerror=null; this.src='https://placehold.co/1200x600/18181b/ffffff?text=Stryx+1'" alt="Stryx 1" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
                     </div>
 
                     <div class="md:col-span-6 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/3UCRS.webp', 'Stryx 2')">
@@ -480,30 +430,160 @@
 
                 <div class="space-y-4 pt-2">
                     <div class="flex flex-wrap gap-2 text-xs font-mono text-brand-600 dark:text-brand-400">
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">UX</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Art Direction</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Design Lead</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Brand</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">UX</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Art Direction</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Design Lead</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Brand</span>
                     </div>
                     <div class="space-y-3 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
                         <p data-reveal="masked-lines">
-                            Stryx is a pioneer in men's grooming and skincare, creating discreet cosmetic and skincare products formulated specifically for men. As the brand expanded across nationwide retail and rapid direct-to-consumer adoption, they needed to evolve their branding and digital flagship to match their market momentum.
+                            Stryx is a men’s grooming and skincare brand that was expanding across nationwide retail while growing its direct-to-consumer business. The brand needed a digital experience that could support that growth while making it easier for customers to discover, understand, and purchase its products.
                         </p>
                         <p data-reveal="masked-lines">
-                            I led the design, UX, and digital strategy for Stryx’s eCommerce experience on Shopify. We elevated the brand's visual identity with a sleek, confident aesthetic while re-architecting the customer journey—designing custom bundle configurators, clear product education, and a streamlined checkout flow that transformed first-time visitors into loyal subscribers.
+                            I led the design, UX, and digital strategy for Stryx’s Shopify eCommerce experience. We evolved the visual identity into a more confident, premium system and reworked the customer journey across product discovery, education, bundling, and checkout. The experience included custom bundle configurators, clearer product storytelling, and a streamlined path to purchase, creating a more cohesive DTC experience from first visit to conversion.
                         </p>
                     </div>
                 </div>
             </article>
 
-            <!-- PROJECT 3: Bentley Motors Canada -->
-            <article class="project-item space-y-6 pt-10 border-t border-brand-300/80 dark:border-brand-800/80 transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,App" data-context="03 / 07 Bentley Motors Canada">
+            <!-- PROJECT 2: RocketAir -->
+            <article class="project-item space-y-6 pt-10 border-t border-brand-300/80 dark:border-brand-800/80 transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead" data-context="02 / 07 RocketAir">
+                <header class="flex items-baseline justify-between border-b border-brand-300/80 dark:border-brand-800 pb-3">
+                    <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
+                        <span>RocketAir</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">02 / 07</span>
+                    </h2>
+                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">Digital design & strategy agency</span>
+                </header>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                    <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/W57QZ.webp', 'RocketAir 1')">
+                        <img src="https://mbrissette.x02.me/i/W57QZ.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=RocketAir+1'" alt="RocketAir 1" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    </div>
+
+                    <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/2T8N.webp', 'RocketAir 2')">
+                        <img src="https://mbrissette.x02.me/i/2T8N.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=RocketAir+2'" alt="RocketAir 2" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    </div>
+
+                    <div class="md:col-span-12 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/PYEU4.webp', 'RocketAir 3')">
+                        <img src="https://mbrissette.x02.me/i/PYEU4.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/1200x600/18181b/ffffff?text=RocketAir+3'" alt="RocketAir 3" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    </div>
+
+                    <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/RHZMK.webp', 'RocketAir 4')">
+                        <img src="https://mbrissette.x02.me/i/RHZMK.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=RocketAir+4'" alt="RocketAir 4" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    </div>
+
+                    <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/DN4T.webp', 'RocketAir 5')">
+                        <img src="https://mbrissette.x02.me/i/DN4T.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=RocketAir+5'" alt="RocketAir 5" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    </div>
+                </div>
+
+                <div class="space-y-4 pt-2">
+                    <div class="flex flex-wrap gap-2 text-xs font-mono text-brand-600 dark:text-brand-400">
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">UX</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Art Direction</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Design Lead</span>
+                    </div>
+                    
+                    <div class="space-y-3 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
+                        <p data-reveal="masked-lines">
+                            A digital experience created in collaboration with RocketAir, blending creative strategy, thoughtful design, and high-impact visuals into a modern, engaging web experience.
+                        </p>
+                        <p data-reveal="masked-lines">
+                            Visuals were inspired by Neobrutalism and Swiss design — featuring big, bold typography, a lo-fi space theme contrasted with bright neon yellow, and designed with motion in mind. 
+                            <a href="https://www.rocketair.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-brand-300 dark:decoration-brand-700 underline-offset-4 hover:decoration-brand-900 dark:hover:decoration-brand-100 transition-colors font-medium inline-flex items-center gap-1 ml-1">
+                                rocketair.com <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-60"></i>
+                            </a>
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-7 lg:w-4/5">
+                        <div class="p-5 sm:p-6 rounded-xl border border-brand-200/80 dark:border-brand-800 bg-white/60 dark:bg-brand-900/60 backdrop-blur-sm space-y-2">
+                            <h4 class="font-mono font-bold text-sm tracking-tight text-brand-900 dark:text-brand-100">Awwwards</h4>
+                            <p class="text-xs sm:text-sm text-brand-600 dark:text-brand-400 leading-relaxed" data-reveal="masked-lines">
+                                Awarded Site of the Day and the Developer Award for balancing innovative design with quality code.
+                            </p>
+                        </div>
+                        <div class="p-5 sm:p-6 rounded-xl border border-brand-200/80 dark:border-brand-800 bg-white/60 dark:bg-brand-900/60 backdrop-blur-sm space-y-2">
+                            <h4 class="font-mono font-bold text-sm tracking-tight text-brand-900 dark:text-brand-100">CSS Design Awards</h4>
+                            <p class="text-xs sm:text-sm text-brand-600 dark:text-brand-400 leading-relaxed" data-reveal="masked-lines">
+                                Selected as Website of the Day alongside public-voted category sweeps for Best UI Design, Best UX Design, and Best Innovation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- PROJECT 3: TrailerTrader -->
+            <article class="project-item space-y-6 pt-10 border-t border-brand-300/80 dark:border-brand-800/80 transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Dashboard,E-commerce" data-context="03 / 07 TrailerTrader">
+                <header class="flex items-baseline justify-between border-b border-brand-300/80 dark:border-brand-800 pb-3">
+                    <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
+                        <span>TrailerTrader</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">03 / 07</span>
+                    </h2>
+                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">B2C/B2B marketplace</span>
+                </header>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                    <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/7JEXA.webp', 'TrailerTrader 1')">
+                        <img src="https://mbrissette.x02.me/i/7JEXA.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=TrailerTrader+1'" alt="TrailerTrader 1" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    </div>
+
+                    <!-- Card 2: TrailerTrader 4-Image Slideshow -->
+                    <div id="trailertrader-slideshow-container" class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openTrailerTraderSlideshowLightbox()">
+                        <img src="https://mbrissette.x02.me/i/QYZ9.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+2a'" alt="TrailerTrader - Sequence 1" class="trailertrader-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-100" />
+                        <img src="https://mbrissette.x02.me/i/GVBJRQ.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+2b'" alt="TrailerTrader - Sequence 2" class="trailertrader-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        <img src="https://mbrissette.x02.me/i/HMAC4.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+2c'" alt="TrailerTrader - Sequence 3" class="trailertrader-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        <img src="https://mbrissette.x02.me/i/TDZ5V.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+2d'" alt="TrailerTrader - Sequence 4" class="trailertrader-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        
+                        <div class="absolute bottom-3 right-3 flex items-center space-x-1.5 z-10 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
+                            <span class="trailertrader-dot w-3 h-1.5 rounded-full bg-white transition-all duration-300"></span>
+                            <span class="trailertrader-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300"></span>
+                            <span class="trailertrader-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300"></span>
+                            <span class="trailertrader-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300"></span>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/UD6MZR.webp', 'TrailerTrader 3')">
+                        <img src="https://mbrissette.x02.me/i/UD6MZR.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+3'" alt="TrailerTrader 3" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    </div>
+
+                    <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/6FQWBW.webp', 'TrailerTrader 4')">
+                        <img src="https://mbrissette.x02.me/i/6FQWBW.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=TrailerTrader+4'" alt="TrailerTrader 4" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    </div>
+
+                    <div class="md:col-span-12 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/PTN5.webp', 'TrailerTrader 5')">
+                        <img src="https://mbrissette.x02.me/i/PTN5.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/1200x600/18181b/ffffff?text=TrailerTrader+5'" alt="TrailerTrader 5" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    </div>
+                </div>
+
+                <div class="space-y-4 pt-2">
+                    <div class="flex flex-wrap gap-2 text-xs font-mono text-brand-600 dark:text-brand-400">
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">UX</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Art Direction</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Design Lead</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Dashboard</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">E-commerce</span>
+                    </div>
+                    <div class="space-y-3 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
+                        <p data-reveal="masked-lines">
+                            As TrailerTrader became the leading marketplace in its category, its existing product needed to evolve to support increased traffic, modern buyer expectations, and a more sophisticated dealer ecosystem.
+                        </p>
+                        <p data-reveal="masked-lines">
+                            I created a comprehensive design system, designed a new dashboard for dealers, and delivered a faster, mobile-first experience with simpler navigation and stronger lead generation for dealers. This created more direct connections between buyers and dealers while providing a scalable foundation for future feature releases.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- PROJECT 4: Bentley Motors Canada -->
+            <article class="project-item space-y-6 pt-10 border-t border-brand-300/80 dark:border-brand-800/80 transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,App" data-context="04 / 07 Bentley Motors Canada">
                 <header class="flex items-baseline justify-between border-b border-brand-300/80 dark:border-brand-800 pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
                         <span>Bentley Motors Canada</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal">03 / 07</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">04 / 07</span>
                     </h2>
-                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400">App</span>
+                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">App</span>
                 </header>
 
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
@@ -519,21 +599,31 @@
                         <img src="https://mbrissette.x02.me/i/9YW2R.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/1200x600/18181b/ffffff?text=Bentley+Motors+Canada+3'" alt="Bentley Motors Canada 3" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
                     </div>
 
+                    <!-- Card 4: Single static showcase image -->
                     <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/S2X5E3.webp', 'Bentley Motors Canada 4')">
                         <img src="https://mbrissette.x02.me/i/S2X5E3.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=Bentley+Motors+Canada+4'" alt="Bentley Motors Canada 4" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
                     </div>
 
-                    <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/MBA25.webp', 'Bentley Motors Canada 5')">
-                        <img src="https://mbrissette.x02.me/i/MBA25.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=Bentley+Motors+Canada+5'" alt="Bentley Motors Canada 5" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    <!-- Card 5: Bentley Motors Canada 3-Image Slideshow (Last Card) -->
+                    <div id="bentley-slideshow-container" class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openBentleySlideshowLightbox()">
+                        <img src="https://mbrissette.x02.me/i/MBA25.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=Bentley+Motors+Canada+5a'" alt="Bentley Motors Canada - Sequence 1" class="bentley-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-100" />
+                        <img src="https://mbrissette.x02.me/i/E7937B.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=Bentley+Motors+Canada+5b'" alt="Bentley Motors Canada - Sequence 2" class="bentley-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        <img src="https://mbrissette.x02.me/i/5XKP5.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=Bentley+Motors+Canada+5c'" alt="Bentley Motors Canada - Sequence 3" class="bentley-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        
+                        <div class="absolute bottom-3 right-3 flex items-center space-x-1.5 z-10 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
+                            <span class="bentley-dot w-3 h-1.5 rounded-full bg-white transition-all duration-300"></span>
+                            <span class="bentley-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300"></span>
+                            <span class="bentley-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300"></span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="space-y-4 pt-2">
                     <div class="flex flex-wrap gap-2 text-xs font-mono text-brand-600 dark:text-brand-400">
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">UX</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Art Direction</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Design Lead</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">App</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">UX</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Art Direction</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Design Lead</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">App</span>
                     </div>
                     <div class="space-y-3 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
                         <p data-reveal="masked-lines">
@@ -546,65 +636,14 @@
                 </div>
             </article>
 
-            <!-- PROJECT 4: TrailerTrader -->
-            <article class="project-item space-y-6 pt-10 border-t border-brand-300/80 dark:border-brand-800/80 transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Dashboard,E-commerce" data-context="04 / 07 TrailerTrader">
-                <header class="flex items-baseline justify-between border-b border-brand-300/80 dark:border-brand-800 pb-3">
-                    <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
-                        <span>TrailerTrader</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal">04 / 07</span>
-                    </h2>
-                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400">B2C/B2B marketplace</span>
-                </header>
-
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-                    <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/7JEXA.webp', 'TrailerTrader 1')">
-                        <img src="https://mbrissette.x02.me/i/7JEXA.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=TrailerTrader+1'" alt="TrailerTrader 1" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
-                    </div>
-
-                    <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/QYZ9.webp', 'TrailerTrader 2')">
-                        <img src="https://mbrissette.x02.me/i/QYZ9.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+2'" alt="TrailerTrader 2" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
-                    </div>
-
-                    <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/N9WC.webp', 'TrailerTrader 3')">
-                        <img src="https://mbrissette.x02.me/i/N9WC.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+3'" alt="TrailerTrader 3" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
-                    </div>
-
-                    <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/TUARNS.webp', 'TrailerTrader 4')">
-                        <img src="https://mbrissette.x02.me/i/TUARNS.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=TrailerTrader+4'" alt="TrailerTrader 4" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
-                    </div>
-
-                    <div class="md:col-span-12 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/PTN5.webp', 'TrailerTrader 5')">
-                        <img src="https://mbrissette.x02.me/i/PTN5.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/1200x600/18181b/ffffff?text=TrailerTrader+5'" alt="TrailerTrader 5" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
-                    </div>
-                </div>
-
-                <div class="space-y-4 pt-2">
-                    <div class="flex flex-wrap gap-2 text-xs font-mono text-brand-600 dark:text-brand-400">
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">UX</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Art Direction</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Design Lead</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Dashboard</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">E-commerce</span>
-                    </div>
-                    <div class="space-y-3 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
-                        <p data-reveal="masked-lines">
-                            As TrailerTrader became the leading marketplace in its category, its existing product needed to evolve to support increased traffic, modern buyer expectations, and a more sophisticated dealer ecosystem.
-                        </p>
-                        <p data-reveal="masked-lines">
-                            I created a comprehensive design system, designed a new dashboard for dealers, and delivered a faster, mobile-first experience with simpler navigation and stronger lead generation for dealers. This created more direct connections between buyers and dealers while providing a scalable foundation for future feature releases.
-                        </p>
-                    </div>
-                </div>
-            </article>
-
             <!-- PROJECT 5: MCIM -->
             <article class="project-item space-y-6 pt-10 border-t border-brand-300/80 dark:border-brand-800/80 transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design lead,Brand" data-context="05 / 07 MCIM">
                 <header class="flex items-baseline justify-between border-b border-brand-300/80 dark:border-brand-800 pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
                         <span>MCIM</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal">05 / 07</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">05 / 07</span>
                     </h2>
-                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400">B2B SaaS</span>
+                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">B2B SaaS</span>
                 </header>
 
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
@@ -641,10 +680,10 @@
 
                 <div class="space-y-4 pt-2">
                     <div class="flex flex-wrap gap-2 text-xs font-mono text-brand-600 dark:text-brand-400">
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">UX</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Art Direction</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Design lead</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Brand</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">UX</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Art Direction</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Design lead</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Brand</span>
                     </div>
                     <div class="space-y-3 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
                         <p data-reveal="masked-lines">
@@ -671,9 +710,9 @@
                 <header class="flex items-baseline justify-between border-b border-brand-300/80 dark:border-brand-800 pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
                         <span>CargoSprint</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal">06 / 07</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">06 / 07</span>
                     </h2>
-                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400">B2B SaaS</span>
+                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">B2B SaaS</span>
                 </header>
 
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
@@ -700,10 +739,10 @@
 
                 <div class="space-y-4 pt-2">
                     <div class="flex flex-wrap gap-2 text-xs font-mono text-brand-600 dark:text-brand-400">
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">UX</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Art Direction</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Design lead</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Brand</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">UX</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Art Direction</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Design lead</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Brand</span>
                     </div>
                     <div class="space-y-3 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
                         <p data-reveal="masked-lines">
@@ -730,9 +769,9 @@
                 <header class="flex items-baseline justify-between border-b border-brand-300/80 dark:border-brand-800 pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
                         <span>CaRMS</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal">07 / 07</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">07 / 07</span>
                     </h2>
-                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400">Healthcare / Digital Platform</span>
+                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">Healthcare / Digital Platform</span>
                 </header>
 
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
@@ -759,11 +798,11 @@
 
                 <div class="space-y-4 pt-2">
                     <div class="flex flex-wrap gap-2 text-xs font-mono text-brand-600 dark:text-brand-400">
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">UX</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Art Direction</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Design Lead</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Dashboard</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900">Platform</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">UX</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Art Direction</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Design Lead</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Dashboard</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Platform</span>
                     </div>
                     <div class="space-y-3 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
                         <p data-reveal="masked-lines">
@@ -783,7 +822,7 @@
             <h2 class="text-lg font-semibold tracking-tight text-brand-900 dark:text-brand-100" data-reveal="masked-lines">Lab</h2>
 
             <div class="divide-y divide-brand-300/80 dark:divide-brand-800">
-                <!-- LAB PROJECT 1 -->
+                <!-- LAB PROJECT 1: Larus 3D -->
                 <div class="py-6 first:pt-0 last:pb-0 flex flex-col sm:flex-row items-start gap-5 sm:gap-6 group reveal-on-scroll">
                     <div class="w-full sm:w-48 aspect-[3/2] shrink-0 border border-brand-200/80 dark:border-brand-800 rounded-xl overflow-hidden cursor-pointer bg-brand-100 dark:bg-brand-900" onclick="openImageLightbox('https://mbrissette.x02.me/i/VFRQ.webp', 'Larus 3D Exhibition')">
                         <img src="https://mbrissette.x02.me/i/VFRQ.webp" alt="Larus 3D Exhibition" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/400x300/18181b/ffffff?text=Larus+3D'" />
@@ -813,22 +852,7 @@
                     </div>
                 </div>
 
-                <!-- LAB PROJECT 3: PixGrid -->
-                <div class="py-6 first:pt-0 last:pb-0 flex flex-col sm:flex-row items-start gap-5 sm:gap-6 group reveal-on-scroll">
-                    <div class="w-full sm:w-48 aspect-[3/2] shrink-0 border border-brand-200/80 dark:border-brand-800 rounded-xl overflow-hidden bg-brand-100 dark:bg-brand-900">
-                        <video src="https://mbrissette.x02.me/i/R7K9Z.mp4" autoplay loop muted playsinline class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"></video>
-                    </div>
-                    <div class="flex-1 space-y-2">
-                        <p class="text-sm text-brand-600 dark:text-brand-400 leading-relaxed font-normal" data-reveal="masked-lines">
-                            I've been exploring how to create textures and patterns for clients. For one brand that had a pixel-based identity, I built Pixgrid — a generative pixel-pattern tool with adjustable grid detail, aspect ratios, color palettes, and animated looks, so anyone on the team can generate on-brand patterns for social and web, then export as SVG, high-res PNG, or MP4/WebM video
-                        </p>
-                        <a href="https://mattbrissette.github.io/pixgrid/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs font-mono text-brand-900 dark:text-brand-100 underline decoration-brand-300 dark:decoration-brand-700 underline-offset-4 hover:decoration-brand-900 transition-colors font-medium">
-                            mattbrissette.github.io/pixgrid <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-60"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- LAB PROJECT 4: Kinetic Columns -->
+                <!-- LAB PROJECT 3: Kinetic Columns -->
                 <div class="py-6 first:pt-0 last:pb-0 flex flex-col sm:flex-row items-start gap-5 sm:gap-6 group reveal-on-scroll">
                     <div class="w-full sm:w-48 aspect-[3/2] shrink-0 border border-brand-200/80 dark:border-brand-800 rounded-xl overflow-hidden cursor-pointer bg-brand-100 dark:bg-brand-900" onclick="openImageLightbox('https://mbrissette.x02.me/i/3U4H.webp', 'Kinetic Columns 3D Exploration')">
                         <img src="https://mbrissette.x02.me/i/3U4H.webp" alt="Kinetic Columns 3D Exploration" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/400x300/18181b/ffffff?text=Kinetic+Columns'" />
@@ -843,7 +867,7 @@
                     </div>
                 </div>
 
-                <!-- LAB PROJECT 5: S3 McMillan Lab -->
+                <!-- LAB PROJECT 4: S3 McMillan Lab -->
                 <div class="py-6 first:pt-0 last:pb-0 flex flex-col sm:flex-row items-start gap-5 sm:gap-6 group reveal-on-scroll">
                     <div class="w-full sm:w-48 aspect-[3/2] shrink-0 border border-brand-200/80 dark:border-brand-800 rounded-xl overflow-hidden cursor-pointer bg-brand-100 dark:bg-brand-900" onclick="openImageLightbox('https://mbrissette.x02.me/i/RZ7GG.webp', 'S3 McMillan Lab')">
                         <img src="https://mbrissette.x02.me/i/RZ7GG.webp" alt="S3 McMillan Lab" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/400x300/18181b/ffffff?text=S3+McMillan+Lab'" />
@@ -889,7 +913,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-sm pt-2">
                 <div class="group flex items-center justify-between py-2.5 border-b border-brand-300/80 dark:border-brand-800/80">
                     <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 truncate pr-2">
-                        <span class="text-xs font-mono text-brand-400 uppercase shrink-0 w-16">EMAIL</span>
+                        <span class="text-xs font-mono text-brand-400 uppercase shrink-0 w-16 scramble-mono">EMAIL</span>
                         <a href="mailto:matthieubrissette@gmail.com" class="text-brand-800 dark:text-brand-200 hover:text-brand-900 dark:hover:text-white font-medium truncate">matthieubrissette@gmail.com</a>
                     </div>
                     <button onclick="copyEmail()" class="text-brand-400 hover:text-brand-900 dark:hover:text-white transition-colors p-1 shrink-0 cursor-pointer" title="Copy Email">
@@ -899,7 +923,7 @@
 
                 <a href="https://linkedin.com/in/mattbrissette" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between py-2.5 border-b border-brand-300/80 dark:border-brand-800/80 hover:border-brand-900 dark:hover:border-brand-100 transition-colors">
                     <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 truncate pr-2">
-                        <span class="text-xs font-mono text-brand-400 uppercase shrink-0 w-16">LINKEDIN</span>
+                        <span class="text-xs font-mono text-brand-400 uppercase shrink-0 w-16 scramble-mono">LINKEDIN</span>
                         <span class="text-brand-800 dark:text-brand-200 group-hover:text-brand-900 dark:group-hover:text-white font-medium truncate">linkedin.com/in/mattbrissette</span>
                     </div>
                     <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-400 group-hover:text-brand-900 dark:group-hover:text-white transition-colors shrink-0"></i>
@@ -907,7 +931,7 @@
 
                 <a href="https://github.com/MattBrissette" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between py-2.5 border-b border-brand-300/80 dark:border-brand-800/80 hover:border-brand-900 dark:hover:border-brand-100 transition-colors">
                     <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 truncate pr-2">
-                        <span class="text-xs font-mono text-brand-400 uppercase shrink-0 w-16">GITHUB</span>
+                        <span class="text-xs font-mono text-brand-400 uppercase shrink-0 w-16 scramble-mono">GITHUB</span>
                         <span class="text-brand-800 dark:text-brand-200 group-hover:text-brand-900 dark:group-hover:text-white font-medium truncate">github.com/MattBrissette</span>
                     </div>
                     <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-400 group-hover:text-brand-900 dark:group-hover:text-white transition-colors shrink-0"></i>
@@ -915,7 +939,7 @@
 
                 <a href="https://behance.net/matthieubrissette" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between py-2.5 border-b border-brand-300/80 dark:border-brand-800/80 hover:border-brand-900 dark:hover:border-brand-100 transition-colors">
                     <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 truncate pr-2">
-                        <span class="text-xs font-mono text-brand-400 uppercase shrink-0 w-16">BEHANCE</span>
+                        <span class="text-xs font-mono text-brand-400 uppercase shrink-0 w-16 scramble-mono">BEHANCE</span>
                         <span class="text-brand-800 dark:text-brand-200 group-hover:text-brand-900 dark:group-hover:text-white font-medium truncate">behance.net/matthieubrissette</span>
                     </div>
                     <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-400 group-hover:text-brand-900 dark:group-hover:text-white transition-colors shrink-0"></i>
@@ -987,7 +1011,94 @@
         let oatfiSlideIndex = 0;
         let oatfiTimer = null;
 
+        let bentleySlideIndex = 0;
+        let bentleyTimer = null;
+
+        let trailertraderSlideIndex = 0;
+        let trailertraderTimer = null;
+
         let currentNavContext = "Visual Design & Digital Products";
+
+        // Monospace Glitch & Decryption Cipher Character Set
+        const GLITCH_GLYPHS = '0123456789_#*/$!<>[]&%+=~';
+
+        function scrambleText(element, newText = null, duration = 220) {
+            if (!element) return;
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                if (newText !== null) element.textContent = newText;
+                return;
+            }
+
+            const final = newText !== null ? newText : (element.getAttribute('data-original-text') || element.textContent.trim());
+            element.setAttribute('data-original-text', final);
+            
+            const chars = final.split('');
+            const totalChars = chars.length;
+            const startTime = performance.now();
+            
+            if (element._scrambleAnimId) {
+                cancelAnimationFrame(element._scrambleAnimId);
+            }
+
+            function tick(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const resolvedCount = Math.floor(progress * totalChars);
+
+                const displayed = chars.map((char, index) => {
+                    // Preserve spaces, slashes, and separators so layout remains rigid
+                    if (char === ' ' || char === '/' || char === ',' || char === '&' || char === '-') {
+                        return char;
+                    }
+                    if (index < resolvedCount) {
+                        return char;
+                    }
+                    // Low probability of early glimpse
+                    if (Math.random() < 0.12) return char;
+                    return GLITCH_GLYPHS[Math.floor(Math.random() * GLITCH_GLYPHS.length)];
+                }).join('');
+
+                element.textContent = displayed;
+
+                if (progress < 1) {
+                    element._scrambleAnimId = requestAnimationFrame(tick);
+                } else {
+                    element.textContent = final;
+                    element._scrambleAnimId = null;
+                }
+            }
+
+            element._scrambleAnimId = requestAnimationFrame(tick);
+        }
+
+        function initScrambleEffects() {
+            const scrambleItems = document.querySelectorAll('.scramble-mono');
+            
+            scrambleItems.forEach(el => {
+                el.setAttribute('data-original-text', el.textContent.trim());
+                el.addEventListener('mouseenter', function() {
+                    scrambleText(this, null, 190);
+                });
+            });
+
+            // Viewport entrance reveal for case study tags and indices
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                const scrambleObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const targets = entry.target.querySelectorAll('.scramble-mono');
+                            targets.forEach((target, i) => {
+                                setTimeout(() => {
+                                    scrambleText(target, null, 240);
+                                }, 80 + (i * 35));
+                            });
+                        }
+                    });
+                }, { threshold: 0.15 });
+
+                document.querySelectorAll('.project-item').forEach(item => scrambleObserver.observe(item));
+            }
+        }
 
         document.addEventListener('DOMContentLoaded', function() {
             if (window.lucide) {
@@ -1001,6 +1112,9 @@
             initMobileMenu();
             initRigSlideshow();
             initOatfiSlideshow();
+            initBentleySlideshow();
+            initTrailerTraderSlideshow();
+            initScrambleEffects();
 
             document.addEventListener('keydown', function(e) {
                 const lightbox = document.getElementById('lightbox');
@@ -1016,7 +1130,6 @@
             });
         });
 
-        // 1. Masked Line-by-Line Typography Reveals
         function initMaskedTypography() {
             const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             const elements = document.querySelectorAll('[data-reveal="masked-lines"]');
@@ -1119,11 +1232,22 @@
                     navContextText.textContent = newText;
                     if (newText.startsWith('0') || newText === 'About' || newText === 'Lab' || newText === 'Contact') {
                         navContextText.className = 'font-mono text-brand-900 dark:text-brand-100 font-medium tracking-tight';
+                        // Trigger decryption scramble on nav context update
+                        scrambleText(navContextText, newText, 220);
                     } else {
                         navContextText.className = 'font-sans font-normal text-brand-500 dark:text-brand-400';
                     }
                     navContextText.classList.remove('is-transitioning');
                 }, 180);
+            }
+
+            // Hover trigger for header context text
+            if (navContextText && navContextText.parentElement) {
+                navContextText.parentElement.addEventListener('mouseenter', () => {
+                    if (navContextText.textContent.startsWith('0') || navContextText.classList.contains('font-mono')) {
+                        scrambleText(navContextText, null, 190);
+                    }
+                });
             }
 
             function updateNav() {
@@ -1370,6 +1494,126 @@
         function resetOatfiTimer() {
             clearInterval(oatfiTimer);
             startOatfiTimer();
+        }
+
+        function initBentleySlideshow() {
+            const slides = document.querySelectorAll('.bentley-slide');
+            const dots = document.querySelectorAll('.bentley-dot');
+            if (!slides.length) return;
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showBentleySlide(index);
+                    resetBentleyTimer();
+                });
+            });
+
+            startBentleyTimer();
+        }
+
+        function showBentleySlide(index) {
+            const slides = document.querySelectorAll('.bentley-slide');
+            const dots = document.querySelectorAll('.bentley-dot');
+            if (!slides.length) return;
+
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('opacity-100', idx === index);
+                slide.classList.toggle('opacity-0', idx !== index);
+            });
+
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('bg-white', idx === index);
+                dot.classList.toggle('bg-white/40', idx !== index);
+                dot.classList.toggle('w-3', idx === index);
+                dot.classList.toggle('w-1.5', idx !== index);
+            });
+
+            bentleySlideIndex = index;
+        }
+
+        function startBentleyTimer() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            clearInterval(bentleyTimer);
+            bentleyTimer = setInterval(() => {
+                const slides = document.querySelectorAll('.bentley-slide');
+                if (!slides.length) return;
+                const nextIndex = (bentleySlideIndex + 1) % slides.length;
+                showBentleySlide(nextIndex);
+            }, 2500);
+        }
+
+        function resetBentleyTimer() {
+            clearInterval(bentleyTimer);
+            startBentleyTimer();
+        }
+
+        function initTrailerTraderSlideshow() {
+            const slides = document.querySelectorAll('.trailertrader-slide');
+            const dots = document.querySelectorAll('.trailertrader-dot');
+            if (!slides.length) return;
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showTrailerTraderSlide(index);
+                    resetTrailerTraderTimer();
+                });
+            });
+
+            startTrailerTraderTimer();
+        }
+
+        function showTrailerTraderSlide(index) {
+            const slides = document.querySelectorAll('.trailertrader-slide');
+            const dots = document.querySelectorAll('.trailertrader-dot');
+            if (!slides.length) return;
+
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('opacity-100', idx === index);
+                slide.classList.toggle('opacity-0', idx !== index);
+            });
+
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('bg-white', idx === index);
+                dot.classList.toggle('bg-white/40', idx !== index);
+                dot.classList.toggle('w-3', idx === index);
+                dot.classList.toggle('w-1.5', idx !== index);
+            });
+
+            trailertraderSlideIndex = index;
+        }
+
+        function startTrailerTraderTimer() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            clearInterval(trailertraderTimer);
+            trailertraderTimer = setInterval(() => {
+                const slides = document.querySelectorAll('.trailertrader-slide');
+                if (!slides.length) return;
+                const nextIndex = (trailertraderSlideIndex + 1) % slides.length;
+                showTrailerTraderSlide(nextIndex);
+            }, 2500);
+        }
+
+        function resetTrailerTraderTimer() {
+            clearInterval(trailertraderTimer);
+            startTrailerTraderTimer();
+        }
+
+        function openTrailerTraderSlideshowLightbox() {
+            const activeSlide = document.querySelectorAll('.trailertrader-slide')[trailertraderSlideIndex];
+            if (activeSlide) {
+                openImageLightbox(activeSlide.src, activeSlide.alt || 'TrailerTrader Dashboard Sequence');
+            }
+        }
+
+        function openBentleySlideshowLightbox() {
+            const activeSlide = document.querySelectorAll('.bentley-slide')[bentleySlideIndex];
+            if (activeSlide) {
+                openImageLightbox(activeSlide.src, activeSlide.alt || 'Bentley Motors Canada Sequence');
+            }
         }
 
         function openImageLightbox(imageUrl, title) {
