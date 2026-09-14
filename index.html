@@ -312,13 +312,6 @@
                     <a href="#contact" class="hover:text-brand-900 dark:hover:text-white transition-colors">Contact</a>
                 </nav>
 
-                <div class="h-4 w-[1px] bg-brand-300 dark:bg-brand-800 hidden md:block"></div>
-
-                <button id="themeToggle" class="p-1.5 rounded-md hover:bg-brand-200/50 dark:hover:bg-brand-800/50 text-brand-600 dark:text-brand-400 transition-colors cursor-pointer" title="Toggle Theme" aria-label="Toggle Theme">
-                    <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
-                    <i data-lucide="sun" class="w-4 h-4 block dark:hidden"></i>
-                </button>
-
                 <button id="mobileMenuToggle" class="md:hidden p-1.5 rounded-md hover:bg-brand-200/50 dark:hover:bg-brand-800/50 text-brand-600 dark:text-brand-400 transition-colors cursor-pointer" title="Toggle Navigation Menu" aria-label="Toggle Navigation Menu">
                     <i data-lucide="menu" id="menuOpenIcon" class="w-4 h-4 block"></i>
                     <i data-lucide="x" id="menuCloseIcon" class="w-4 h-4 hidden"></i>
@@ -473,8 +466,17 @@
                         <img src="https://mbrissette.x02.me/i/RHZMK.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=RocketAir+4'" alt="RocketAir 4" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
                     </div>
 
-                    <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/DN4T.webp', 'RocketAir 5')">
-                        <img src="https://mbrissette.x02.me/i/DN4T.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=RocketAir+5'" alt="RocketAir 5" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    <!-- Card 5: RocketAir 3-Image Slideshow -->
+                    <div id="rocketair-slideshow-container" class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openRocketAirSlideshowLightbox()">
+                        <img src="https://mbrissette.x02.me/i/DN4T.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=RocketAir+5a'" alt="RocketAir - Sequence 1" class="rocketair-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-100" />
+                        <img src="https://mbrissette.x02.me/i/JDFPHU.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=RocketAir+5b'" alt="RocketAir - Sequence 2" class="rocketair-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        <img src="https://mbrissette.x02.me/i/2SKU7.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=RocketAir+5c'" alt="RocketAir - Sequence 3" class="rocketair-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        
+                        <div class="absolute bottom-3 right-3 flex items-center space-x-1.5 z-10 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
+                            <span class="rocketair-dot w-3 h-1.5 rounded-full bg-white transition-all duration-300"></span>
+                            <span class="rocketair-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300"></span>
+                            <span class="rocketair-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300"></span>
+                        </div>
                     </div>
                 </div>
 
@@ -485,16 +487,22 @@
                         <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Design Lead</span>
                     </div>
                     
-                    <div class="space-y-3 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
+                    <div class="space-y-4 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
                         <p data-reveal="masked-lines">
                             A digital experience created in collaboration with RocketAir, blending creative strategy, thoughtful design, and high-impact visuals into a modern, engaging web experience.
                         </p>
                         <p data-reveal="masked-lines">
-                            Visuals were inspired by Neobrutalism and Swiss design — featuring big, bold typography, a lo-fi space theme contrasted with bright neon yellow, and designed with motion in mind. 
-                            <a href="https://www.rocketair.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-brand-300 dark:decoration-brand-700 underline-offset-4 hover:decoration-brand-900 dark:hover:decoration-brand-100 transition-colors font-medium inline-flex items-center gap-1 ml-1">
-                                rocketair.com <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-60"></i>
-                            </a>
+                            Visuals were inspired by editorial/brutalist, bold typography as the visual anchor. A lo-fi space theme is contrasted against a bright neon yellow accent, set against a high-contrast, near-monochrome black-and-white base.
                         </p>
+                        <p data-reveal="masked-lines">
+                            The whole experience was designed with motion in mind, with content sitting at the corners and edges rather than centered, leaving generous negative space to breathe.
+                        </p>
+                        <div class="pt-1">
+                            <a href="https://www.rocketair.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-sm sm:text-base font-mono text-brand-900 dark:text-brand-100 underline decoration-brand-300 dark:decoration-brand-700 underline-offset-4 hover:decoration-brand-900 dark:hover:decoration-brand-100 transition-colors group">
+                                <span class="font-medium group-hover:text-brand-900 dark:group-hover:text-white">rocketair.com</span>
+                                <i data-lucide="arrow-up-right" class="w-4 h-4 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+                            </a>
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-7 lg:w-4/5">
@@ -764,35 +772,35 @@
                 </div>
             </article>
 
-            <!-- PROJECT 7: CaRMS -->
-            <article class="project-item space-y-6 pt-10 border-t border-brand-300/80 dark:border-brand-800/80 transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Dashboard,Platform" data-context="07 / 07 CaRMS">
+            <!-- PROJECT 7: Larus -->
+            <article class="project-item space-y-6 pt-10 border-t border-brand-300/80 dark:border-brand-800/80 transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design,3D,WebGL" data-context="07 / 07 Larus">
                 <header class="flex items-baseline justify-between border-b border-brand-300/80 dark:border-brand-800 pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
-                        <span>CaRMS</span>
+                        <span>Larus</span>
                         <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">07 / 07</span>
                     </h2>
-                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">Healthcare / Digital Platform</span>
+                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">3D Booth, Trade Show</span>
                 </header>
 
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-                    <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/N99H.webp', 'CaRMS 1')">
-                        <img src="https://mbrissette.x02.me/i/N99H.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=CaRMS+1'" alt="CaRMS 1" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/S6TA.webp', 'Larus 1')">
+                        <img src="https://mbrissette.x02.me/i/S6TA.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=Larus+1'" alt="Larus 1" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
                     </div>
 
-                    <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/WH8Y.webp', 'CaRMS 2')">
-                        <img src="https://mbrissette.x02.me/i/WH8Y.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=CaRMS+2'" alt="CaRMS 2" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/YQS7.webp', 'Larus 2')">
+                        <img src="https://mbrissette.x02.me/i/YQS7.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=Larus+2'" alt="Larus 2" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
                     </div>
 
-                    <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/QBAW9.webp', 'CaRMS 3')">
-                        <img src="https://mbrissette.x02.me/i/QBAW9.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=CaRMS+3'" alt="CaRMS 3" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/CJU6.webp', 'Larus 3')">
+                        <img src="https://mbrissette.x02.me/i/CJU6.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=Larus+3'" alt="Larus 3" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
                     </div>
 
-                    <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/FCXZ8R.webp', 'CaRMS 4')">
-                        <img src="https://mbrissette.x02.me/i/FCXZ8R.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=CaRMS+4'" alt="CaRMS 4" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/3RFU.webp', 'Larus 4')">
+                        <img src="https://mbrissette.x02.me/i/3RFU.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=Larus+4'" alt="Larus 4" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
                     </div>
 
-                    <div class="md:col-span-12 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/HHX6R7.webp', 'CaRMS 5')">
-                        <img src="https://mbrissette.x02.me/i/HHX6R7.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/1200x600/18181b/ffffff?text=CaRMS+5'" alt="CaRMS 5" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
+                    <div class="md:col-span-12 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group" onclick="openImageLightbox('https://mbrissette.x02.me/i/2N4K.webp', 'Larus 5')">
+                        <img src="https://mbrissette.x02.me/i/2N4K.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/1200x600/18181b/ffffff?text=Larus+5'" alt="Larus 5" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-[1.02]" />
                     </div>
                 </div>
 
@@ -800,17 +808,20 @@
                     <div class="flex flex-wrap gap-2 text-xs font-mono text-brand-600 dark:text-brand-400">
                         <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">UX</span>
                         <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Art Direction</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Design Lead</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Dashboard</span>
-                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Platform</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Design</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">3D</span>
+                        <span class="px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">WebGL</span>
                     </div>
-                    <div class="space-y-3 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
+                    <div class="space-y-4 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
                         <p data-reveal="masked-lines">
-                            CaRMS' platform had grown increasingly complex, making it difficult to maintain, scale, and communicate across multiple stakeholders. The residency matching process relied on sophisticated algorithms and workflows, but the user experience and internal systems struggled to keep pace, creating friction for applicants, medical schools, and administrators.
+                            Trade show conversations are short, and complex enterprise software is difficult to communicate in just a few minutes. To bridge that gap, I designed and built an interactive 3D exhibition experience, leveraging AI-assisted development with Gemini and Claude, that combines storytelling, product demonstrations, downloadable resources, and lead generation into a single immersive experience accessible from any browser.
                         </p>
-                        <p data-reveal="masked-lines">
-                            We simplified the login and registration experience, reducing friction for new and returning users, while redesigning the program management workflow to make updating residency program information faster, more intuitive, and easier to maintain. The result was a more efficient platform for both applicants and administrators, built to support future growth and ongoing content management.
-                        </p>
+                        <div class="pt-1">
+                            <a href="https://mattbrissette.github.io/3d_booth/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-sm sm:text-base font-mono text-brand-900 dark:text-brand-100 underline decoration-brand-300 dark:decoration-brand-700 underline-offset-4 hover:decoration-brand-900 dark:hover:decoration-brand-100 transition-colors group">
+                                <span class="font-medium group-hover:text-brand-900 dark:group-hover:text-white">mattbrissette.github.io/3d_booth</span>
+                                <i data-lucide="arrow-up-right" class="w-4 h-4 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </article>
@@ -822,22 +833,7 @@
             <h2 class="text-lg font-semibold tracking-tight text-brand-900 dark:text-brand-100" data-reveal="masked-lines">Lab</h2>
 
             <div class="divide-y divide-brand-300/80 dark:divide-brand-800">
-                <!-- LAB PROJECT 1: Larus 3D -->
-                <div class="py-6 first:pt-0 last:pb-0 flex flex-col sm:flex-row items-start gap-5 sm:gap-6 group reveal-on-scroll">
-                    <div class="w-full sm:w-48 aspect-[3/2] shrink-0 border border-brand-200/80 dark:border-brand-800 rounded-xl overflow-hidden cursor-pointer bg-brand-100 dark:bg-brand-900" onclick="openImageLightbox('https://mbrissette.x02.me/i/VFRQ.webp', 'Larus 3D Exhibition')">
-                        <img src="https://mbrissette.x02.me/i/VFRQ.webp" alt="Larus 3D Exhibition" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/400x300/18181b/ffffff?text=Larus+3D'" />
-                    </div>
-                    <div class="flex-1 space-y-2">
-                        <p class="text-sm text-brand-600 dark:text-brand-400 leading-relaxed font-normal" data-reveal="masked-lines">
-                            Trade show conversations are short, and complex enterprise software is difficult to communicate in a few minutes. To bridge that gap, I created an interactive 3D exhibition experience that combines storytelling, product demonstrations, downloadable resources, and lead generation into a single immersive experience. Built with Gemini &amp; Claude.
-                        </p>
-                        <a href="https://mattbrissette.github.io/3d_booth/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs font-mono text-brand-900 dark:text-brand-100 underline decoration-brand-300 dark:decoration-brand-700 underline-offset-4 hover:decoration-brand-900 transition-colors font-medium">
-                            mattbrissette.github.io/3d_booth <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-60"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- LAB PROJECT 2: Pastel Dream -->
+                <!-- LAB PROJECT 1: Pastel Dream -->
                 <div class="py-6 first:pt-0 last:pb-0 flex flex-col sm:flex-row items-start gap-5 sm:gap-6 group reveal-on-scroll">
                     <div class="w-full sm:w-48 aspect-[3/2] shrink-0 border border-brand-200/80 dark:border-brand-800 rounded-xl overflow-hidden cursor-pointer bg-brand-100 dark:bg-brand-900" onclick="openImageLightbox('https://mbrissette.x02.me/i/XEPPX7.webp', 'Pastel Dream 3D Environment')">
                         <img src="https://mbrissette.x02.me/i/XEPPX7.webp" alt="Pastel Dream 3D Environment" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/400x300/18181b/ffffff?text=Pastel+Dream'" />
@@ -852,7 +848,7 @@
                     </div>
                 </div>
 
-                <!-- LAB PROJECT 3: Kinetic Columns -->
+                <!-- LAB PROJECT 2: Kinetic Columns -->
                 <div class="py-6 first:pt-0 last:pb-0 flex flex-col sm:flex-row items-start gap-5 sm:gap-6 group reveal-on-scroll">
                     <div class="w-full sm:w-48 aspect-[3/2] shrink-0 border border-brand-200/80 dark:border-brand-800 rounded-xl overflow-hidden cursor-pointer bg-brand-100 dark:bg-brand-900" onclick="openImageLightbox('https://mbrissette.x02.me/i/3U4H.webp', 'Kinetic Columns 3D Exploration')">
                         <img src="https://mbrissette.x02.me/i/3U4H.webp" alt="Kinetic Columns 3D Exploration" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/400x300/18181b/ffffff?text=Kinetic+Columns'" />
@@ -867,7 +863,7 @@
                     </div>
                 </div>
 
-                <!-- LAB PROJECT 4: S3 McMillan Lab -->
+                <!-- LAB PROJECT 3: S3 McMillan Lab -->
                 <div class="py-6 first:pt-0 last:pb-0 flex flex-col sm:flex-row items-start gap-5 sm:gap-6 group reveal-on-scroll">
                     <div class="w-full sm:w-48 aspect-[3/2] shrink-0 border border-brand-200/80 dark:border-brand-800 rounded-xl overflow-hidden cursor-pointer bg-brand-100 dark:bg-brand-900" onclick="openImageLightbox('https://mbrissette.x02.me/i/RZ7GG.webp', 'S3 McMillan Lab')">
                         <img src="https://mbrissette.x02.me/i/RZ7GG.webp" alt="S3 McMillan Lab" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/400x300/18181b/ffffff?text=S3+McMillan+Lab'" />
@@ -885,10 +881,10 @@
         </section>
 
         <!-- ABOUT SECTION -->
-        <section id="about" class="pt-12 border-t border-brand-300/80 dark:border-brand-800 space-y-6 reveal-on-scroll" data-context="About">
+        <section id="about" class="pt-12 border-t border-brand-300/80 dark:border-brand-800 reveal-on-scroll" data-context="About">
             <h2 class="text-lg font-semibold tracking-tight text-brand-900 dark:text-brand-100" data-reveal="masked-lines">About</h2>
             
-            <div class="space-y-4 max-w-3xl text-base sm:text-lg text-brand-700 dark:text-brand-300 leading-relaxed font-normal">
+            <div class="mt-6 space-y-4 max-w-3xl text-base sm:text-lg text-brand-700 dark:text-brand-300 leading-relaxed font-normal">
                 <p data-reveal="masked-lines">
                     I specialize in Visual Design, Art Direction, and Digital Product Design, with 10+ years of experience creating brands, digital products, and experiences for SaaS, technology, and consumer businesses.
                 </p>
@@ -898,6 +894,118 @@
                 <p data-reveal="masked-lines">
                     Based in Gatineau-Ottawa, Canada.
                 </p>
+            </div>
+
+            <div class="mt-12 pt-12 max-w-3xl border-t border-brand-300/80 dark:border-brand-800">
+                <div class="divide-y divide-brand-200/80 dark:divide-brand-800/80">
+                    <!-- S3 McMillan -->
+                    <div class="py-5 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-8 group">
+                        <div class="sm:w-44 shrink-0 font-mono text-xs">
+                            <span class="text-brand-700 dark:text-brand-300 font-medium scramble-mono block">Feb 2023 — Present</span>
+                            <span class="text-brand-400 dark:text-brand-500 text-[11px] block mt-0.5">3 yrs 8 mos</span>
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <h4 class="text-sm sm:text-base font-medium text-brand-900 dark:text-brand-100 flex flex-wrap items-baseline gap-x-2">
+                                <span>Senior Digital Designer</span>
+                                <span class="text-brand-400 dark:text-brand-600 font-normal">·</span>
+                                <span class="text-brand-600 dark:text-brand-400 font-normal">S3 McMillan</span>
+                            </h4>
+                            <p class="text-xs sm:text-sm text-brand-500 dark:text-brand-400 font-normal leading-relaxed">
+                                Permanent Full-time
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- RocketAir -->
+                    <div class="py-5 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-8 group">
+                        <div class="sm:w-44 shrink-0 font-mono text-xs">
+                            <span class="text-brand-700 dark:text-brand-300 font-medium scramble-mono block">Nov 2021 — Feb 2023</span>
+                            <span class="text-brand-400 dark:text-brand-500 text-[11px] block mt-0.5">1 yr 4 mos</span>
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <h4 class="text-sm sm:text-base font-medium text-brand-900 dark:text-brand-100 flex flex-wrap items-baseline gap-x-2">
+                                <span>Senior Product Designer</span>
+                                <span class="text-brand-400 dark:text-brand-600 font-normal">·</span>
+                                <span class="text-brand-600 dark:text-brand-400 font-normal">RocketAir</span>
+                            </h4>
+                            <p class="text-xs sm:text-sm text-brand-500 dark:text-brand-400 font-normal leading-relaxed">
+                                RocketAir is a design and strategy company with an adaptive approach to problem solving.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- RVezy -->
+                    <div class="py-5 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-8 group">
+                        <div class="sm:w-44 shrink-0 font-mono text-xs">
+                            <span class="text-brand-700 dark:text-brand-300 font-medium scramble-mono block">Jan 2021 — Nov 2021</span>
+                            <span class="text-brand-400 dark:text-brand-500 text-[11px] block mt-0.5">11 mos</span>
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <h4 class="text-sm sm:text-base font-medium text-brand-900 dark:text-brand-100 flex flex-wrap items-baseline gap-x-2">
+                                <span>Product Designer</span>
+                                <span class="text-brand-400 dark:text-brand-600 font-normal">·</span>
+                                <span class="text-brand-600 dark:text-brand-400 font-normal">RVezy</span>
+                            </h4>
+                            <p class="text-xs sm:text-sm text-brand-500 dark:text-brand-400 font-normal leading-relaxed">
+                                North America’s Top-Rated RV Rental Marketplace app.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Smith -->
+                    <div class="py-5 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-8 group">
+                        <div class="sm:w-44 shrink-0 font-mono text-xs">
+                            <span class="text-brand-700 dark:text-brand-300 font-medium scramble-mono block">Jan 2020 — Feb 2021</span>
+                            <span class="text-brand-400 dark:text-brand-500 text-[11px] block mt-0.5">1 yr 2 mos</span>
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <h4 class="text-sm sm:text-base font-medium text-brand-900 dark:text-brand-100 flex flex-wrap items-baseline gap-x-2">
+                                <span>Visual Designer</span>
+                                <span class="text-brand-400 dark:text-brand-600 font-normal">·</span>
+                                <span class="text-brand-600 dark:text-brand-400 font-normal">Smith</span>
+                            </h4>
+                            <p class="text-xs sm:text-sm text-brand-500 dark:text-brand-400 font-normal leading-relaxed">
+                                Smith Commerce is an eCommerce agency specializing in Shopify and high-performing digital experiences.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- McMillan -->
+                    <div class="py-5 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-8 group">
+                        <div class="sm:w-44 shrink-0 font-mono text-xs">
+                            <span class="text-brand-700 dark:text-brand-300 font-medium scramble-mono block">Feb 2015 — Jan 2020</span>
+                            <span class="text-brand-400 dark:text-brand-500 text-[11px] block mt-0.5">5 yrs</span>
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <h4 class="text-sm sm:text-base font-medium text-brand-900 dark:text-brand-100 flex flex-wrap items-baseline gap-x-2">
+                                <span>Interaction Designer</span>
+                                <span class="text-brand-400 dark:text-brand-600 font-normal">·</span>
+                                <span class="text-brand-600 dark:text-brand-400 font-normal">McMillan</span>
+                            </h4>
+                            <p class="text-xs sm:text-sm text-brand-500 dark:text-brand-400 font-normal leading-relaxed">
+                                McMillan is a creative agency. They help global businesses articulate their unique and authentic value, tell their most compelling stories, and elevate their customers’ entire brand experience.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- OLA Web Studio -->
+                    <div class="py-5 first:pt-0 last:pb-0 flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-8 group">
+                        <div class="sm:w-44 shrink-0 font-mono text-xs">
+                            <span class="text-brand-700 dark:text-brand-300 font-medium scramble-mono block">Jan 2013 — Feb 2015</span>
+                            <span class="text-brand-400 dark:text-brand-500 text-[11px] block mt-0.5">2 yrs 2 mos</span>
+                        </div>
+                        <div class="flex-1 space-y-1">
+                            <h4 class="text-sm sm:text-base font-medium text-brand-900 dark:text-brand-100 flex flex-wrap items-baseline gap-x-2">
+                                <span>Lead Web Designer</span>
+                                <span class="text-brand-400 dark:text-brand-600 font-normal">·</span>
+                                <span class="text-brand-600 dark:text-brand-400 font-normal">OLA Web Studio</span>
+                            </h4>
+                            <p class="text-xs sm:text-sm text-brand-500 dark:text-brand-400 font-normal leading-relaxed">
+                                OLA Web studio is a funky group of creatives who are passionate about producing distinctive and new experiences with digital media.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1011,6 +1119,9 @@
         let oatfiSlideIndex = 0;
         let oatfiTimer = null;
 
+        let rocketairSlideIndex = 0;
+        let rocketairTimer = null;
+
         let bentleySlideIndex = 0;
         let bentleyTimer = null;
 
@@ -1108,10 +1219,10 @@
             initAmbientNav();
             initMaskedTypography();
             initScrollReveal();
-            initThemeToggle();
             initMobileMenu();
             initRigSlideshow();
             initOatfiSlideshow();
+            initRocketAirSlideshow();
             initBentleySlideshow();
             initTrailerTraderSlideshow();
             initScrambleEffects();
@@ -1341,24 +1452,6 @@
             elements.forEach(el => observer.observe(el));
         }
 
-        function initThemeToggle() {
-            const themeBtn = document.getElementById('themeToggle');
-            if (!themeBtn) return;
-
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-
-            themeBtn.addEventListener('click', function() {
-                document.documentElement.classList.toggle('dark');
-                const isDark = document.documentElement.classList.contains('dark');
-                localStorage.setItem('theme', isDark ? 'dark' : 'light');
-            });
-        }
-
         function initMobileMenu() {
             const toggleBtn = document.getElementById('mobileMenuToggle');
             const mobileMenu = document.getElementById('mobileMenu');
@@ -1494,6 +1587,66 @@
         function resetOatfiTimer() {
             clearInterval(oatfiTimer);
             startOatfiTimer();
+        }
+
+        function initRocketAirSlideshow() {
+            const slides = document.querySelectorAll('.rocketair-slide');
+            const dots = document.querySelectorAll('.rocketair-dot');
+            if (!slides.length) return;
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showRocketAirSlide(index);
+                    resetRocketAirTimer();
+                });
+            });
+
+            startRocketAirTimer();
+        }
+
+        function showRocketAirSlide(index) {
+            const slides = document.querySelectorAll('.rocketair-slide');
+            const dots = document.querySelectorAll('.rocketair-dot');
+            if (!slides.length) return;
+
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('opacity-100', idx === index);
+                slide.classList.toggle('opacity-0', idx !== index);
+            });
+
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('bg-white', idx === index);
+                dot.classList.toggle('bg-white/40', idx !== index);
+                dot.classList.toggle('w-3', idx === index);
+                dot.classList.toggle('w-1.5', idx !== index);
+            });
+
+            rocketairSlideIndex = index;
+        }
+
+        function startRocketAirTimer() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            clearInterval(rocketairTimer);
+            rocketairTimer = setInterval(() => {
+                const slides = document.querySelectorAll('.rocketair-slide');
+                if (!slides.length) return;
+                const nextIndex = (rocketairSlideIndex + 1) % slides.length;
+                showRocketAirSlide(nextIndex);
+            }, 2500);
+        }
+
+        function resetRocketAirTimer() {
+            clearInterval(rocketairTimer);
+            startRocketAirTimer();
+        }
+
+        function openRocketAirSlideshowLightbox() {
+            const activeSlide = document.querySelectorAll('.rocketair-slide')[rocketairSlideIndex];
+            if (activeSlide) {
+                openImageLightbox(activeSlide.src, activeSlide.alt || 'RocketAir Sequence');
+            }
         }
 
         function initBentleySlideshow() {
