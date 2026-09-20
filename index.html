@@ -271,18 +271,6 @@
             opacity: 0 !important;
         }
 
-        /* Nav Context transition */
-        #navContextText {
-            transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-            display: inline-block;
-            will-change: opacity, transform;
-        }
-
-        #navContextText.is-transitioning {
-            opacity: 0;
-            transform: translateY(-6px);
-        }
-
         /* Monospace Decryption & Scramble Styling */
         .scramble-mono {
             display: inline-block;
@@ -423,6 +411,26 @@
             100% { transform: scale(1) translateY(0) rotate(0deg) translateZ(0); }
         }
 
+        .scroll-fill-target .masked-line-inner {
+            -webkit-text-stroke: 1px currentColor;
+            color: transparent;
+            background-image: linear-gradient(currentColor, currentColor);
+            background-repeat: no-repeat;
+            background-size: var(--scroll-fill, 0%) 100%;
+            background-position: left center;
+            -webkit-background-clip: text;
+            background-clip: text;
+            will-change: background-size;
+        }
+
+        @supports not (-webkit-background-clip: text) {
+            .scroll-fill-target .masked-line-inner {
+                color: currentColor;
+                -webkit-text-stroke: 0;
+                background-image: none;
+            }
+        }
+
         @media (prefers-reduced-motion: reduce) {
             .noise-bg { animation: none !important; }
             .animate-marquee { animation: none !important; }
@@ -434,6 +442,7 @@
             .tag-pill { opacity: 1 !important; transform: none !important; transition: none !important; }
             .img-easy-load { opacity: 1 !important; filter: none !important; transform: none !important; transition: none !important; }
             .bento-card::before, .lab-img-wrap::before { display: none !important; animation: none !important; }
+            .scroll-fill-target .masked-line-inner { background-size: 100% 100% !important; }
         }
 
         ::-webkit-scrollbar { width: 8px; }
@@ -449,20 +458,16 @@
     <header id="mainHeader" class="sticky top-0 z-40 border-b border-transparent bg-transparent relative">
         <div class="max-w-7xl mx-auto px-5 sm:px-8 py-3.5 flex items-center justify-between text-sm">
             <div class="flex items-center space-x-3">
-                <a href="#top" class="font-medium hover:opacity-70 transition-opacity tracking-tight text-brand-900 dark:text-brand-100 flex items-center gap-2.5">
+                <a href="#top" class="text-sm font-normal hover:opacity-70 transition-opacity text-brand-900 dark:text-brand-100 flex items-center">
                     Matthieu Brissette
                 </a>
-                <span class="text-brand-400 dark:text-brand-600">/</span>
-                <span id="navContext" class="text-xs hidden sm:inline-block font-mono text-brand-500 dark:text-brand-400">
-                    <span id="navContextText" class="font-sans font-normal text-brand-500 dark:text-brand-400">Visual Design &amp; Digital Products</span>
-                </span>
             </div>
 
-            <div class="flex items-center space-x-4">
-                <nav class="hidden md:flex items-center space-x-5 text-xs text-brand-600 dark:text-brand-400 font-medium">
-                    <a href="#projects" class="hover:text-brand-900 dark:hover:text-white transition-colors">Work</a>
-                    <a href="#lab" class="hover:text-brand-900 dark:hover:text-white transition-colors">Lab</a>
-                    <a href="#about" class="hover:text-brand-900 dark:hover:text-white transition-colors">About</a>
+            <div class="flex items-center">
+                <nav class="hidden md:flex items-center space-x-2 text-sm font-normal text-brand-600 dark:text-brand-400">
+                    <a href="#projects" class="hover:text-brand-900 dark:hover:text-white transition-colors">Work,</a>
+                    <a href="#lab" class="hover:text-brand-900 dark:hover:text-white transition-colors">Lab,</a>
+                    <a href="#about" class="hover:text-brand-900 dark:hover:text-white transition-colors">About,</a>
                     <a href="#contact" class="hover:text-brand-900 dark:hover:text-white transition-colors">Contact</a>
                 </nav>
 
@@ -997,6 +1002,21 @@
                         </a>
                     </div>
                 </div>
+
+                <!-- LAB PROJECT 4: 3D Exhibition Booth -->
+                <div class="py-6 first:pt-0 last:pb-0 flex flex-col sm:flex-row items-start gap-5 sm:gap-6 group reveal-on-scroll">
+                    <div class="w-full sm:w-48 aspect-[3/2] shrink-0 border border-brand-200/80 dark:border-brand-800 rounded-xl overflow-hidden bg-brand-100 dark:bg-brand-900 relative lab-img-wrap">
+                        <img src="https://mbrissette.x02.me/i/VFRQ.webp" alt="3D Exhibition Experience" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/400x300/18181b/ffffff?text=3D+Exhibition'" />
+                    </div>
+                    <div class="flex-1 space-y-2">
+                        <p class="text-sm text-brand-600 dark:text-brand-400 leading-relaxed font-normal" data-reveal="masked-lines">
+                            Trade show conversations are short, and complex enterprise software is difficult to communicate in just a few minutes. To bridge that gap, I designed and built an interactive 3D exhibition experience, leveraging AI-assisted development with Gemini and Claude, that combines storytelling, product demonstrations, downloadable resources, and lead generation into a single immersive experience accessible from any browser.
+                        </p>
+                        <a href="https://mattbrissette.github.io/3d_booth/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs font-mono text-brand-900 dark:text-brand-100 underline decoration-brand-300 dark:decoration-brand-700 underline-offset-4 hover:decoration-brand-900 transition-colors font-medium">
+                            mattbrissette.github.io/3d_booth <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-60"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1130,7 +1150,7 @@
                         <span class="text-xs font-mono text-brand-400 uppercase shrink-0 w-16 scramble-mono">EMAIL</span>
                         <a href="mailto:matthieubrissette@gmail.com" class="text-brand-800 dark:text-brand-200 hover:text-brand-900 dark:hover:text-white font-medium truncate">matthieubrissette@gmail.com</a>
                     </div>
-                    <button onclick="copyEmail()" class="text-brand-400 hover:text-brand-900 dark:hover:text-white transition-colors p-1 shrink-0 cursor-pointer" title="Copy Email">
+                    <button onclick="copyEmail(event)" class="text-brand-400 hover:text-brand-900 dark:hover:text-white transition-colors p-1 shrink-0 cursor-pointer" title="Copy Email">
                         <i data-lucide="copy" class="w-4 h-4"></i>
                     </button>
                 </div>
@@ -1163,14 +1183,14 @@
 
     </main>
 
-    <footer class="relative z-10 border-t border-brand-300/80 dark:border-brand-800 bg-white/60 dark:bg-brand-950/60 py-10 transition-colors">
-        <div class="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-sm text-brand-600 dark:text-brand-400">
-            <div class="font-mono text-xs text-brand-500">
+    <footer class="relative z-10 border-t border-brand-300/80 dark:border-brand-800 bg-white/60 dark:bg-brand-950/60 py-10 transition-colors overflow-hidden">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-sm text-brand-600 dark:text-brand-400 relative z-10 pointer-events-none">
+            <div class="font-mono text-xs text-brand-500 pointer-events-auto">
                 © 2026 Matt Brissette
             </div>
 
-            <div class="flex items-center space-x-6 text-sm font-medium">
-                <button onclick="copyEmail()" class="hover:text-brand-900 dark:hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer">
+            <div class="flex items-center space-x-6 text-sm font-medium pointer-events-auto">
+                <button onclick="copyEmail(event)" class="hover:text-brand-900 dark:hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer">
                     <i data-lucide="mail" class="w-4 h-4"></i>
                     <span>Email</span>
                 </button>
@@ -1206,8 +1226,6 @@
 
         let trailertraderSlideIndex = 0;
         let trailertraderTimer = null;
-
-        let currentNavContext = "Visual Design & Digital Products";
 
         function initNativeScroll() {
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1339,48 +1357,7 @@
 
         function initAmbientNav() {
             const header = document.getElementById('mainHeader');
-            const navContextText = document.getElementById('navContextText');
             if (!header) return;
-
-            function setNavContextText(newText) {
-                if (!navContextText || currentNavContext === newText) return;
-                currentNavContext = newText;
-                navContextText.classList.add('is-transitioning');
-
-                setTimeout(() => {
-                    navContextText.textContent = newText;
-                    if (newText.startsWith('0') || newText === 'About' || newText === 'Lab' || newText === 'Contact') {
-                        navContextText.className = 'font-mono text-brand-900 dark:text-brand-100 font-medium tracking-tight';
-                        scrambleText(navContextText, newText, 200);
-                    } else {
-                        navContextText.className = 'font-sans font-normal text-brand-500 dark:text-brand-400';
-                    }
-                    navContextText.classList.remove('is-transitioning');
-                }, 150);
-            }
-
-            if (navContextText && navContextText.parentElement) {
-                navContextText.parentElement.addEventListener('mouseenter', () => {
-                    if (navContextText.textContent.startsWith('0') || navContextText.classList.contains('font-mono')) {
-                        scrambleText(navContextText, null, 180);
-                    }
-                });
-            }
-
-            const trackedSections = document.querySelectorAll('[data-context]');
-            const sectionObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const ctx = entry.target.getAttribute('data-context');
-                        if (ctx) setNavContextText(ctx);
-                    }
-                });
-            }, {
-                rootMargin: '-10% 0px -65% 0px',
-                threshold: 0
-            });
-
-            trackedSections.forEach(sec => sectionObserver.observe(sec));
 
             let isScrolled = false;
             function onScrollUpdate() {
@@ -1395,7 +1372,6 @@
                     } else {
                         header.classList.remove('bg-[#f3f3f3]/85', 'dark:bg-[#0c0c0e]/85', 'border-brand-300/80', 'dark:border-brand-800/80', 'shadow-sm');
                         header.classList.add('border-transparent', 'bg-transparent');
-                        setNavContextText("Visual Design & Digital Products");
                     }
                 }
             }
@@ -1913,9 +1889,81 @@
             });
         }
 
-        function copyEmail() {
+        function createEmojiBurst(x, y) {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            const emojis = ['👋', '🚀', '💻', '✨', '🔥'];
+            const numParticles = 14;
+
+            for (let i = 0; i < numParticles; i++) {
+                const particle = document.createElement('div');
+                particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                particle.style.position = 'fixed';
+                particle.style.left = '0px';
+                particle.style.top = '0px';
+                particle.style.fontSize = (Math.random() * 12 + 16) + 'px';
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '9999';
+                particle.style.willChange = 'transform, opacity';
+                document.body.appendChild(particle);
+
+                // Initial physics properties
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 7 + 4;
+                let vx = Math.cos(angle) * velocity;
+                let vy = Math.sin(angle) * velocity - 6; 
+                let rotation = Math.random() * 360;
+                const rotationSpeed = (Math.random() - 0.5) * 15;
+                const gravity = 0.4;
+                let opacity = 1;
+                let scale = Math.random() * 0.5 + 0.75;
+                
+                let currentX = x;
+                let currentY = y;
+
+                function animate() {
+                    vy += gravity;
+                    currentX += vx;
+                    currentY += vy;
+                    rotation += rotationSpeed;
+                    
+                    if (vy > 0) {
+                        opacity -= 0.015;
+                    }
+
+                    if (opacity <= 0) {
+                        particle.remove();
+                        return;
+                    }
+
+                    particle.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) rotate(${rotation}deg) scale(${scale})`;
+                    particle.style.opacity = opacity;
+
+                    requestAnimationFrame(animate);
+                }
+                
+                requestAnimationFrame(animate);
+            }
+        }
+
+        function copyEmail(event) {
             const email = "matthieubrissette@gmail.com";
             
+            // Trigger particle burst
+            if (event) {
+                let x = event.clientX;
+                let y = event.clientY;
+                
+                // Fallback for keyboard-triggered clicks
+                if (!x && !y && event.target) {
+                    const rect = event.target.getBoundingClientRect();
+                    x = rect.left + rect.width / 2;
+                    y = rect.top + rect.height / 2;
+                }
+                
+                createEmojiBurst(x, y);
+            }
+
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(email).then(showToast).catch(() => fallbackCopy(email));
             } else {
