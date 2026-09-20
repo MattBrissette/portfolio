@@ -9,10 +9,6 @@
     <link rel="dns-prefetch" href="https://mbrissette.x02.me">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-
-    <!-- Lenis Smooth Scroll -->
-    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
 
     <!-- Tailwind CSS Script -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -46,7 +42,8 @@
         }
     </script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
         body {
@@ -63,25 +60,8 @@
             color: #f4f4f5;
         }
 
-        /* Lenis Smooth Scrolling Styles */
-        html.lenis, html.lenis body {
-            height: auto;
-        }
-
-        .lenis.lenis-smooth {
-            scroll-behavior: auto !important;
-        }
-
-        .lenis.lenis-smooth [data-lenis-prevent] {
-            overscroll-behavior: contain;
-        }
-
-        .lenis.lenis-stopped {
-            overflow: hidden;
-        }
-
-        .lenis.lenis-scrolling iframe {
-            pointer-events: none;
+        html {
+            scroll-behavior: smooth;
         }
 
         /* Ambient Dynamic Header - GPU Composited */
@@ -94,7 +74,7 @@
             transition: background-color 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out;
         }
 
-        /* Container Fade/Rise Observer - GPU Composited */
+        /* Container Fade/Rise Observer */
         .reveal-on-scroll {
             opacity: 0;
             transform: translateY(20px) translateZ(0);
@@ -108,7 +88,7 @@
             transform: translateY(0) translateZ(0);
         }
 
-        /* Architectural Horizontal Line Draw (scaleX Reveals) */
+        /* Architectural Horizontal Line Draw */
         .line-draw-b {
             position: relative;
         }
@@ -211,7 +191,7 @@
             opacity: 1;
         }
 
-        /* Bento Card */
+        /* Bento Card Layout */
         .bento-card {
             position: relative;
             overflow: hidden;
@@ -225,7 +205,7 @@
             }
         }
 
-        /* Easy Load Progressive Image Reveal & Skeleton Placeholders */
+        /* Easy Load Progressive Image Reveal & Skeleton Shimmer */
         @keyframes skeleton-shimmer {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
@@ -273,11 +253,22 @@
             transform: scale(1) translateZ(0);
         }
 
-        /* Slideshow image optimization for 60fps cross-fades */
-        .stryx-slide, .rocketair-slide, .trailertrader-slide, .bentley-slide, .rig-slide, .cargosprint-slide {
+        /* Slideshow image optimization */
+        .stryx-slide, .rocketair-slide, .trailertrader-slide, .rig-slide, .oatfi-slide, .cargosprint-slide, .seclock-slide {
             will-change: opacity;
             transform: translateZ(0);
             backface-visibility: hidden;
+        }
+
+        /* Enforce slideshow opacity states over progressive image reveal */
+        .stryx-slide.opacity-100, .rocketair-slide.opacity-100, .seclock-slide.opacity-100,
+        .rig-slide.opacity-100, .oatfi-slide.opacity-100, .trailertrader-slide.opacity-100 {
+            opacity: 1 !important;
+        }
+
+        .stryx-slide.opacity-0, .rocketair-slide.opacity-0, .seclock-slide.opacity-0,
+        .rig-slide.opacity-0, .oatfi-slide.opacity-0, .trailertrader-slide.opacity-0 {
+            opacity: 0 !important;
         }
 
         /* Nav Context transition */
@@ -309,7 +300,7 @@
             color: #ffffff;
         }
 
-        /* Tactile Chromatic Film Grain Overlay - GPU Accelerated */
+        /* Film Grain Overlay */
         .noise-bg {
             position: fixed;
             top: -50%;
@@ -432,7 +423,6 @@
             100% { transform: scale(1) translateY(0) rotate(0deg) translateZ(0); }
         }
 
-        /* Motion Accessibility */
         @media (prefers-reduced-motion: reduce) {
             .noise-bg { animation: none !important; }
             .animate-marquee { animation: none !important; }
@@ -477,8 +467,8 @@
                 </nav>
 
                 <button id="mobileMenuToggle" class="md:hidden p-1.5 rounded-md hover:bg-brand-200/50 dark:hover:bg-brand-800/50 text-brand-600 dark:text-brand-400 transition-colors cursor-pointer" title="Toggle Navigation Menu" aria-label="Toggle Navigation Menu">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu w-4 h-4 block" id="menuOpenIcon"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-4 h-4 hidden" id="menuCloseIcon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    <i data-lucide="menu" id="menuOpenIcon" class="w-4 h-4 block"></i>
+                    <i data-lucide="x" id="menuCloseIcon" class="w-4 h-4 hidden"></i>
                 </button>
             </div>
         </div>
@@ -543,11 +533,11 @@
         <div id="projects" class="space-y-16 sm:space-y-24">
 
             <!-- PROJECT 1: Stryx -->
-            <article class="project-item space-y-6 pt-2 transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Brand" data-context="01 / 07 Stryx">
+            <article class="project-item space-y-6 pt-2 transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Brand" data-context="01 / 06 Stryx">
                 <header class="flex items-baseline justify-between line-draw-b pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
                         <span>Stryx</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">01 / 07</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">01 / 06</span>
                     </h2>
                     <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">DTC, Shopify</span>
                 </header>
@@ -606,13 +596,13 @@
             </article>
 
             <!-- PROJECT 2: RocketAir -->
-            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead" data-context="02 / 07 RocketAir">
+            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead" data-context="02 / 06 RocketAir">
                 <header class="flex items-baseline justify-between line-draw-b pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
                         <span>RocketAir</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">02 / 07</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">02 / 06</span>
                     </h2>
-                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">Digital design & strategy agency</span>
+                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">Digital design &amp; strategy agency</span>
                 </header>
 
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
@@ -668,7 +658,7 @@
                         <div class="pt-1">
                             <a href="https://www.rocketair.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-sm sm:text-base font-mono text-brand-900 dark:text-brand-100 underline decoration-brand-300 dark:decoration-brand-700 underline-offset-4 hover:decoration-brand-900 dark:hover:decoration-brand-100 transition-colors group">
                                 <span class="font-medium group-hover:text-brand-900 dark:group-hover:text-white">rocketair.com</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right w-4 h-4 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                                <i data-lucide="arrow-up-right" class="w-4 h-4 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
                             </a>
                         </div>
                     </div>
@@ -690,48 +680,46 @@
                 </div>
             </article>
 
-            <!-- PROJECT 3: TrailerTrader -->
-            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Dashboard,E-commerce" data-context="03 / 07 TrailerTrader">
+            <!-- PROJECT 3: SECLOCK -->
+            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design,B2B,E-commerce" data-context="03 / 06 SECLOCK">
                 <header class="flex items-baseline justify-between line-draw-b pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
-                        <span>TrailerTrader</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">03 / 07</span>
+                        <span>SECLOCK</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">03 / 06</span>
                     </h2>
-                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">B2C/B2B marketplace</span>
+                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">B2B, Industrial Supplies</span>
                 </header>
 
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
                     <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/7JEXA.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=TrailerTrader+1'" alt="TrailerTrader 1" class="w-full h-full object-cover rounded-xl" />
+                        <img src="https://mbrissette.x02.me/i/NU39.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=SECLOCK+1'" alt="SECLOCK 1" class="w-full h-full object-cover rounded-xl" />
                     </div>
 
-                    <!-- Card 2: TrailerTrader 5-Image Slideshow -->
-                    <div id="trailertrader-slideshow-container" class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/QYZ9.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+2a'" alt="TrailerTrader - Sequence 1" class="trailertrader-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-100" />
-                        <img src="https://mbrissette.x02.me/i/42S3.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+2b'" alt="TrailerTrader - Sequence 2" class="trailertrader-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
-                        <img src="https://mbrissette.x02.me/i/6PMGG.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+2c'" alt="TrailerTrader - Sequence 3" class="trailertrader-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
-                        <img src="https://mbrissette.x02.me/i/HMAC4.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+2d'" alt="TrailerTrader - Sequence 4" class="trailertrader-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
-                        <img src="https://mbrissette.x02.me/i/TDZ5V.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+2e'" alt="TrailerTrader - Sequence 5" class="trailertrader-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                    <!-- Card 2: SECLOCK 4-Image Slideshow -->
+                    <div id="seclock-slideshow-container" class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
+                        <img src="https://mbrissette.x02.me/i/7342F.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=SECLOCK+2a'" alt="SECLOCK - Sequence 1" class="seclock-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-100" />
+                        <img src="https://mbrissette.x02.me/i/PKZD.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=SECLOCK+2b'" alt="SECLOCK - Sequence 2" class="seclock-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        <img src="https://mbrissette.x02.me/i/AVGM8.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=SECLOCK+2c'" alt="SECLOCK - Sequence 3" class="seclock-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        <img src="https://mbrissette.x02.me/i/GKZNFQ.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=SECLOCK+2d'" alt="SECLOCK - Sequence 4" class="seclock-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
                         
                         <div class="absolute bottom-3 right-3 flex items-center space-x-1.5 z-10 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
-                            <span class="trailertrader-dot w-3 h-1.5 rounded-full bg-white transition-all duration-300 cursor-pointer"></span>
-                            <span class="trailertrader-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
-                            <span class="trailertrader-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
-                            <span class="trailertrader-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
-                            <span class="trailertrader-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
+                            <span class="seclock-dot w-3 h-1.5 rounded-full bg-white transition-all duration-300 cursor-pointer"></span>
+                            <span class="seclock-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
+                            <span class="seclock-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
+                            <span class="seclock-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
                         </div>
                     </div>
 
                     <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/UD6MZR.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+3'" alt="TrailerTrader 3" class="w-full h-full object-cover rounded-xl" />
+                        <img src="https://mbrissette.x02.me/i/Y4X7.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=SECLOCK+3'" alt="SECLOCK 3" class="w-full h-full object-cover rounded-xl" />
                     </div>
 
                     <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/6FQWBW.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=TrailerTrader+4'" alt="TrailerTrader 4" class="w-full h-full object-cover rounded-xl" />
+                        <img src="https://mbrissette.x02.me/i/AGN5.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=SECLOCK+4'" alt="SECLOCK 4" class="w-full h-full object-cover rounded-xl" />
                     </div>
 
                     <div class="md:col-span-12 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/PTN5.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/1200x600/18181b/ffffff?text=TrailerTrader+5'" alt="TrailerTrader 5" class="w-full h-full object-cover rounded-xl" />
+                        <img src="https://mbrissette.x02.me/i/7XSBX3.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/1200x600/18181b/ffffff?text=SECLOCK+5'" alt="SECLOCK 5" class="w-full h-full object-cover rounded-xl" />
                     </div>
                 </div>
 
@@ -739,87 +727,30 @@
                     <div class="project-tags flex flex-wrap gap-2 text-xs font-mono text-brand-600 dark:text-brand-400">
                         <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">UX</span>
                         <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Art Direction</span>
-                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Design Lead</span>
-                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Dashboard</span>
+                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Design</span>
+                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">B2B</span>
                         <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">E-commerce</span>
                     </div>
-                    <div class="space-y-3 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
+                    <div class="space-y-4 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
                         <p data-reveal="masked-lines">
-                            As TrailerTrader became the leading marketplace in its category, its existing product needed to evolve to support increased traffic, modern buyer expectations, and a more sophisticated dealer ecosystem.
+                            I helped shape SECLOCK’s refreshed visual identity with a bold, contemporary color palette, flexible digital system, and typography inspired by West Berlin street signage. The result balanced the brand’s heritage with a more modern, recognizable presence.
                         </p>
                         <p data-reveal="masked-lines">
-                            I created a comprehensive design system, designed a new dashboard for dealers, and delivered a faster, mobile-first experience with simpler navigation and stronger lead generation for dealers. This created more direct connections between buyers and dealers while providing a scalable foundation for future feature releases.
-                        </p>
-                    </div>
-                </div>
-            </article>
-
-            <!-- PROJECT 4: Bentley Motors Canada -->
-            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,App" data-context="04 / 07 Bentley Motors Canada">
-                <header class="flex items-baseline justify-between line-draw-b pb-3">
-                    <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
-                        <span>Bentley Motors Canada</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">04 / 07</span>
-                    </h2>
-                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">App</span>
-                </header>
-
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-                    <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/QN9H4A.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=Bentley+Motors+Canada+1'" alt="Bentley Motors Canada 1" class="w-full h-full object-cover rounded-xl" />
-                    </div>
-
-                    <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/2VNK42.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=Bentley+Motors+Canada+2'" alt="Bentley Motors Canada 2" class="w-full h-full object-cover rounded-xl" />
-                    </div>
-
-                    <div class="md:col-span-12 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/9YW2R.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/1200x600/18181b/ffffff?text=Bentley+Motors+Canada+3'" alt="Bentley Motors Canada 3" class="w-full h-full object-cover rounded-xl" />
-                    </div>
-
-                    <!-- Card 4: Single static showcase image -->
-                    <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/S2X5E3.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=Bentley+Motors+Canada+4'" alt="Bentley Motors Canada 4" class="w-full h-full object-cover rounded-xl" />
-                    </div>
-
-                    <!-- Card 5: Bentley Motors Canada 3-Image Slideshow (Last Card) -->
-                    <div id="bentley-slideshow-container" class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/MBA25.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=Bentley+Motors+Canada+5a'" alt="Bentley Motors Canada - Sequence 1" class="bentley-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-100" />
-                        <img src="https://mbrissette.x02.me/i/E7937B.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=Bentley+Motors+Canada+5b'" alt="Bentley Motors Canada - Sequence 2" class="bentley-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
-                        <img src="https://mbrissette.x02.me/i/5XKP5.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=Bentley+Motors+Canada+5c'" alt="Bentley Motors Canada - Sequence 3" class="bentley-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
-                        
-                        <div class="absolute bottom-3 right-3 flex items-center space-x-1.5 z-10 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
-                            <span class="bentley-dot w-3 h-1.5 rounded-full bg-white transition-all duration-300 cursor-pointer"></span>
-                            <span class="bentley-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
-                            <span class="bentley-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-4 pt-2">
-                    <div class="project-tags flex flex-wrap gap-2 text-xs font-mono text-brand-600 dark:text-brand-400">
-                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">UX</span>
-                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Art Direction</span>
-                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Design Lead</span>
-                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">App</span>
-                    </div>
-                    <div class="space-y-3 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
-                        <p data-reveal="masked-lines">
-                            A bespoke digital application experience created for Bentley Motors Canada, delivering seamless luxury vehicle exploration, customer concierge interactions, and intuitive digital touchpoints.
+                            I redesigned SECLOCK’s marketing website and helped bring the new brand to life across the digital experience. The messaging and content strategy focused on the customer journey, positioning SECLOCK as a leader, helper, and innovator while creating a stronger emotional connection with the brand.
                         </p>
                         <p data-reveal="masked-lines">
-                            Led the end-to-end mobile product design, visual language, and interaction details to reflect Bentley's heritage of craftsmanship in a refined, modern mobile format.
+                            I also redesigned the e-commerce experience around real B2B user needs. I overhauled the information architecture, restructured product-detail pages, and introduced predictive search, filtering, and contextual tutorials to make a complex product catalog easier to navigate and understand.
                         </p>
                     </div>
                 </div>
             </article>
 
-            <!-- PROJECT 5: MCIM -->
-            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design lead,Brand" data-context="05 / 07 MCIM">
+            <!-- PROJECT 4: MCIM -->
+            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design lead,Brand" data-context="04 / 06 MCIM">
                 <header class="flex items-baseline justify-between line-draw-b pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
                         <span>MCIM</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">05 / 07</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">04 / 06</span>
                     </h2>
                     <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">B2B SaaS</span>
                 </header>
@@ -885,12 +816,12 @@
                 </div>
             </article>
 
-            <!-- PROJECT 6: OatFi -->
-            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Brand" data-context="06 / 07 OatFi">
+            <!-- PROJECT 5: OatFi -->
+            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Brand" data-context="05 / 06 OatFi">
                 <header class="flex items-baseline justify-between line-draw-b pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
                         <span>OatFi</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">06 / 07</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">05 / 06</span>
                     </h2>
                     <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">Fintech</span>
                 </header>
@@ -913,19 +844,19 @@
                     </div>
 
                     <!-- Card 5: OatFi 5-Image Slideshow -->
-                    <div id="cargosprint-slideshow-container" class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/PKSEA7.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=OatFi+5a'" alt="OatFi - Sequence 1" class="cargosprint-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-100" />
-                        <img src="https://mbrissette.x02.me/i/DW6ZK.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=OatFi+5b'" alt="OatFi - Sequence 2" class="cargosprint-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
-                        <img src="https://mbrissette.x02.me/i/B3H2.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=OatFi+5c'" alt="OatFi - Sequence 3" class="cargosprint-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
-                        <img src="https://mbrissette.x02.me/i/D3DMHM.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=OatFi+5d'" alt="OatFi - Sequence 4" class="cargosprint-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
-                        <img src="https://mbrissette.x02.me/i/P5WBU.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=OatFi+5e'" alt="OatFi - Sequence 5" class="cargosprint-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                    <div id="oatfi-slideshow-container" class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
+                        <img src="https://mbrissette.x02.me/i/PKSEA7.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=OatFi+5a'" alt="OatFi - Sequence 1" class="oatfi-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-100" />
+                        <img src="https://mbrissette.x02.me/i/DW6ZK.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=OatFi+5b'" alt="OatFi - Sequence 2" class="oatfi-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        <img src="https://mbrissette.x02.me/i/B3H2.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=OatFi+5c'" alt="OatFi - Sequence 3" class="oatfi-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        <img src="https://mbrissette.x02.me/i/D3DMHM.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=OatFi+5d'" alt="OatFi - Sequence 4" class="oatfi-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        <img src="https://mbrissette.x02.me/i/P5WBU.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=OatFi+5e'" alt="OatFi - Sequence 5" class="oatfi-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
                         
                         <div class="absolute bottom-3 right-3 flex items-center space-x-1.5 z-20 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
-                            <span class="cargosprint-dot w-3 h-1.5 rounded-full bg-white transition-all duration-300 cursor-pointer"></span>
-                            <span class="cargosprint-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
-                            <span class="cargosprint-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
-                            <span class="cargosprint-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
-                            <span class="cargosprint-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
+                            <span class="oatfi-dot w-3 h-1.5 rounded-full bg-white transition-all duration-300 cursor-pointer"></span>
+                            <span class="oatfi-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
+                            <span class="oatfi-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
+                            <span class="oatfi-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
+                            <span class="oatfi-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
                         </div>
                     </div>
                 </div>
@@ -951,35 +882,48 @@
                 </div>
             </article>
 
-            <!-- PROJECT 7: Larus -->
-            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design,3D,WebGL" data-context="07 / 07 Larus">
+            <!-- PROJECT 6: TrailerTrader -->
+            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Dashboard,E-commerce" data-context="06 / 06 TrailerTrader">
                 <header class="flex items-baseline justify-between line-draw-b pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
-                        <span>Larus</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">07 / 07</span>
+                        <span>TrailerTrader</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">06 / 06</span>
                     </h2>
-                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">3D Booth, Trade Show</span>
+                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">B2C/B2B marketplace</span>
                 </header>
 
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
                     <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/S6TA.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=Larus+1'" alt="Larus 1" class="w-full h-full object-cover rounded-xl" />
+                        <img src="https://mbrissette.x02.me/i/7JEXA.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=TrailerTrader+1'" alt="TrailerTrader 1" class="w-full h-full object-cover rounded-xl" />
+                    </div>
+
+                    <!-- Card 2: TrailerTrader 5-Image Slideshow -->
+                    <div id="trailertrader-slideshow-container" class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
+                        <img src="https://mbrissette.x02.me/i/QYZ9.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+2a'" alt="TrailerTrader - Sequence 1" class="trailertrader-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-100" />
+                        <img src="https://mbrissette.x02.me/i/42S3.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+2b'" alt="TrailerTrader - Sequence 2" class="trailertrader-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        <img src="https://mbrissette.x02.me/i/6PMGG.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+2c'" alt="TrailerTrader - Sequence 3" class="trailertrader-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        <img src="https://mbrissette.x02.me/i/HMAC4.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+2d'" alt="TrailerTrader - Sequence 4" class="trailertrader-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        <img src="https://mbrissette.x02.me/i/TDZ5V.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+2e'" alt="TrailerTrader - Sequence 5" class="trailertrader-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        
+                        <div class="absolute bottom-3 right-3 flex items-center space-x-1.5 z-10 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
+                            <span class="trailertrader-dot w-3 h-1.5 rounded-full bg-white transition-all duration-300 cursor-pointer"></span>
+                            <span class="trailertrader-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
+                            <span class="trailertrader-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
+                            <span class="trailertrader-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
+                            <span class="trailertrader-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
+                        </div>
                     </div>
 
                     <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/YQS7.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=Larus+2'" alt="Larus 2" class="w-full h-full object-cover rounded-xl" />
-                    </div>
-
-                    <div class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/CJU6.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=Larus+3'" alt="Larus 3" class="w-full h-full object-cover rounded-xl" />
+                        <img src="https://mbrissette.x02.me/i/UD6MZR.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=TrailerTrader+3'" alt="TrailerTrader 3" class="w-full h-full object-cover rounded-xl" />
                     </div>
 
                     <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/3RFU.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=Larus+4'" alt="Larus 4" class="w-full h-full object-cover rounded-xl" />
+                        <img src="https://mbrissette.x02.me/i/6FQWBW.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=TrailerTrader+4'" alt="TrailerTrader 4" class="w-full h-full object-cover rounded-xl" />
                     </div>
 
                     <div class="md:col-span-12 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/2N4K.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/1200x600/18181b/ffffff?text=Larus+5'" alt="Larus 5" class="w-full h-full object-cover rounded-xl" />
+                        <img src="https://mbrissette.x02.me/i/PTN5.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/1200x600/18181b/ffffff?text=TrailerTrader+5'" alt="TrailerTrader 5" class="w-full h-full object-cover rounded-xl" />
                     </div>
                 </div>
 
@@ -987,42 +931,17 @@
                     <div class="project-tags flex flex-wrap gap-2 text-xs font-mono text-brand-600 dark:text-brand-400">
                         <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">UX</span>
                         <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Art Direction</span>
-                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Design</span>
-                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">3D</span>
-                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">WebGL</span>
+                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Design Lead</span>
+                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Dashboard</span>
+                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">E-commerce</span>
                     </div>
-                    <div class="space-y-4 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
+                    <div class="space-y-3 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
                         <p data-reveal="masked-lines">
-                            Trade show conversations are short, and complex enterprise software is difficult to communicate in just a few minutes. To bridge that gap, I designed and built an interactive 3D exhibition experience, leveraging AI-assisted development with Gemini and Claude, that combines storytelling, product demonstrations, downloadable resources, and lead generation into a single immersive experience accessible from any browser.
+                            As TrailerTrader became the leading marketplace in its category, its existing product needed to evolve to support increased traffic, modern buyer expectations, and a more sophisticated dealer ecosystem.
                         </p>
-                        <ul class="space-y-2.5 text-sm sm:text-base text-brand-700 dark:text-brand-300 font-normal pt-2">
-                            <li class="flex items-start gap-2.5" data-reveal="masked-lines">
-                                <span class="text-brand-400 dark:text-brand-500 font-mono text-xs mt-1 shrink-0">•</span>
-                                <span><strong class="font-medium text-brand-900 dark:text-brand-100">Three.js / WebGL</strong> — Real-time 3D environment with interactive camera controls and scene management.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5" data-reveal="masked-lines">
-                                <span class="text-brand-400 dark:text-brand-500 font-mono text-xs mt-1 shrink-0">•</span>
-                                <span><strong class="font-medium text-brand-900 dark:text-brand-100">Custom Shaders &amp; Post-Processing</strong> — ShaderPass, UnrealBloom and custom rendering effects for a cinematic visual experience.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5" data-reveal="masked-lines">
-                                <span class="text-brand-400 dark:text-brand-500 font-mono text-xs mt-1 shrink-0">•</span>
-                                <span><strong class="font-medium text-brand-900 dark:text-brand-100">Real-Time Reflections</strong> — Dynamic reflective surfaces using Three.js Reflector.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5" data-reveal="masked-lines">
-                                <span class="text-brand-400 dark:text-brand-500 font-mono text-xs mt-1 shrink-0">•</span>
-                                <span><strong class="font-medium text-brand-900 dark:text-brand-100">JavaScript</strong> — Custom interaction logic, navigation, UI states and dynamic 3D scene controls.</span>
-                            </li>
-                            <li class="flex items-start gap-2.5" data-reveal="masked-lines">
-                                <span class="text-brand-400 dark:text-brand-500 font-mono text-xs mt-1 shrink-0">•</span>
-                                <span><strong class="font-medium text-brand-900 dark:text-brand-100">GSAP &amp; Lenis</strong> — Smooth transitions, animation sequencing and fluid interactions between the interface and 3D environment.</span>
-                            </li>
-                        </ul>
-                        <div class="pt-1">
-                            <a href="https://mattbrissette.github.io/3d_booth/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-sm sm:text-base font-mono text-brand-900 dark:text-brand-100 underline decoration-brand-300 dark:decoration-brand-700 underline-offset-4 hover:decoration-brand-900 dark:hover:decoration-brand-100 transition-colors group">
-                                <span class="font-medium group-hover:text-brand-900 dark:group-hover:text-white">mattbrissette.github.io/3d_booth</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right w-4 h-4 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
-                            </a>
-                        </div>
+                        <p data-reveal="masked-lines">
+                            I created a comprehensive design system, designed a new dashboard for dealers, and delivered a faster, mobile-first experience with simpler navigation and stronger lead generation for dealers. This created more direct connections between buyers and dealers while providing a scalable foundation for future feature releases.
+                        </p>
                     </div>
                 </div>
             </article>
@@ -1037,14 +956,14 @@
                 <!-- LAB PROJECT 1: Pastel Dream -->
                 <div class="py-6 first:pt-0 last:pb-0 flex flex-col sm:flex-row items-start gap-5 sm:gap-6 group reveal-on-scroll">
                     <div class="w-full sm:w-48 aspect-[3/2] shrink-0 border border-brand-200/80 dark:border-brand-800 rounded-xl overflow-hidden bg-brand-100 dark:bg-brand-900 relative lab-img-wrap">
-                        <img src="https://mbrissette.x02.me/i/XEPPX7.webp" loading="lazy" decoding="async" alt="Pastel Dream 3D Environment" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/400x300/18181b/ffffff?text=Pastel+Dream'" />
+                        <img src="https://mbrissette.x02.me/i/XEPPX7.webp" alt="Pastel Dream 3D Environment" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/400x300/18181b/ffffff?text=Pastel+Dream'" />
                     </div>
                     <div class="flex-1 space-y-2">
                         <p class="text-sm text-brand-600 dark:text-brand-400 leading-relaxed font-normal" data-reveal="masked-lines">
-                            A single-page 3D environment built in raw Three.js, rendering a soft pastel still-life — archway, ladder, cube, and floating glass-like spheres — with frosted-acrylic materials, studio lighting, and a cinematic camera intro. Lenis smooth-scroll, and a grain/vignette overlay. Built with Gemini &amp; Claude.
+                            A single-page 3D environment built in raw Three.js, rendering a soft pastel still-life — archway, ladder, cube, and floating glass-like spheres — with frosted-acrylic materials, studio lighting, and a cinematic camera intro, and a grain/vignette overlay. Built with Gemini &amp; Claude.
                         </p>
                         <a href="https://mattbrissette.github.io/pastel_dream/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs font-mono text-brand-900 dark:text-brand-100 underline decoration-brand-300 dark:decoration-brand-700 underline-offset-4 hover:decoration-brand-900 transition-colors font-medium">
-                            mattbrissette.github.io/pastel_dream <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right w-3.5 h-3.5 opacity-60"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                            mattbrissette.github.io/pastel_dream <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-60"></i>
                         </a>
                     </div>
                 </div>
@@ -1052,14 +971,14 @@
                 <!-- LAB PROJECT 2: Kinetic Columns -->
                 <div class="py-6 first:pt-0 last:pb-0 flex flex-col sm:flex-row items-start gap-5 sm:gap-6 group reveal-on-scroll">
                     <div class="w-full sm:w-48 aspect-[3/2] shrink-0 border border-brand-200/80 dark:border-brand-800 rounded-xl overflow-hidden bg-brand-100 dark:bg-brand-900 relative lab-img-wrap">
-                        <img src="https://mbrissette.x02.me/i/3U4H.webp" loading="lazy" decoding="async" alt="Kinetic Columns 3D Exploration" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/400x300/18181b/ffffff?text=Kinetic+Columns'" />
+                        <img src="https://mbrissette.x02.me/i/3U4H.webp" alt="Kinetic Columns 3D Exploration" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/400x300/18181b/ffffff?text=Kinetic+Columns'" />
                     </div>
                     <div class="flex-1 space-y-2">
                         <p class="text-sm text-brand-600 dark:text-brand-400 leading-relaxed font-normal" data-reveal="masked-lines">
                             3D exploration built with Three.js and WebGL. Using procedural animation, audio-reactive motion, and interactive controls, it transforms a simple grid of columns into a dynamic digital playground. Built with Cursor.
                         </p>
                         <a href="https://mattbrissette.github.io/Kinetic_Columns/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs font-mono text-brand-900 dark:text-brand-100 underline decoration-brand-300 dark:decoration-brand-700 underline-offset-4 hover:decoration-brand-900 transition-colors font-medium">
-                            mattbrissette.github.io/Kinetic_Columns <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right w-3.5 h-3.5 opacity-60"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                            mattbrissette.github.io/Kinetic_Columns <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-60"></i>
                         </a>
                     </div>
                 </div>
@@ -1067,14 +986,14 @@
                 <!-- LAB PROJECT 3: Glass Cube -->
                 <div class="py-6 first:pt-0 last:pb-0 flex flex-col sm:flex-row items-start gap-5 sm:gap-6 group reveal-on-scroll">
                     <div class="w-full sm:w-48 aspect-[3/2] shrink-0 border border-brand-200/80 dark:border-brand-800 rounded-xl overflow-hidden bg-brand-100 dark:bg-brand-900 relative lab-img-wrap">
-                        <img src="https://mbrissette.x02.me/i/8GXTD.webp" loading="lazy" decoding="async" alt="Glass Cube 3D Experience" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/400x300/18181b/ffffff?text=Glass+Cube'" />
+                        <img src="https://mbrissette.x02.me/i/8GXTD.webp" alt="Glass Cube 3D Experience" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='https://placehold.co/400x300/18181b/ffffff?text=Glass+Cube'" />
                     </div>
                     <div class="flex-1 space-y-2">
                         <p class="text-sm text-brand-600 dark:text-brand-400 leading-relaxed font-normal" data-reveal="masked-lines">
                             Built with Three.js, CSS3DRRenderer, and custom WebGL shaders, this interactive portfolio transforms traditional profile content into a navigable 3D glass cube experience. The project combines real-time rendering, procedural environments, post-processing effects, dynamic lighting, and CSS-driven interfaces.
                         </p>
                         <a href="https://mattbrissette.github.io/glass-cube/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-xs font-mono text-brand-900 dark:text-brand-100 underline decoration-brand-300 dark:decoration-brand-700 underline-offset-4 hover:decoration-brand-900 transition-colors font-medium">
-                            mattbrissette.github.io/glass-cube <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right w-3.5 h-3.5 opacity-60"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                            mattbrissette.github.io/glass-cube <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-60"></i>
                         </a>
                     </div>
                 </div>
@@ -1212,7 +1131,7 @@
                         <a href="mailto:matthieubrissette@gmail.com" class="text-brand-800 dark:text-brand-200 hover:text-brand-900 dark:hover:text-white font-medium truncate">matthieubrissette@gmail.com</a>
                     </div>
                     <button onclick="copyEmail()" class="text-brand-400 hover:text-brand-900 dark:hover:text-white transition-colors p-1 shrink-0 cursor-pointer" title="Copy Email">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy w-4 h-4"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        <i data-lucide="copy" class="w-4 h-4"></i>
                     </button>
                 </div>
 
@@ -1221,7 +1140,7 @@
                         <span class="text-xs font-mono text-brand-400 uppercase shrink-0 w-16 scramble-mono">LINKEDIN</span>
                         <span class="text-brand-800 dark:text-brand-200 group-hover:text-brand-900 dark:group-hover:text-white font-medium truncate">linkedin.com/in/mattbrissette</span>
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right w-4 h-4 text-brand-400 group-hover:text-brand-900 dark:group-hover:text-white transition-colors shrink-0"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                    <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-400 group-hover:text-brand-900 dark:group-hover:text-white transition-colors shrink-0"></i>
                 </a>
 
                 <a href="https://github.com/MattBrissette" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between py-2.5 border-b border-brand-300/80 dark:border-brand-800/80 hover:border-brand-900 dark:hover:border-brand-100 transition-colors">
@@ -1229,7 +1148,7 @@
                         <span class="text-xs font-mono text-brand-400 uppercase shrink-0 w-16 scramble-mono">GITHUB</span>
                         <span class="text-brand-800 dark:text-brand-200 group-hover:text-brand-900 dark:group-hover:text-white font-medium truncate">github.com/MattBrissette</span>
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right w-4 h-4 text-brand-400 group-hover:text-brand-900 dark:group-hover:text-white transition-colors shrink-0"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                    <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-400 group-hover:text-brand-900 dark:group-hover:text-white transition-colors shrink-0"></i>
                 </a>
 
                 <a href="https://behance.net/matthieubrissette" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-between py-2.5 border-b border-brand-300/80 dark:border-brand-800/80 hover:border-brand-900 dark:hover:border-brand-100 transition-colors">
@@ -1237,7 +1156,7 @@
                         <span class="text-xs font-mono text-brand-400 uppercase shrink-0 w-16 scramble-mono">BEHANCE</span>
                         <span class="text-brand-800 dark:text-brand-200 group-hover:text-brand-900 dark:group-hover:text-white font-medium truncate">behance.net/matthieubrissette</span>
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right w-4 h-4 text-brand-400 group-hover:text-brand-900 dark:group-hover:text-white transition-colors shrink-0"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                    <i data-lucide="arrow-up-right" class="w-4 h-4 text-brand-400 group-hover:text-brand-900 dark:group-hover:text-white transition-colors shrink-0"></i>
                 </a>
             </div>
         </section>
@@ -1252,12 +1171,12 @@
 
             <div class="flex items-center space-x-6 text-sm font-medium">
                 <button onclick="copyEmail()" class="hover:text-brand-900 dark:hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail w-4 h-4"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+                    <i data-lucide="mail" class="w-4 h-4"></i>
                     <span>Email</span>
                 </button>
                 <a href="https://www.linkedin.com/in/mattbrissette/" target="_blank" rel="noopener noreferrer" class="hover:text-brand-900 dark:hover:text-white transition-colors flex items-center gap-1">
                     <span>LinkedIn</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right w-3.5 h-3.5 opacity-60"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-60"></i>
                 </a>
             </div>
         </div>
@@ -1265,36 +1184,32 @@
 
     <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-6 right-6 z-50 bg-brand-900 text-white dark:bg-white dark:text-black px-4 py-3 rounded-lg text-xs font-medium shadow-xl transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle-2 w-4 h-4 text-emerald-400 dark:text-emerald-600"><path d="M21.801 10A10 10 0 1 1 17 3.335"/><path d="m9 11 3 3L22 4"/></svg>
+        <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 dark:text-emerald-600"></i>
         <span>Email copied to clipboard!</span>
     </div>
 
     <script>
+        let stryxSlideIndex = 0;
+        let stryxTimer = null;
+
+        let seclockSlideIndex = 0;
+        let seclockTimer = null;
+
+        let rigSlideIndex = 0;
+        let rigTimer = null;
+
+        let oatfiSlideIndex = 0;
+        let oatfiTimer = null;
+
+        let rocketairSlideIndex = 0;
+        let rocketairTimer = null;
+
+        let trailertraderSlideIndex = 0;
+        let trailertraderTimer = null;
+
         let currentNavContext = "Visual Design & Digital Products";
-        let lenis = null;
 
-        function initLenis() {
-            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || typeof Lenis === 'undefined') {
-                return;
-            }
-
-            lenis = new Lenis({
-                duration: 1.05,
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-                orientation: 'vertical',
-                gestureOrientation: 'vertical',
-                smoothWheel: true,
-                touchMultiplier: 1.5,
-                wheelMultiplier: 0.95
-            });
-
-            function raf(time) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
-            requestAnimationFrame(raf);
-
-            // Seamless smooth scroll for internal anchor navigation
+        function initNativeScroll() {
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
@@ -1302,16 +1217,19 @@
                     const targetEl = document.querySelector(href);
                     if (targetEl) {
                         e.preventDefault();
-                        lenis.scrollTo(targetEl, {
-                            offset: href === '#top' ? 0 : -24,
-                            duration: 1.1
+                        const headerOffset = href === '#top' ? 0 : 24;
+                        const elementPosition = targetEl.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
                         });
                     }
                 });
             });
         }
 
-        // Monospace Glitch & Decryption Cipher Character Set
         const GLITCH_GLYPHS = '0123456789_#*/$!<>[]&%+=~';
 
         function scrambleText(element, newText = null, duration = 200) {
@@ -1449,7 +1367,6 @@
                 });
             }
 
-            // Zero-layout thrash section context tracking via IntersectionObserver
             const trackedSections = document.querySelectorAll('[data-context]');
             const sectionObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -1459,14 +1376,12 @@
                     }
                 });
             }, {
-                // Focus detection trigger zone in top 35% of the screen
                 rootMargin: '-10% 0px -65% 0px',
                 threshold: 0
             });
 
             trackedSections.forEach(sec => sectionObserver.observe(sec));
 
-            // High-performance header scroll styling without recalculating blurs
             let isScrolled = false;
             function onScrollUpdate() {
                 const scrollY = window.scrollY;
@@ -1643,71 +1558,316 @@
             observer.observe(container);
         }
 
-        // Generic bento-card slideshow engine (drives all 6 galleries below with
-        // identical timing/behavior to the original per-project implementations).
-        const SLIDESHOW_PREFIXES = ['stryx', 'rig', 'cargosprint', 'rocketair', 'bentley', 'trailertrader'];
+        /* Stryx Slideshow */
+        function initStryxSlideshow() {
+            const dots = document.querySelectorAll('.stryx-dot');
+            if (!dots.length) return;
 
-        function initSlideshow(prefix) {
-            const slideSel = `.${prefix}-slide`;
-            const dotSel = `.${prefix}-dot`;
-            const slides = document.querySelectorAll(slideSel);
-            if (!slides.length) return;
-
-            let index = 0;
-            let timer = null;
-
-            function show(i) {
-                const currentSlides = document.querySelectorAll(slideSel);
-                const dots = document.querySelectorAll(dotSel);
-                if (!currentSlides.length) return;
-
-                currentSlides.forEach((slide, idx) => {
-                    slide.classList.toggle('opacity-100', idx === i);
-                    slide.classList.toggle('opacity-0', idx !== i);
-                });
-
-                dots.forEach((dot, idx) => {
-                    dot.classList.toggle('bg-white', idx === i);
-                    dot.classList.toggle('bg-white/40', idx !== i);
-                    dot.classList.toggle('w-3', idx === i);
-                    dot.classList.toggle('w-1.5', idx !== i);
-                });
-
-                index = i;
-            }
-
-            function start() {
-                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-                clearInterval(timer);
-                timer = setInterval(() => {
-                    const currentSlides = document.querySelectorAll(slideSel);
-                    if (!currentSlides.length) return;
-                    show((index + 1) % currentSlides.length);
-                }, 2000);
-            }
-
-            function stop() {
-                clearInterval(timer);
-            }
-
-            function reset() {
-                stop();
-                start();
-            }
-
-            document.querySelectorAll(dotSel).forEach((dot, i) => {
+            dots.forEach((dot, index) => {
                 dot.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    show(i);
-                    reset();
+                    showStryxSlide(index);
+                    resetStryxTimer();
                 });
             });
 
-            observeSlideshowVisibility(`${prefix}-slideshow-container`, start, stop);
+            observeSlideshowVisibility('stryx-slideshow-container', startStryxTimer, () => clearInterval(stryxTimer));
         }
 
-        function initAllSlideshows() {
-            SLIDESHOW_PREFIXES.forEach(initSlideshow);
+        function showStryxSlide(index) {
+            const slides = document.querySelectorAll('.stryx-slide');
+            const dots = document.querySelectorAll('.stryx-dot');
+            if (!slides.length) return;
+
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('opacity-100', idx === index);
+                slide.classList.toggle('opacity-0', idx !== index);
+            });
+
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('bg-white', idx === index);
+                dot.classList.toggle('bg-white/40', idx !== index);
+                dot.classList.toggle('w-3', idx === index);
+                dot.classList.toggle('w-1.5', idx !== index);
+            });
+
+            stryxSlideIndex = index;
+        }
+
+        function startStryxTimer() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            clearInterval(stryxTimer);
+            stryxTimer = setInterval(() => {
+                const slides = document.querySelectorAll('.stryx-slide');
+                if (!slides.length) return;
+                const nextIndex = (stryxSlideIndex + 1) % slides.length;
+                showStryxSlide(nextIndex);
+            }, 2000);
+        }
+
+        function resetStryxTimer() {
+            clearInterval(stryxTimer);
+            startStryxTimer();
+        }
+
+        /* RocketAir Slideshow */
+        function initRocketAirSlideshow() {
+            const dots = document.querySelectorAll('.rocketair-dot');
+            if (!dots.length) return;
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showRocketAirSlide(index);
+                    resetRocketAirTimer();
+                });
+            });
+
+            observeSlideshowVisibility('rocketair-slideshow-container', startRocketAirTimer, () => clearInterval(rocketairTimer));
+        }
+
+        function showRocketAirSlide(index) {
+            const slides = document.querySelectorAll('.rocketair-slide');
+            const dots = document.querySelectorAll('.rocketair-dot');
+            if (!slides.length) return;
+
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('opacity-100', idx === index);
+                slide.classList.toggle('opacity-0', idx !== index);
+            });
+
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('bg-white', idx === index);
+                dot.classList.toggle('bg-white/40', idx !== index);
+                dot.classList.toggle('w-3', idx === index);
+                dot.classList.toggle('w-1.5', idx !== index);
+            });
+
+            rocketairSlideIndex = index;
+        }
+
+        function startRocketAirTimer() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            clearInterval(rocketairTimer);
+            rocketairTimer = setInterval(() => {
+                const slides = document.querySelectorAll('.rocketair-slide');
+                if (!slides.length) return;
+                const nextIndex = (rocketairSlideIndex + 1) % slides.length;
+                showRocketAirSlide(nextIndex);
+            }, 2000);
+        }
+
+        function resetRocketAirTimer() {
+            clearInterval(rocketairTimer);
+            startRocketAirTimer();
+        }
+
+        /* SECLOCK Slideshow */
+        function initSeclockSlideshow() {
+            const dots = document.querySelectorAll('.seclock-dot');
+            if (!dots.length) return;
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showSeclockSlide(index);
+                    resetSeclockTimer();
+                });
+            });
+
+            observeSlideshowVisibility('seclock-slideshow-container', startSeclockTimer, () => clearInterval(seclockTimer));
+        }
+
+        function showSeclockSlide(index) {
+            const slides = document.querySelectorAll('.seclock-slide');
+            const dots = document.querySelectorAll('.seclock-dot');
+            if (!slides.length) return;
+
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('opacity-100', idx === index);
+                slide.classList.toggle('opacity-0', idx !== index);
+            });
+
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('bg-white', idx === index);
+                dot.classList.toggle('bg-white/40', idx !== index);
+                dot.classList.toggle('w-3', idx === index);
+                dot.classList.toggle('w-1.5', idx !== index);
+            });
+
+            seclockSlideIndex = index;
+        }
+
+        function startSeclockTimer() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            clearInterval(seclockTimer);
+            seclockTimer = setInterval(() => {
+                const slides = document.querySelectorAll('.seclock-slide');
+                if (!slides.length) return;
+                const nextIndex = (seclockSlideIndex + 1) % slides.length;
+                showSeclockSlide(nextIndex);
+            }, 2000);
+        }
+
+        function resetSeclockTimer() {
+            clearInterval(seclockTimer);
+            startSeclockTimer();
+        }
+
+        /* MCIM Slideshow */
+        function initRigSlideshow() {
+            const dots = document.querySelectorAll('.rig-dot');
+            if (!dots.length) return;
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showRigSlide(index);
+                    resetRigTimer();
+                });
+            });
+
+            observeSlideshowVisibility('rig-slideshow-container', startRigTimer, () => clearInterval(rigTimer));
+        }
+
+        function showRigSlide(index) {
+            const slides = document.querySelectorAll('.rig-slide');
+            const dots = document.querySelectorAll('.rig-dot');
+            if (!slides.length) return;
+
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('opacity-100', idx === index);
+                slide.classList.toggle('opacity-0', idx !== index);
+            });
+
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('bg-white', idx === index);
+                dot.classList.toggle('bg-white/40', idx !== index);
+                dot.classList.toggle('w-3', idx === index);
+                dot.classList.toggle('w-1.5', idx !== index);
+            });
+
+            rigSlideIndex = index;
+        }
+
+        function startRigTimer() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            clearInterval(rigTimer);
+            rigTimer = setInterval(() => {
+                const slides = document.querySelectorAll('.rig-slide');
+                if (!slides.length) return;
+                const nextIndex = (rigSlideIndex + 1) % slides.length;
+                showRigSlide(nextIndex);
+            }, 2000);
+        }
+
+        function resetRigTimer() {
+            clearInterval(rigTimer);
+            startRigTimer();
+        }
+
+        /* OatFi Slideshow */
+        function initOatfiSlideshow() {
+            const dots = document.querySelectorAll('.oatfi-dot');
+            if (!dots.length) return;
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showOatfiSlide(index);
+                    resetOatfiTimer();
+                });
+            });
+
+            observeSlideshowVisibility('oatfi-slideshow-container', startOatfiTimer, () => clearInterval(oatfiTimer));
+        }
+
+        function showOatfiSlide(index) {
+            const slides = document.querySelectorAll('.oatfi-slide');
+            const dots = document.querySelectorAll('.oatfi-dot');
+            if (!slides.length) return;
+
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('opacity-100', idx === index);
+                slide.classList.toggle('opacity-0', idx !== index);
+            });
+
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('bg-white', idx === index);
+                dot.classList.toggle('bg-white/40', idx !== index);
+                dot.classList.toggle('w-3', idx === index);
+                dot.classList.toggle('w-1.5', idx !== index);
+            });
+
+            oatfiSlideIndex = index;
+        }
+
+        function startOatfiTimer() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            clearInterval(oatfiTimer);
+            oatfiTimer = setInterval(() => {
+                const slides = document.querySelectorAll('.oatfi-slide');
+                if (!slides.length) return;
+                const nextIndex = (oatfiSlideIndex + 1) % slides.length;
+                showOatfiSlide(nextIndex);
+            }, 2000);
+        }
+
+        function resetOatfiTimer() {
+            clearInterval(oatfiTimer);
+            startOatfiTimer();
+        }
+
+        /* TrailerTrader Slideshow */
+        function initTrailerTraderSlideshow() {
+            const dots = document.querySelectorAll('.trailertrader-dot');
+            if (!dots.length) return;
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showTrailerTraderSlide(index);
+                    resetTrailerTraderTimer();
+                });
+            });
+
+            observeSlideshowVisibility('trailertrader-slideshow-container', startTrailerTraderTimer, () => clearInterval(trailertraderTimer));
+        }
+
+        function showTrailerTraderSlide(index) {
+            const slides = document.querySelectorAll('.trailertrader-slide');
+            const dots = document.querySelectorAll('.trailertrader-dot');
+            if (!slides.length) return;
+
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('opacity-100', idx === index);
+                slide.classList.toggle('opacity-0', idx !== index);
+            });
+
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('bg-white', idx === index);
+                dot.classList.toggle('bg-white/40', idx !== index);
+                dot.classList.toggle('w-3', idx === index);
+                dot.classList.toggle('w-1.5', idx !== index);
+            });
+
+            trailertraderSlideIndex = index;
+        }
+
+        function startTrailerTraderTimer() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            clearInterval(trailertraderTimer);
+            trailertraderTimer = setInterval(() => {
+                const slides = document.querySelectorAll('.trailertrader-slide');
+                if (!slides.length) return;
+                const nextIndex = (trailertraderSlideIndex + 1) % slides.length;
+                showTrailerTraderSlide(nextIndex);
+            }, 2000);
+        }
+
+        function resetTrailerTraderTimer() {
+            clearInterval(trailertraderTimer);
+            startTrailerTraderTimer();
         }
 
         function triggerBadgePop(el) {
@@ -1718,32 +1878,32 @@
             }, 1800);
         }
 
-        // Easy Load Progressive Image Loading & Skeleton Placeholder Handler
         function initEasyImageLoading() {
             const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             const images = document.querySelectorAll('.bento-card img, .lab-img-wrap img');
 
             images.forEach(img => {
                 const parentCard = img.closest('.bento-card, .lab-img-wrap');
-                const isHiddenSlide = img.classList.contains('opacity-0');
+                const isSlideshowSlide = img.className.includes('-slide');
 
                 if (isReduced) {
                     if (parentCard) parentCard.classList.add('is-img-ready');
                     return;
                 }
 
-                if (!isHiddenSlide) {
+                if (!isSlideshowSlide) {
                     img.classList.add('img-easy-load');
                 }
 
                 const handleLoadComplete = () => {
-                    img.classList.add('is-loaded');
+                    if (!isSlideshowSlide) {
+                        img.classList.add('is-loaded');
+                    }
                     if (parentCard) {
                         parentCard.classList.add('is-img-ready');
                     }
                 };
 
-                // If already loaded / cached in browser memory
                 if (img.complete && img.naturalWidth > 0) {
                     handleLoadComplete();
                 } else {
@@ -1791,14 +1951,23 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            initLenis();
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+
+            initNativeScroll();
             initAmbientNav();
             initMaskedTypography();
             initScrollReveal();
             initTagPills();
             initMobileMenu();
             initEasyImageLoading();
-            initAllSlideshows();
+            initStryxSlideshow();
+            initRocketAirSlideshow();
+            initSeclockSlideshow();
+            initRigSlideshow();
+            initOatfiSlideshow();
+            initTrailerTraderSlideshow();
             initScrambleEffects();
         });
     </script>
