@@ -42,7 +42,7 @@
         }
     </script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
@@ -74,6 +74,7 @@
             transition: background-color 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out;
         }
 
+        /* STREAMING_CHUNK:Styling reveal animations and dynamic line draws... -->
         /* Container Fade/Rise Observer */
         .reveal-on-scroll {
             opacity: 0;
@@ -147,6 +148,7 @@
             transform: scaleX(1) translateZ(0);
         }
 
+        /* STREAMING_CHUNK:Styling tag pills and masked typography lines... -->
         /* Micro-Stagger on Tag Pills */
         .tag-pill {
             display: inline-block;
@@ -191,6 +193,7 @@
             opacity: 1;
         }
 
+        /* STREAMING_CHUNK:Styling bento cards and image skeleton shimmering... -->
         /* Bento Card Layout */
         .bento-card {
             position: relative;
@@ -253,8 +256,9 @@
             transform: scale(1) translateZ(0);
         }
 
+        /* STREAMING_CHUNK:Styling slideshow components and monospace scramblers... -->
         /* Slideshow image optimization */
-        .stryx-slide, .rocketair-slide, .trailertrader-slide, .rig-slide, .oatfi-slide, .cargosprint-slide, .seclock-slide {
+        .stryx-slide, .rocketair-slide, .trailertrader-slide, .rig-slide, .oatfi-slide, .cargosprint-slide, .seclock-slide, .olive-slide {
             will-change: opacity;
             transform: translateZ(0);
             backface-visibility: hidden;
@@ -262,12 +266,12 @@
 
         /* Enforce slideshow opacity states over progressive image reveal */
         .stryx-slide.opacity-100, .rocketair-slide.opacity-100, .seclock-slide.opacity-100,
-        .rig-slide.opacity-100, .oatfi-slide.opacity-100, .trailertrader-slide.opacity-100 {
+        .rig-slide.opacity-100, .oatfi-slide.opacity-100, .trailertrader-slide.opacity-100, .olive-slide.opacity-100 {
             opacity: 1 !important;
         }
 
         .stryx-slide.opacity-0, .rocketair-slide.opacity-0, .seclock-slide.opacity-0,
-        .rig-slide.opacity-0, .oatfi-slide.opacity-0, .trailertrader-slide.opacity-0 {
+        .rig-slide.opacity-0, .oatfi-slide.opacity-0, .trailertrader-slide.opacity-0, .olive-slide.opacity-0 {
             opacity: 0 !important;
         }
 
@@ -288,6 +292,7 @@
             color: #ffffff;
         }
 
+        /* STREAMING_CHUNK:Styling grain noise background and marquee loop... -->
         /* Film Grain Overlay */
         .noise-bg {
             position: fixed;
@@ -338,6 +343,7 @@
             animation-play-state: paused;
         }
 
+        /* STREAMING_CHUNK:Styling avatar popup wave and footer typography... -->
         /* Avatar Pop-up Status Badge Effect */
         .avatar-badge-container {
             position: relative;
@@ -411,26 +417,23 @@
             100% { transform: scale(1) translateY(0) rotate(0deg) translateZ(0); }
         }
 
-        .scroll-fill-target .masked-line-inner {
-            -webkit-text-stroke: 1px currentColor;
-            color: transparent;
-            background-image: linear-gradient(currentColor, currentColor);
-            background-repeat: no-repeat;
-            background-size: var(--scroll-fill, 0%) 100%;
-            background-position: left center;
-            -webkit-background-clip: text;
-            background-clip: text;
-            will-change: background-size;
+        /* Monumental Footer Typographic Signature — Static & Clean */
+        .footer-name-svg {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 900;
+            font-size: 114px;
+            letter-spacing: -0.045em;
+            fill: #18181b;
+            user-select: none;
+            cursor: default;
+            pointer-events: none;
         }
 
-        @supports not (-webkit-background-clip: text) {
-            .scroll-fill-target .masked-line-inner {
-                color: currentColor;
-                -webkit-text-stroke: 0;
-                background-image: none;
-            }
+        .dark .footer-name-svg {
+            fill: #f4f4f5;
         }
 
+        /* STREAMING_CHUNK:Handling reduced motion and custom scrollbar... -->
         @media (prefers-reduced-motion: reduce) {
             .noise-bg { animation: none !important; }
             .animate-marquee { animation: none !important; }
@@ -442,7 +445,6 @@
             .tag-pill { opacity: 1 !important; transform: none !important; transition: none !important; }
             .img-easy-load { opacity: 1 !important; filter: none !important; transform: none !important; transition: none !important; }
             .bento-card::before, .lab-img-wrap::before { display: none !important; animation: none !important; }
-            .scroll-fill-target .masked-line-inner { background-size: 100% 100% !important; }
         }
 
         ::-webkit-scrollbar { width: 8px; }
@@ -488,7 +490,7 @@
         </div>
     </header>
 
-    <main class="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 pt-10 sm:pt-16 pb-24 space-y-16 sm:space-y-24">
+    <main class="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 pt-10 sm:pt-16 pb-16 sm:pb-20 space-y-16 sm:space-y-24">
 
         <section id="top" class="space-y-10 sm:space-y-12 max-w-5xl pt-2 reveal-on-scroll" data-context="Visual Design &amp; Digital Products">
             <h1 class="text-[clamp(1.5rem,3.8vw,2.6rem)] leading-[1.18] sm:leading-[1.2] font-normal tracking-tight text-brand-900 dark:text-brand-100" data-reveal="masked-lines">
@@ -538,11 +540,11 @@
         <div id="projects" class="space-y-16 sm:space-y-24">
 
             <!-- PROJECT 1: Stryx -->
-            <article class="project-item space-y-6 pt-2 transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Brand" data-context="01 / 06 Stryx">
+            <article class="project-item space-y-6 pt-2 transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Brand" data-context="01 / 07 Stryx">
                 <header class="flex items-baseline justify-between line-draw-b pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
                         <span>Stryx</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">01 / 06</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">01 / 07</span>
                     </h2>
                     <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">DTC, Shopify</span>
                 </header>
@@ -601,11 +603,11 @@
             </article>
 
             <!-- PROJECT 2: RocketAir -->
-            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead" data-context="02 / 06 RocketAir">
+            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead" data-context="02 / 07 RocketAir">
                 <header class="flex items-baseline justify-between line-draw-b pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
                         <span>RocketAir</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">02 / 06</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">02 / 07</span>
                     </h2>
                     <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">Digital design &amp; strategy agency</span>
                 </header>
@@ -686,11 +688,11 @@
             </article>
 
             <!-- PROJECT 3: SECLOCK -->
-            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design,B2B,E-commerce" data-context="03 / 06 SECLOCK">
+            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design,B2B,E-commerce" data-context="03 / 07 SECLOCK">
                 <header class="flex items-baseline justify-between line-draw-b pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
                         <span>SECLOCK</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">03 / 06</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">03 / 07</span>
                     </h2>
                     <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">B2B, Industrial Supplies</span>
                 </header>
@@ -751,11 +753,11 @@
             </article>
 
             <!-- PROJECT 4: MCIM -->
-            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design lead,Brand" data-context="04 / 06 MCIM">
+            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design lead,Brand" data-context="04 / 07 MCIM">
                 <header class="flex items-baseline justify-between line-draw-b pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
                         <span>MCIM</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">04 / 06</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">04 / 07</span>
                     </h2>
                     <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">B2B SaaS</span>
                 </header>
@@ -790,7 +792,7 @@
                     </div>
 
                     <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/VH93.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=MCIM+5'" alt="MCIM 5" class="w-full h-full object-cover rounded-xl" />
+                        <img src="https://mbrissette.x02.me/i/eD3HIH.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=MCIM+5'" alt="MCIM 5" class="w-full h-full object-cover rounded-xl" />
                     </div>
                 </div>
 
@@ -822,11 +824,11 @@
             </article>
 
             <!-- PROJECT 5: OatFi -->
-            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Brand" data-context="05 / 06 OatFi">
+            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Brand" data-context="05 / 07 OatFi">
                 <header class="flex items-baseline justify-between line-draw-b pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
                         <span>OatFi</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">05 / 06</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">05 / 07</span>
                     </h2>
                     <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">Fintech</span>
                 </header>
@@ -837,7 +839,7 @@
                     </div>
 
                     <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
-                        <img src="https://mbrissette.x02.me/i/4W8336.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=OatFi+2'" alt="OatFi 2" class="w-full h-full object-cover rounded-xl" />
+                        <img src="https://mbrissette.x02.me/i/81gcaD.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=OatFi+2'" alt="OatFi 2" class="w-full h-full object-cover rounded-xl" />
                     </div>
 
                     <div class="md:col-span-12 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
@@ -888,11 +890,11 @@
             </article>
 
             <!-- PROJECT 6: TrailerTrader -->
-            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Dashboard,E-commerce" data-context="06 / 06 TrailerTrader">
+            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,Dashboard,E-commerce" data-context="06 / 07 TrailerTrader">
                 <header class="flex items-baseline justify-between line-draw-b pb-3">
                     <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
                         <span>TrailerTrader</span>
-                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">06 / 06</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">06 / 07</span>
                     </h2>
                     <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">B2C/B2B marketplace</span>
                 </header>
@@ -946,6 +948,67 @@
                         </p>
                         <p data-reveal="masked-lines">
                             I created a comprehensive design system, designed a new dashboard for dealers, and delivered a faster, mobile-first experience with simpler navigation and stronger lead generation for dealers. This created more direct connections between buyers and dealers while providing a scalable foundation for future feature releases.
+                        </p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- PROJECT 7: Olive -->
+            <article class="project-item space-y-6 pt-10 line-draw-t transition-all duration-300 reveal-on-scroll" data-tags="UX,Art Direction,Design Lead,E-Commerce" data-context="07 / 07 Olive">
+                <header class="flex items-baseline justify-between line-draw-b pb-3">
+                    <h2 class="text-xl sm:text-2xl font-semibold tracking-tight text-brand-900 dark:text-brand-100 flex items-baseline gap-2.5" data-reveal="masked-lines">
+                        <span>Olive</span>
+                        <span class="text-xs sm:text-sm font-mono text-brand-400 dark:text-brand-500 font-normal scramble-mono">07 / 07</span>
+                    </h2>
+                    <span class="text-sm font-mono text-brand-500 dark:text-brand-400 scramble-mono">B2C, E-Commerce</span>
+                </header>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                    <div class="md:col-span-12 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
+                        <img src="https://mbrissette.x02.me/i/Z1Iu1q.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/1200x600/18181b/ffffff?text=Olive+1'" alt="Olive 1" class="w-full h-full object-cover rounded-xl" />
+                    </div>
+
+                    <div class="md:col-span-6 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
+                        <img src="https://mbrissette.x02.me/i/J7w0Bn.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=Olive+2'" alt="Olive 2" class="w-full h-full object-cover rounded-xl" />
+                    </div>
+
+                    <div class="md:col-span-6 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
+                        <img src="https://mbrissette.x02.me/i/7UJvRu.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=Olive+3'" alt="Olive 3" class="w-full h-full object-cover rounded-xl" />
+                    </div>
+
+                    <!-- Card 4: Olive Slideshow -->
+                    <div id="olive-slideshow-container" class="md:col-span-7 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
+                        <img src="https://mbrissette.x02.me/i/Kpvks8.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=Olive+4a'" alt="Olive - Sequence 1" class="olive-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-100" />
+                        <img src="https://mbrissette.x02.me/i/62ksxO.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=Olive+4b'" alt="Olive - Sequence 2" class="olive-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        <img src="https://mbrissette.x02.me/i/LLaj3N.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=Olive+4c'" alt="Olive - Sequence 3" class="olive-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        <img src="https://mbrissette.x02.me/i/VU6mnQ.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/800x500/18181b/ffffff?text=Olive+4d'" alt="Olive - Sequence 4" class="olive-slide absolute inset-0 w-full h-full object-cover rounded-xl transition-opacity duration-500 opacity-0" />
+                        
+                        <div class="absolute bottom-3 right-3 flex items-center space-x-1.5 z-10 bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
+                            <span class="olive-dot w-3 h-1.5 rounded-full bg-white transition-all duration-300 cursor-pointer"></span>
+                            <span class="olive-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
+                            <span class="olive-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
+                            <span class="olive-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all duration-300 cursor-pointer"></span>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-5 bg-[#FDFDFD] dark:bg-brand-900 border border-brand-200/80 dark:border-brand-800 rounded-xl bento-card relative overflow-hidden group">
+                        <img src="https://mbrissette.x02.me/i/tM9PBt.webp" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://placehold.co/600x500/18181b/ffffff?text=Olive+5'" alt="Olive 5" class="w-full h-full object-cover rounded-xl" />
+                    </div>
+                </div>
+
+                <div class="space-y-4 pt-2">
+                    <div class="project-tags flex flex-wrap gap-2 text-xs font-mono text-brand-600 dark:text-brand-400">
+                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">UX</span>
+                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Art Direction</span>
+                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">Design Lead</span>
+                        <span class="tag-pill px-2 py-0.5 rounded bg-brand-100 dark:bg-brand-900 scramble-mono">E-Commerce</span>
+                    </div>
+                    <div class="space-y-3 text-lg sm:text-xl text-brand-800 dark:text-brand-200 leading-relaxed font-normal lg:w-4/5">
+                        <p data-reveal="masked-lines">
+                            Olive is a direct-to-consumer brand delivering tailored products with an emphasis on seamless purchasing and high-conversion customer engagement.
+                        </p>
+                        <p data-reveal="masked-lines">
+                            I led the UX and digital experience design, establishing a polished visual design system, refined product storytelling, and streamlined checkout paths optimized across all devices.
                         </p>
                     </div>
                 </div>
@@ -1183,21 +1246,13 @@
 
     </main>
 
-    <footer class="relative z-10 border-t border-brand-300/80 dark:border-brand-800 bg-white/60 dark:bg-brand-950/60 py-10 transition-colors overflow-hidden">
-        <div class="max-w-7xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-sm text-brand-600 dark:text-brand-400 relative z-10 pointer-events-none">
-            <div class="font-mono text-xs text-brand-500 pointer-events-auto">
-                © 2026 Matt Brissette
-            </div>
-
-            <div class="flex items-center space-x-6 text-sm font-medium pointer-events-auto">
-                <button onclick="copyEmail(event)" class="hover:text-brand-900 dark:hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer">
-                    <i data-lucide="mail" class="w-4 h-4"></i>
-                    <span>Email</span>
-                </button>
-                <a href="https://www.linkedin.com/in/mattbrissette/" target="_blank" rel="noopener noreferrer" class="hover:text-brand-900 dark:hover:text-white transition-colors flex items-center gap-1">
-                    <span>LinkedIn</span>
-                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 opacity-60"></i>
-                </a>
+    <!-- MONUMENTAL CONTAINER-ALIGNED FOOTER (STATIC) -->
+    <footer class="relative z-10 border-t border-brand-300/80 dark:border-brand-800 pt-10 sm:pt-14 pb-10 sm:pb-16 overflow-hidden select-none transition-colors">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+            <div class="w-full overflow-hidden leading-none cursor-default py-1">
+                <svg id="footerNameSvg" viewBox="0 0 905 84" class="w-full h-auto block select-none overflow-visible" preserveAspectRatio="xMinYMid meet" role="img" aria-label="Matt Brissette">
+                    <text id="footerNameText" x="0" y="82" class="footer-name-svg">MATT BRISSETTE</text>
+                </svg>
             </div>
         </div>
     </footer>
@@ -1226,6 +1281,9 @@
 
         let trailertraderSlideIndex = 0;
         let trailertraderTimer = null;
+
+        let oliveSlideIndex = 0;
+        let oliveTimer = null;
 
         function initNativeScroll() {
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1846,6 +1904,58 @@
             startTrailerTraderTimer();
         }
 
+        /* Olive Slideshow */
+        function initOliveSlideshow() {
+            const dots = document.querySelectorAll('.olive-dot');
+            if (!dots.length) return;
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showOliveSlide(index);
+                    resetOliveTimer();
+                });
+            });
+
+            observeSlideshowVisibility('olive-slideshow-container', startOliveTimer, () => clearInterval(oliveTimer));
+        }
+
+        function showOliveSlide(index) {
+            const slides = document.querySelectorAll('.olive-slide');
+            const dots = document.querySelectorAll('.olive-dot');
+            if (!slides.length) return;
+
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('opacity-100', idx === index);
+                slide.classList.toggle('opacity-0', idx !== index);
+            });
+
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('bg-white', idx === index);
+                dot.classList.toggle('bg-white/40', idx !== index);
+                dot.classList.toggle('w-3', idx === index);
+                dot.classList.toggle('w-1.5', idx !== index);
+            });
+
+            oliveSlideIndex = index;
+        }
+
+        function startOliveTimer() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            clearInterval(oliveTimer);
+            oliveTimer = setInterval(() => {
+                const slides = document.querySelectorAll('.olive-slide');
+                if (!slides.length) return;
+                const nextIndex = (oliveSlideIndex + 1) % slides.length;
+                showOliveSlide(nextIndex);
+            }, 2000);
+        }
+
+        function resetOliveTimer() {
+            clearInterval(oliveTimer);
+            startOliveTimer();
+        }
+
         function triggerBadgePop(el) {
             if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
             el.classList.add('is-popped');
@@ -1998,6 +2108,27 @@
             }, 3000);
         }
 
+        function initFooterTextFit() {
+            const svg = document.getElementById('footerNameSvg');
+            const text = document.getElementById('footerNameText');
+            if (!svg || !text) return;
+
+            function updateBbox() {
+                try {
+                    const bbox = text.getBBox();
+                    if (bbox && bbox.width > 0 && bbox.height > 0) {
+                        svg.setAttribute('viewBox', `${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}`);
+                    }
+                } catch (e) {}
+            }
+
+            updateBbox();
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(updateBbox);
+            }
+            window.addEventListener('resize', updateBbox);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             if (window.lucide) {
                 lucide.createIcons();
@@ -2016,7 +2147,9 @@
             initRigSlideshow();
             initOatfiSlideshow();
             initTrailerTraderSlideshow();
+            initOliveSlideshow();
             initScrambleEffects();
+            initFooterTextFit();
         });
     </script>
 </body>
